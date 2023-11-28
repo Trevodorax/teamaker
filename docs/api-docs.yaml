@@ -1,0 +1,132 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Trevodorax/TeaMaker/1.0.0
+info:
+  description: API for the TeaMaker project
+  version: "1.0.0"
+  title: TeaMaker API
+  contact:
+    email: phvcgdx@gmail.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: manager
+    description: Secured - for managers
+  - name: developer
+    description: Secured - for developers or managers
+paths:
+components:
+  schemas:
+    Project:
+      type: object
+      required:
+        - id
+        - name
+        - priority
+        - startDate
+        - endDate
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Frontend migration to React
+        description:
+          type: string
+          example: Building a React app for a big client that has a JavaFX frontend
+        priority:
+          type: string
+          enum:
+            - normal
+            - best effort
+            - critical
+          example: normal
+        status:
+          type: string
+          enum:
+            - pending
+            - in progress
+            - done
+          example: pending
+        startDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        endDate:
+          type: string
+          format: date-time
+          example: '2016-09-29T09:12:33.001Z'
+        technologies:
+          type: array
+          items:
+            $ref: '#/components/schemas/TechnologyRequirement'
+    TechnologyRequirement:
+      type: object
+      required:
+        - technology
+        - numDevs
+      properties:
+        technology:
+          $ref: '#/components/schemas/Technology'
+        numDevs:
+          type: integer
+          format: int32
+          minimum: 1
+    Developper:
+      type: object
+      required:
+        - id
+        - name
+        - email
+        - hiringDate
+      properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: Paul Gaudeaux
+      email:
+        type: string
+        format: email
+        example: paul@gmail.com
+      hiringDate:
+        type: string
+        format: date-time
+        example: '2016-09-29T09:12:33.001Z'
+      resignationDate:
+        type: string
+        format: date-time
+        example: '2018-09-29T09:12:33.001Z'
+      skills:
+        type: array
+        items:
+          $ref: '#/components/schemas/DeveloperSkill'
+    DeveloperSkill:
+      type: object
+      required:
+      properties:
+        technology:
+          $ref: '#/components/schemas/Technology'
+        startDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+    Technology:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+      name:
+        type: string
+        example: ReactJS
