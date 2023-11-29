@@ -11,12 +11,64 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-tags:
-  - name: manager
-    description: Secured - for managers
-  - name: developer
     description: Secured - for developers or managers
 paths:
+  # projects 
+  /projects:
+    get:
+      summary: Get all projects
+    post:
+      summary: Create a new project
+  /projects/{projectId}:
+    delete:
+      summary: Cancel a project
+    patch:
+      summary: Modify a project
+  /projects/{projectId}/developers:
+    get:
+      summary: Get the developers assigned to a project's team
+    post:
+      summary: Add a developer to a project's team
+  /projects/{projectId}/developers/{developerId}:
+    delete:
+      summary: Remove a developer from a project's team
+  /projects/{projectId}/possibleDevelopers:
+    get:
+      summary: Get the list of developers available and qualified for a project
+
+  # developers
+  /developers:
+    get:
+      summary: Get the list of all developers
+    post:
+      summary: Create a new developer
+  /developers/{developerId}:
+    delete:
+      summary: Delete a developer
+  /developers/{developerId}/skills:
+    get:
+      summary: Get all skills of a developer's CV
+    post:
+      summary: Add a skill to a developer's CV
+  /developers/{developerId}/skills/{skillId}:
+    delete:
+      summary: Remove a skill from a developer's CV
+  /developers/{developerId}/projects:
+    get:
+      summary: Get all the projects of a developer
+  /developers/{developerId}/teamChangeRequest:
+    get:
+      summary: Get the information of a team change request
+    post:
+      summary: Submit a team change request
+
+  # skills
+  /skills:
+    get:
+      summary: Get the list of all skills
+    post:
+      summary: Create a new skill
+  
 components:
   schemas:
     Project:
