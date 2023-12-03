@@ -8,66 +8,939 @@ info:
   title: TeaMaker API
   contact:
     email: phvcgdx@gmail.com
-  license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-    description: Secured - for developers or managers
 paths:
   # projects 
   /projects:
     get:
       summary: Get all projects
+      parameters:
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of projects with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProject'
+      responses:
+        '201':
+          description: Project successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /projects/{projectId}:
-    delete:
-      summary: Cancel a project
     patch:
       summary: Modify a project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectUpdate'
+      responses:
+        '200':
+          description: Project successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Developer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /projects/{projectId}/reschedule:
+    patch:
+      summary: Reschedule a project
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the project to be rescheduled
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - startDate
+              properties:
+                startDate:
+                  type: string
+                  format: date-time
+                  description: The new start date for the project
+                  example: '2024-01-01T09:00:00.000Z'
+                endDate:
+                  type: string
+                  format: date-time
+                  description: The new end date for the project (optional, will be automatically changed according to the startDate if not specified)
+                  example: '2024-12-31T18:00:00.000Z'
+      responses:
+        '200':
+          description: Project dates successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  startDate:
+                    type: string
+                    format: date-time
+                    description: The updated start date of the project
+                    example: '2024-01-01T09:00:00.000Z'
+                  endDate:
+                    type: string
+                    format: date-time
+                    description: The updated end date of the project
+                    example: '2024-12-31T18:00:00.000Z'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Unprocessable Entity - Cannot modify the project's dates because of the project rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /projects/{projectId}/developers:
     get:
       summary: Get the developers assigned to a project's team
+      parameters:
+        - name: projectId
+          in: path
+          description: id of the project
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of developers with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Developer'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - The project wasn't found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
-      summary: Add a developer to a project's team
+      summary: Add developers to a project team
+      parameters:
+        - name: projectId
+          in: path
+          description: id of the project
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - developerIds
+              properties:
+                developerIds:
+                  type: array
+                  description: An array of IDs of the developers to be added
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Developers successfully added to the project team
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - developers
+                properties:
+                  developers:
+                    type: array
+                    description: The list of developers in the team
+                    items:
+                      $ref: '#/components/schemas/Developer'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - The project and/or some of the developers weren't found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Unprocessable Entity - Developer couldn't be added because of the team rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /projects/{projectId}/developers/{developerId}:
     delete:
-      summary: Remove a developer from a project's team
+      summary: Remove a developer from a project team
+      parameters:
+        - in: path
+          name: projectId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the project
+        - in: path
+          name: developerId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the developer to be removed
+      responses:
+        '200':
+          description: Developer successfully removed from the team
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Developer removed successfully
+        '400':
+          description: Team doesn't contain this developer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - team or developer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Unprocessable Entity - The developer couldn't be removed because of the team rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /projects/{projectId}/possibleDevelopers:
     get:
       summary: Get the list of developers available and qualified for a project
-
+      parameters:
+        - name: projectId
+          in: path
+          description: id of the project
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of developers with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Developer'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - The project wasn't found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
   # developers
   /developers:
     get:
-      summary: Get the list of all developers
+      summary: Get all developers
+      parameters:
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of developers with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Developer'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
       summary: Create a new developer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewDeveloper'
+      responses:
+        '201':
+          description: Developer successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Developer'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /developers/{developerId}:
     delete:
-      summary: Delete a developer
+      summary: Resign a developer
+      parameters:
+        - in: path
+          name: developerId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the developer to be resigned
+      responses:
+        '200':
+          description: Developer successfully resigned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resignationDate:
+                    type: string
+                    format: date-time
+                    description: The date and time when the developer was resigned.
+                    example: '2018-09-01T09:12:33.001Z'
+        '404':
+          description: Developer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Unprocessable Entity - The developer couldn't be resigned because he is part of a team and his resignation would make the team not respect the rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Modify a developer
+      parameters:
+        - in: path
+          name: developerId
+          required: true
+          schema:
+            type: string
+          description: The unique identifier of the developer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeveloperUpdate'
+      responses:
+        '200':
+          description: Developer successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Developer'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Developer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /developers/{developerId}/skills:
     get:
       summary: Get all skills of a developer's CV
+      parameters:
+        - name: developerId
+          in: path
+          description: id of the developer
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of skills with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeveloperSkill'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - The developer wasn't found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
-      summary: Add a skill to a developer's CV
+      summary: Add skills to a developer's CV
+      parameters:
+        - name: developerId
+          in: path
+          description: id of the developer
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - technologyIds
+              properties:
+                technologyIds:
+                  type: array
+                  description: An array of IDs of the technologies to be added
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Skills successfully added to the developer's CV
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - skills
+                properties:
+                  skills:
+                    type: array
+                    description: The list of skills of the developer
+                    items:
+                      $ref: '#/components/schemas/DeveloperSkill'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - The developer and/or some of the skills weren't found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /developers/{developerId}/skills/{skillId}:
     delete:
       summary: Remove a skill from a developer's CV
+      parameters:
+        - in: path
+          name: developerId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the developer
+        - in: path
+          name: skillId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the skill to be removed
+      responses:
+        '200':
+          description: Skill successfully removed from the developer's CV
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Skill removed successfully
+        '400':
+          description: Developer doesn't have this skill
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - developer or technology not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /developers/{developerId}/projects:
     get:
       summary: Get all the projects of a developer
-  /developers/{developerId}/teamChangeRequest:
-    get:
-      summary: Get the information of a team change request
+      parameters:
+        - in: path
+          name: developerId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the developer
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of projects with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - The developer wasn't found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  # team change
+  /teamChangeRequest:
     post:
       summary: Submit a team change request
-
-  # skills
-  /skills:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamChangeRequest'
+      responses:
+        '201':
+          description: Team change request successfully submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamChangeRequest'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Developer or team not found - developer or team(s) not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /teamChangeRequest/{requestId}:
     get:
-      summary: Get the list of all skills
+      summary: Get the information of a team change request
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the team change request
+      responses:
+        '200':
+          description: Information about the team change request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamChangeRequest'
+        '404':
+          description: Team change request not found - Team change request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Execute a team change request
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the team change request to be executed
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                    - approved
+                    - denied
+                  example: approved
+                  description: The new status of the team change request (change will be made if 'approved' is put here)
+      responses:
+        '200':
+          description: Team change request successfully executed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamChangeRequest'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Team change request not found - team change request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Unprocessable Entity - The team change request cannot be executed because of the team rules
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
     post:
-      summary: Create a new skill
+      summary: Submit a team change request
+      parameters: 
+        - in: path
+          name: requestId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: The unique identifier of the team change request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeamChangeRequest'
+      responses:
+        '201':
+          description: Team change request successfully submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamChangeRequest'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Developer or team not found - developer or team(s) not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  # technologies
+  /technologies:
+    get:
+      summary: Get the list of all technologies
+      parameters:
+        - name: fields
+          in: query
+          description: Comma-separated list of fields to include in the response
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of technologies with selected fields
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Technology'
+        '400':
+          description: Bad Request - Bad fields passed in query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Create a new technology
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTechnology'
+      responses:
+        '201':
+          description: Technology successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Technology'
+        '400':
+          description: Invalid input - The request body is not as per the required format or missing required fields.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   
 components:
   schemas:
@@ -112,23 +985,66 @@ components:
           type: string
           format: date-time
           example: '2016-09-29T09:12:33.001Z'
-        technologies:
-          type: array
-          items:
-            $ref: '#/components/schemas/TechnologyRequirement'
-    TechnologyRequirement:
+    NewProject:
       type: object
       required:
-        - technology
-        - numDevs
+        - name
+        - priority
+        - startDate
+        - endDate
       properties:
-        technology:
-          $ref: '#/components/schemas/Technology'
-        numDevs:
-          type: integer
-          format: int32
-          minimum: 1
-    Developper:
+        name:
+          type: string
+          example: Frontend migration to React
+        description:
+          type: string
+          example: Building a React app for a big client that has a JavaFX frontend
+        priority:
+          type: string
+          enum:
+            - normal
+            - best effort
+            - critical
+          example: normal
+        status:
+          type: string
+          enum:
+            - pending
+            - in progress
+            - done
+          example: pending
+        startDate:
+          type: string
+          format: date-time
+          example: '2016-08-29T09:12:33.001Z'
+        endDate:
+          type: string
+          format: date-time
+          example: '2016-09-29T09:12:33.001Z'
+    ProjectUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Updated Project Name
+        description:
+          type: string
+          example: Updated project description.
+        priority:
+          type: string
+          enum:
+            - normal
+            - best effort
+            - critical
+          example: best effort
+        status:
+          type: string
+          enum:
+            - pending
+            - in progress
+            - done
+          example: in progress
+    Developer:
       type: object
       required:
         - id
@@ -136,32 +1052,54 @@ components:
         - email
         - hiringDate
       properties:
-      id:
-        type: string
-        format: uuid
-        example: d290f1ee-6c54-4b01-90e6-d701748f0851
-      name:
-        type: string
-        example: Paul Gaudeaux
-      email:
-        type: string
-        format: email
-        example: paul@gmail.com
-      hiringDate:
-        type: string
-        format: date-time
-        example: '2016-09-29T09:12:33.001Z'
-      resignationDate:
-        type: string
-        format: date-time
-        example: '2018-09-29T09:12:33.001Z'
-      skills:
-        type: array
-        items:
-          $ref: '#/components/schemas/DeveloperSkill'
-    DeveloperSkill:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: Paul Gaudeaux
+        email:
+          type: string
+          format: email
+          example: paul@gmail.com
+        hiringDate:
+          type: string
+          format: date-time
+          example: '2016-09-29T09:12:33.001Z'
+        resignationDate:
+          type: string
+          format: date-time
+          example: '2018-09-29T09:12:33.001Z'
+        skills:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeveloperSkill'
+    DeveloperUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          format: email
+          example: john.doe@example.com
+    NewDeveloper:
       type: object
       required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          example: Paul Gaudeaux
+        email:
+          type: string
+          format: email
+          example: paul@gmail.com
+    DeveloperSkill:
+      type: object
       properties:
         technology:
           $ref: '#/components/schemas/Technology'
@@ -175,10 +1113,43 @@ components:
         - id
         - name
       properties:
-      id:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: ReactJS
+    NewTechnology:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        name:
+          type: string
+          example: ReactJS
+    TeamChangeRequest:
+      type: object
+      required:
+        - developerId
+        - currentTeamId
+        - requestedTeamId
+      properties:
+        developerId:
+          type: string
+          format: uuid
+          description: The unique identifier of the developer requesting the team change
+        currentTeamId:
+          type: string
+          format: uuid
+          description: The unique identifier of the current team of the developer
+        requestedTeamId:
+          type: string
+          format: uuid
+          description: The unique identifier of the team the developer wishes to transfer to
+    Error:
+      type: array
+      items:
         type: string
-        format: uuid
-        example: d290f1ee-6c54-4b01-90e6-d701748f0851
-      name:
-        type: string
-        example: ReactJS
+        description: Each error sent by the server
