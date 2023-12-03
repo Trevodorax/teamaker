@@ -8,11 +8,19 @@ info:
   title: TeaMaker API
   contact:
     email: phvcgdx@gmail.com
+tags:
+  - name: projects
+  - name: developers
+  - name: teams
+  - name: technologies
+
 paths:
   # projects 
   /projects:
     get:
       summary: Get all projects
+      tags:
+        - projects
       parameters:
         - name: fields
           in: query
@@ -43,6 +51,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       summary: Create a new project
+      tags:
+        - projects
       requestBody:
         required: true
         content:
@@ -71,6 +81,8 @@ paths:
   /projects/{projectId}:
     patch:
       summary: Modify a project
+      tags:
+        - projects
       parameters:
         - in: path
           name: projectId
@@ -112,6 +124,8 @@ paths:
   /projects/{projectId}/reschedule:
     patch:
       summary: Reschedule a project
+      tags:
+        - projects
       parameters:
         - in: path
           name: projectId
@@ -184,6 +198,10 @@ paths:
   /projects/{projectId}/developers:
     get:
       summary: Get the developers assigned to a project's team
+      tags:
+        - projects
+        - developers
+        - teams
       parameters:
         - name: projectId
           in: path
@@ -227,6 +245,10 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       summary: Add developers to a project team
+      tags:
+        - projects
+        - developers
+        - teams
       parameters:
         - name: projectId
           in: path
@@ -291,6 +313,10 @@ paths:
   /projects/{projectId}/developers/{developerId}:
     delete:
       summary: Remove a developer from a project team
+      tags:
+        - projects
+        - developers
+        - teams
       parameters:
         - in: path
           name: projectId
@@ -344,6 +370,10 @@ paths:
   /projects/{projectId}/possibleDevelopers:
     get:
       summary: Get the list of developers available and qualified for a project
+      tags:
+        - projects
+        - developers
+        - teams
       parameters:
         - name: projectId
           in: path
@@ -390,6 +420,8 @@ paths:
   /developers:
     get:
       summary: Get all developers
+      tags:
+        - developers
       parameters:
         - name: fields
           in: query
@@ -420,6 +452,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       summary: Create a new developer
+      tags:
+        - developers
       requestBody:
         required: true
         content:
@@ -448,6 +482,8 @@ paths:
   /developers/{developerId}:
     delete:
       summary: Resign a developer
+      tags:
+        - developers
       parameters:
         - in: path
           name: developerId
@@ -489,6 +525,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       summary: Modify a developer
+      tags:
+        - developers
       parameters:
         - in: path
           name: developerId
@@ -530,6 +568,9 @@ paths:
   /developers/{developerId}/skills:
     get:
       summary: Get all skills of a developer's CV
+      tags:
+        - developers
+        - technologies
       parameters:
         - name: developerId
           in: path
@@ -573,6 +614,9 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       summary: Add skills to a developer's CV
+      tags:
+        - developers
+        - technologies
       parameters:
         - name: developerId
           in: path
@@ -631,6 +675,9 @@ paths:
   /developers/{developerId}/skills/{skillId}:
     delete:
       summary: Remove a skill from a developer's CV
+      tags:
+        - developers
+        - technologies
       parameters:
         - in: path
           name: developerId
@@ -678,6 +725,8 @@ paths:
   /developers/{developerId}/projects:
     get:
       summary: Get all the projects of a developer
+      tags:
+        - developers
       parameters:
         - in: path
           name: developerId
@@ -724,6 +773,8 @@ paths:
   /teamChangeRequest:
     post:
       summary: Submit a team change request
+      tags:
+        - teams
       requestBody:
         required: true
         content:
@@ -758,6 +809,8 @@ paths:
   /teamChangeRequest/{requestId}:
     get:
       summary: Get the information of a team change request
+      tags:
+        - teams
       parameters:
         - in: path
           name: requestId
@@ -787,6 +840,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     patch:
       summary: Execute a team change request
+      tags:
+        - teams
       parameters:
         - in: path
           name: requestId
@@ -842,6 +897,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       summary: Submit a team change request
+      tags:
+        - teams
       parameters: 
         - in: path
           name: requestId
@@ -886,6 +943,8 @@ paths:
   /technologies:
     get:
       summary: Get the list of all technologies
+      tags:
+        - technologies
       parameters:
         - name: fields
           in: query
@@ -916,6 +975,8 @@ paths:
                 $ref: '#/components/schemas/Error'
     post:
       summary: Create a new technology
+      tags:
+        - technologies
       requestBody:
         required: true
         content:
