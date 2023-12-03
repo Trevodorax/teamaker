@@ -6,8 +6,6 @@ info:
   description: API for the TeaMaker project
   version: "1.0.0"
   title: TeaMaker API
-  contact:
-    email: phvcgdx@gmail.com
 tags:
   - name: projects
   - name: developers
