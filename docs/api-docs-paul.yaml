@@ -893,50 +893,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    post:
-      summary: Submit a team change request
-      tags:
-        - teams
-      parameters: 
-        - in: path
-          name: requestId
-          required: true
-          schema:
-            type: string
-            format: uuid
-          description: The unique identifier of the team change request
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TeamChangeRequest'
-      responses:
-        '201':
-          description: Team change request successfully submitted
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TeamChangeRequest'
-        '400':
-          description: Invalid input - The request body is not as per the required format or missing required fields.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Developer or team not found - developer or team(s) not found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '500':
-          description: Internal Server Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  
+
   # technologies
   /technologies:
     get:
