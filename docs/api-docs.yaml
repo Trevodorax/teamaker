@@ -1299,18 +1299,18 @@ components:
       type: object
       required:
         - developerId
-        - currentTeamId
-        - requestedTeamId
+        - currentProjectId
+        - requestedProjectId
       properties:
         developerId:
           type: string
           format: uuid
           description: The unique identifier of the developer requesting the team change
-        currentTeamId:
+        currentProjectId:
           type: string
           format: uuid
           description: The unique identifier of the current team of the developer
-        requestedTeamId:
+        requestedProjectId:
           type: string
           format: uuid
           description: The unique identifier of the team the developer wishes to transfer to
