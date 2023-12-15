@@ -1,7 +1,5 @@
 package org.teamaker.developer.domain;
 
-import java.util.ArrayList;
-
 public class Developer {
     String fullName;
     String email;
