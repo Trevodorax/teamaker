@@ -1,4 +1,4 @@
-package org.teamaker.domain;
+package org.teamaker.project.domain;
 
 public class Project {
     private final String projectId;

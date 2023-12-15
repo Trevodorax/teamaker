@@ -1,4 +1,0 @@
-package org.teamaker.domain;
-
-public class Technology {
-}
