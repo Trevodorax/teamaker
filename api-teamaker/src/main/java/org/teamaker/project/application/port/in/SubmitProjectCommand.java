@@ -1,17 +1,13 @@
 package org.teamaker.project.application.port.in;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.UUID;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 
 import org.teamaker.project.domain.Priority;
 import org.teamaker.shared.validation.SelfValidating;
-import org.teamaker.shared.validation.date.IsAfter;
-
-import javax.validation.ConstraintViolationException;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
 
 class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     @NotNull
@@ -22,7 +18,6 @@ class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     @Future
     private final LocalDate startDate;
     private final LocalDate endDate;
-    @NotNull
     private final ArrayList<UUID> technologies;
 
     public SubmitProjectCommand(String name, String description, Priority priority, LocalDate startDate, LocalDate endDate, ArrayList<UUID> technologies) {
