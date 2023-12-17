@@ -70,6 +70,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found - Tried to add a non-existing technology
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '500':
           description: Internal Server Error
           content:
@@ -1158,6 +1164,7 @@ components:
         - priority
         - startDate
         - endDate
+        - technologies
       properties:
         name:
           type: string
@@ -1172,13 +1179,6 @@ components:
             - best effort
             - critical
           example: normal
-        status:
-          type: string
-          enum:
-            - pending
-            - in progress
-            - done
-          example: pending
         startDate:
           type: string
           format: date-time
@@ -1187,6 +1187,12 @@ components:
           type: string
           format: date-time
           example: '2016-09-29T09:12:33.001Z'
+        technologies:
+          type: array
+          items:
+            type: string
+            format: uuid
+            example: d290f1ee-6c54-4b01-90e6-d701748f0851
     ProjectUpdate:
       type: object
       properties:
