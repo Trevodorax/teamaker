@@ -7,6 +7,8 @@ import org.teamaker.developer.application.port.out.CreateDeveloperCommand;
 import org.teamaker.developer.application.port.out.CreateDeveloperPort;
 import org.teamaker.developer.domain.Developer;
 
+import java.util.Date;
+
 @Component
 class HireDeveloperService implements HireDeveloperUseCase {
     private final CreateDeveloperPort createDeveloperPort;
@@ -16,7 +18,7 @@ class HireDeveloperService implements HireDeveloperUseCase {
     }
 
     public Developer hireDeveloper(HireDeveloperCommand command) {
-        Developer createdDeveloper = createDeveloperPort.createDeveloper(new CreateDeveloperCommand(command.getFullName(), command.getEmail()));
+        Developer createdDeveloper = createDeveloperPort.createDeveloper(new CreateDeveloperCommand(command.getFullName(), command.getEmail(), new Date()));
         // TODO: check if email is already taken
         return createdDeveloper;
     }
