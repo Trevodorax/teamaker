@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import org.teamaker.shared.validation.SelfValidating;
 
-public class CreateTechnologyCommand extends SelfValidating<org.teamaker.technology.application.port.in.CreateTechnologyCommand> {
+public class CreateTechnologyCommand extends SelfValidating<CreateTechnologyPort> {
     @NotNull
     private final String name;
 

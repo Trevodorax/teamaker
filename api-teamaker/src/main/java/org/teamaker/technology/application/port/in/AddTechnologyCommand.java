@@ -4,11 +4,11 @@ import javax.validation.constraints.NotNull;
 
 import org.teamaker.shared.validation.SelfValidating;
 
-public class CreateTechnologyCommand extends SelfValidating<CreateTechnologyCommand> {
+public class AddTechnologyCommand extends SelfValidating<AddTechnologyCommand> {
     @NotNull
     private final String name;
 
-    public CreateTechnologyCommand(String name) {
+    public AddTechnologyCommand(String name) {
         this.name = name;
 
         this.validateSelf();
