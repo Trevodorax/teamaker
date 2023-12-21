@@ -2,7 +2,6 @@ package org.teamaker.technology.application.port.in;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
 import javax.validation.ConstraintViolationException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,8 +18,6 @@ public class AddTechnologyCommandTest {
     @Test
     public void testConstructorValidData() {
         AddTechnologyCommand command = new AddTechnologyCommand(validName);
-
-        System.out.println(command.getName());
         assertEquals(validName, command.getName());
     }
 
@@ -29,5 +26,4 @@ public class AddTechnologyCommandTest {
         assertThrows(ConstraintViolationException.class,
                 () -> new AddTechnologyCommand(null));
     }
-
 }
