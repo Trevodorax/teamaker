@@ -24,4 +24,11 @@ public class AddTechnologyCommandTest {
         assertEquals(validName, command.getName());
     }
 
+    @Test
+    public void testConstructorEmptyName() {
+        assertThrows(ConstraintViolationException.class, () -> {
+            new AddTechnologyCommand(null);
+        });
+    }
+
 }
