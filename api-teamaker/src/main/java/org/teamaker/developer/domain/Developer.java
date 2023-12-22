@@ -1,14 +1,14 @@
 package org.teamaker.developer.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Developer {
     String fullName;
     String email;
 
-    Date hiringDate;
+    LocalDate hiringDate;
 
-    public Developer(String fullName, String email, Date hiringDate) {
+    public Developer(String fullName, String email, LocalDate hiringDate) {
         this.fullName = fullName;
         this.email = email;
         this.hiringDate = hiringDate;

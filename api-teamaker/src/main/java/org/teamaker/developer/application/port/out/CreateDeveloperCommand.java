@@ -1,11 +1,11 @@
 package org.teamaker.developer.application.port.out;
 
-import org.teamaker.shared.validation.SelfValidating;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
+
+import org.teamaker.shared.validation.SelfValidating;
 
 public class CreateDeveloperCommand extends SelfValidating<CreateDeveloperCommand> {
     @NotNull
@@ -13,9 +13,9 @@ public class CreateDeveloperCommand extends SelfValidating<CreateDeveloperComman
     @Email
     private final String email;
     @FutureOrPresent
-    private final Date hiringDate;
+    private final LocalDate hiringDate;
 
-    public CreateDeveloperCommand(String fullName, String email, Date hiringDate) {
+    public CreateDeveloperCommand(String fullName, String email, LocalDate hiringDate) {
         this.fullName = fullName;
         this.email = email;
         this.hiringDate = hiringDate;
@@ -31,7 +31,7 @@ public class CreateDeveloperCommand extends SelfValidating<CreateDeveloperComman
         return email;
     }
 
-    public Date getHiringDate() {
+    public LocalDate getHiringDate() {
         return hiringDate;
     }
 }
