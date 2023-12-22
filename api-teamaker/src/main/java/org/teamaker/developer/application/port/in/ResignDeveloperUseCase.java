@@ -1,7 +1,7 @@
 package org.teamaker.developer.application.port.in;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public interface ResignDeveloperUseCase {
-    public Date resignDeveloper(ResignDeveloperCommand command);
+    public LocalDate resignDeveloper(ResignDeveloperCommand command);
 }

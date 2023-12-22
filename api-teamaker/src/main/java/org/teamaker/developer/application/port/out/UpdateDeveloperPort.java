@@ -2,7 +2,8 @@ package org.teamaker.developer.application.port.out;
 
 import org.teamaker.developer.domain.Developer;
 
+import java.time.LocalDate;
+
 public interface UpdateDeveloperPort {
-    public Developer resignDeveloper(UpdateDeveloperResignationDateCommand command);
-    public Developer updateDeveloperInfo(UpdateDeveloperPersonalInfoCommand command);
+    public LocalDate resignDeveloper(UpdateDeveloperResignationDateCommand command);
 }

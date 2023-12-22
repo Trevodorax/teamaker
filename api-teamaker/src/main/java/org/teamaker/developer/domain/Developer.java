@@ -16,7 +16,7 @@ public class Developer {
         this.resignationDate = resignationDate;
     }
 
-    public Date getResignationDate() {
+    public LocalDate getResignationDate() {
         return resignationDate;
     }
 }

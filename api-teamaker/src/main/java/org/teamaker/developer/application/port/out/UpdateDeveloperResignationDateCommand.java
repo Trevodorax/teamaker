@@ -1,18 +1,19 @@
 package org.teamaker.developer.application.port.out;
 
-import org.teamaker.shared.validation.SelfValidating;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
+
+import org.teamaker.shared.validation.SelfValidating;
 
 public class UpdateDeveloperResignationDateCommand extends SelfValidating<UpdateDeveloperResignationDateCommand> {
     @Email
+    @NotNull
     private final String email;
     @NotNull
-    private final Date resignationDate;
+    private final LocalDate resignationDate;
 
-    public UpdateDeveloperResignationDateCommand(String email, Date resignationDate) {
+    public UpdateDeveloperResignationDateCommand(String email, LocalDate resignationDate) {
         this.email = email;
         this.resignationDate = resignationDate;
 
@@ -23,7 +24,7 @@ public class UpdateDeveloperResignationDateCommand extends SelfValidating<Update
         return email;
     }
 
-    public Date getHiringDate() {
+    public LocalDate getHiringDate() {
         return resignationDate;
     }
 }
