@@ -9,6 +9,7 @@ public class HireDeveloperCommand extends SelfValidating<HireDeveloperCommand> {
     @NotNull
     private  final String fullName;
     @Email
+    @NotNull
     private final String email;
 
     public HireDeveloperCommand(String fullName, String email) {

@@ -11,6 +11,7 @@ public class CreateDeveloperCommand extends SelfValidating<CreateDeveloperComman
     @NotNull
     private final String fullName;
     @Email
+    @NotNull
     private final String email;
     @FutureOrPresent
     private final LocalDate hiringDate;
@@ -18,7 +19,11 @@ public class CreateDeveloperCommand extends SelfValidating<CreateDeveloperComman
     public CreateDeveloperCommand(String fullName, String email, LocalDate hiringDate) {
         this.fullName = fullName;
         this.email = email;
-        this.hiringDate = hiringDate;
+        if (hiringDate == null) {
+            this.hiringDate = LocalDate.now();
+        } else {
+            this.hiringDate = hiringDate;
+        }
 
         this.validateSelf();
     }
