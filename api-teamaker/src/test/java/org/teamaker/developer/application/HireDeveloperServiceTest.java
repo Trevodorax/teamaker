@@ -30,7 +30,7 @@ public class HireDeveloperServiceTest {
         String mockEmail = "john.doe@teamaker.com";
         HireDeveloperCommand command = new HireDeveloperCommand(mockName, mockEmail);
 
-        Developer expectedDeveloper = new Developer(mockName, mockEmail, LocalDate.now());
+        Developer expectedDeveloper = new Developer(mockName, mockEmail, LocalDate.now(), null);
         when(createDeveloperPortMock.createDeveloper(any(CreateDeveloperCommand.class))).thenReturn(expectedDeveloper);
 
         Developer result = hireDeveloperService.hireDeveloper(command);
