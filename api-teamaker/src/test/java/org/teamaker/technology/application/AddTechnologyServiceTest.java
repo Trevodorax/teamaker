@@ -23,10 +23,11 @@ public class AddTechnologyServiceTest {
 
     @Test
     public void testAddTechnology() {
+        String mockGuid = "Tech Guid";
         String mockName = "Tech Name";
         AddTechnologyCommand command = new AddTechnologyCommand(mockName);
 
-        Technology expectedTechnology = new Technology(mockName);
+        Technology expectedTechnology = new Technology(mockGuid, mockName);
         when(createTechnologyPortMock.createTechnology(any(CreateTechnologyCommand.class))).thenReturn(expectedTechnology);
 
         Technology result = addTechnologyService.addTechnology(command);
