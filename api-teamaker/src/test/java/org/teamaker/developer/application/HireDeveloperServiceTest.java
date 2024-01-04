@@ -39,8 +39,8 @@ public class HireDeveloperServiceTest {
         verify(createDeveloperPortMock).createDeveloper(captor.capture());
         CreateDeveloperCommand capturedCommand = captor.getValue();
 
-        assertEquals(mockName, capturedCommand.getFullName());
-        assertEquals(mockEmail, capturedCommand.getEmail());
+        assertEquals(mockName, capturedCommand.fullName());
+        assertEquals(mockEmail, capturedCommand.email());
         assertEquals(expectedDeveloper, result);
     }
 }

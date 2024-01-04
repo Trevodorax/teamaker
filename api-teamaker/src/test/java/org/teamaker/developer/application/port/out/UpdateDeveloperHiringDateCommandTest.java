@@ -22,8 +22,8 @@ public class UpdateDeveloperHiringDateCommandTest {
     @Test
     public void testConstructorValidData() {
         UpdateDeveloperHiringDateCommand command = new UpdateDeveloperHiringDateCommand(validEmail, validHiringDate);
-        assertEquals(validEmail, command.getEmail());
-        assertEquals(validHiringDate, command.getHiringDate());
+        assertEquals(validEmail, command.email());
+        assertEquals(validHiringDate, command.hiringDate());
     }
 
     @Test

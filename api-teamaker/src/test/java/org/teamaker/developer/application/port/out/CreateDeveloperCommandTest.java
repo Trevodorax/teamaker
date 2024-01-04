@@ -26,9 +26,9 @@ public class CreateDeveloperCommandTest {
     @Test
     public void testConstructorValidData() {
         CreateDeveloperCommand command = new CreateDeveloperCommand(validFullName, validEmail, validHiringDate);
-        assertEquals(validFullName, command.getFullName());
-        assertEquals(validEmail, command.getEmail());
-        assertEquals(validHiringDate, command.getHiringDate());
+        assertEquals(validFullName, command.fullName());
+        assertEquals(validEmail, command.email());
+        assertEquals(validHiringDate, command.hiringDate());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class CreateDeveloperCommandTest {
     public void testConstructorEmptyHiringDate() {
         CreateDeveloperCommand command = new CreateDeveloperCommand(validFullName, validEmail, null);
         LocalDate expectedDate = LocalDate.now();
-        assertEquals(expectedDate, command.getHiringDate());
+        assertEquals(expectedDate, command.hiringDate());
     }
 
     @Test

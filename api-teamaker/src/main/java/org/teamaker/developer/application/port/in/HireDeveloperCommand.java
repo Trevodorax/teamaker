@@ -1,29 +1,11 @@
 package org.teamaker.developer.application.port.in;
 
-import org.teamaker.shared.validation.SelfValidating;
-
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
-public class HireDeveloperCommand extends SelfValidating<HireDeveloperCommand> {
-    @NotNull
-    private  final String fullName;
-    @Email
-    @NotNull
-    private final String email;
-
-    public HireDeveloperCommand(String fullName, String email) {
-        this.fullName = fullName;
-        this.email = email;
-
-        this.validateSelf();
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+public record HireDeveloperCommand(String fullName, @Email String email) {
+        public HireDeveloperCommand {
+            Objects.requireNonNull(fullName);
+            Objects.requireNonNull(email);
+        }
 }

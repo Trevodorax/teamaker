@@ -16,7 +16,7 @@ public class ResignDeveloperService implements ResignDeveloperUseCase {
     }
 
     public LocalDate resignDeveloper(ResignDeveloperCommand command) {
-        LocalDate updatedResignationDate = updateDeveloperPort.resignDeveloper(new UpdateDeveloperResignationDateCommand(command.getEmail(), command.getResignationDate()));
+        LocalDate updatedResignationDate = updateDeveloperPort.resignDeveloper(new UpdateDeveloperResignationDateCommand(command.email(), command.resignationDate()));
         return updatedResignationDate;
     }
 }

@@ -18,7 +18,7 @@ class HireDeveloperService implements HireDeveloperUseCase {
     }
 
     public Developer hireDeveloper(HireDeveloperCommand command) {
-        Developer createdDeveloper = createDeveloperPort.createDeveloper(new CreateDeveloperCommand(command.getFullName(), command.getEmail(), LocalDate.now()));
+        Developer createdDeveloper = createDeveloperPort.createDeveloper(new CreateDeveloperCommand(command.fullName(), command.email(), LocalDate.now()));
         // TODO: check if email is already taken
         return createdDeveloper;
     }

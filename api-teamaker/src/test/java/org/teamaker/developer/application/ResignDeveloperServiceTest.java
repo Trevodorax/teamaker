@@ -41,7 +41,7 @@ public class ResignDeveloperServiceTest {
         verify(updateDeveloperPortMock).resignDeveloper(captor.capture());
         UpdateDeveloperResignationDateCommand capturedCommand = captor.getValue();
 
-        assertEquals(mockEmail, capturedCommand.getEmail());
+        assertEquals(mockEmail, capturedCommand.email());
         assertEquals(expectedDate, result);
     }
 }
