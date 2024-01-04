@@ -1,12 +1,15 @@
 package org.teamaker.technology.application;
 
+import org.springframework.stereotype.Component;
+
 import org.teamaker.technology.application.port.in.AddTechnologyCommand;
 import org.teamaker.technology.application.port.in.AddTechnologyUseCase;
 import org.teamaker.technology.application.port.out.CreateTechnologyCommand;
 import org.teamaker.technology.application.port.out.CreateTechnologyPort;
 import org.teamaker.technology.domain.Technology;
 
-public class AddTechnologyService implements AddTechnologyUseCase {
+@Component
+class AddTechnologyService implements AddTechnologyUseCase {
     private final CreateTechnologyPort createTechnologyPort;
 
     public AddTechnologyService(CreateTechnologyPort createTechnologyPort) {
