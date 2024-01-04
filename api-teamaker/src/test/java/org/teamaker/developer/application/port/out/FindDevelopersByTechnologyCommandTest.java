@@ -17,7 +17,7 @@ public class FindDevelopersByTechnologyCommandTest {
     @Test
     public void testConstructorValidData() {
         FindDevelopersByTechnologyCommand command = new FindDevelopersByTechnologyCommand(validTechnologyId);
-        assertEquals(validTechnologyId, command.getTechnology());
+        assertEquals(validTechnologyId, command.getTechnologyId());
     }
 
     @Test

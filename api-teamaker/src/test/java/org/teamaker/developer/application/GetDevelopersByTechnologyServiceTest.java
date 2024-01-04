@@ -43,7 +43,7 @@ public class GetDevelopersByTechnologyServiceTest {
         verify(findDevelopersByTechnologyPortMock).findDevelopersByTechnology(captor.capture());
         FindDevelopersByTechnologyCommand capturedCommand = captor.getValue();
 
-        assertEquals(mockTechnologyId, capturedCommand.getTechnology());
+        assertEquals(mockTechnologyId, capturedCommand.getTechnologyId());
         assertEquals(expectedResponse, result);
     }
 }

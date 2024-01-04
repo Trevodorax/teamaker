@@ -13,7 +13,7 @@ public class Technology {
         return name;
     }
 
-    public String getGuid() {
+    public String getId() {
         return id;
     }
 }

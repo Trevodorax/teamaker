@@ -15,7 +15,7 @@ public class FindDevelopersByTechnologyCommand extends SelfValidating<FindDevelo
             this.validateSelf();
         }
 
-        public String getTechnology() {
+        public String getTechnologyId() {
             return technologyId;
         }
 }
