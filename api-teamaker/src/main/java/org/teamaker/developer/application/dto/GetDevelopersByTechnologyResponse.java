@@ -5,10 +5,10 @@ import java.util.Objects;
 
 import org.teamaker.developer.domain.Developer;
 
-public record GetDevelopersByTechnologyResponse(String technology, List<Developer> developers) {
+public record GetDevelopersByTechnologyResponse(String technologyId, List<Developer> developers) {
 
     public GetDevelopersByTechnologyResponse {
-        Objects.requireNonNull(technology);
+        Objects.requireNonNull(technologyId);
         Objects.requireNonNull(developers);
     }
 

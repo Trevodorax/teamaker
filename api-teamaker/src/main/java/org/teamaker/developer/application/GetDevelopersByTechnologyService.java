@@ -18,7 +18,7 @@ class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCa
 
     @Override
     public GetDevelopersByTechnologyResponse getDevelopersByTechnology(GetDevelopersByTechnologyCommand command) {
-        return new GetDevelopersByTechnologyResponse(command.getTechnology(), findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnology())));
+        return new GetDevelopersByTechnologyResponse(command.getTechnologyId(), findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnologyId())));
     }
 
 }
