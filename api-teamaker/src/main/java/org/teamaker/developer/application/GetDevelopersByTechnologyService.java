@@ -1,12 +1,15 @@
 package org.teamaker.developer.application;
 
+import org.springframework.stereotype.Component;
+
 import org.teamaker.developer.application.dto.GetDevelopersByTechnologyResponse;
 import org.teamaker.developer.application.port.in.GetDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.in.GetDevelopersByTechnologyUseCase;
 import org.teamaker.developer.application.port.out.FindDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.out.FindDevelopersByTechnologyPort;
 
-public class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCase {
+@Component
+class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCase {
 
     private final FindDevelopersByTechnologyPort findDevelopersByTechnologyPort;
 
@@ -16,7 +19,7 @@ public class GetDevelopersByTechnologyService implements GetDevelopersByTechnolo
 
     @Override
     public GetDevelopersByTechnologyResponse getDevelopersByTechnology(GetDevelopersByTechnologyCommand command) {
-        return new GetDevelopersByTechnologyResponse(command.getTechnology(), findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnology())));
+        return new GetDevelopersByTechnologyResponse(command.technologyId(), findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.technologyId())));
     }
 
 }

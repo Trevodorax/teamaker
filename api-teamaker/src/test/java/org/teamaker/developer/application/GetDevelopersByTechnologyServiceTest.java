@@ -26,15 +26,15 @@ public class GetDevelopersByTechnologyServiceTest {
 
     @Test
     public void testGetDevelopersByTechnology() {
-        String mockTechnologyGuid = "Technology Guid";
+        String mockTechnologyId = "Technology Id";
         LocalDate mockDate = LocalDate.now();
         List<Developer> mockDevelopers = List.of(
                 new Developer("Developer fullName", "Developer email", mockDate, null),
                 new Developer("Developer fullName 2", "Developer email 2", mockDate, null)
         );
-        GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyGuid);
+        GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyId);
 
-        GetDevelopersByTechnologyResponse expectedResponse = new GetDevelopersByTechnologyResponse(mockTechnologyGuid, mockDevelopers);
+        GetDevelopersByTechnologyResponse expectedResponse = new GetDevelopersByTechnologyResponse(mockTechnologyId, mockDevelopers);
         when(findDevelopersByTechnologyPortMock.findDevelopersByTechnology(any(FindDevelopersByTechnologyCommand.class))).thenReturn(mockDevelopers);
 
         GetDevelopersByTechnologyResponse result = getDevelopersByTechnologyService.getDevelopersByTechnology(command);
@@ -43,7 +43,7 @@ public class GetDevelopersByTechnologyServiceTest {
         verify(findDevelopersByTechnologyPortMock).findDevelopersByTechnology(captor.capture());
         FindDevelopersByTechnologyCommand capturedCommand = captor.getValue();
 
-        assertEquals(mockTechnologyGuid, capturedCommand.getTechnology());
+        assertEquals(mockTechnologyId, capturedCommand.technologyId());
         assertEquals(expectedResponse, result);
     }
 }

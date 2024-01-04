@@ -7,22 +7,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FindDevelopersByTechnologyCommandTest {
-    private static String validTechnologyGuid;
+    private static String validTechnologyId;
 
     @BeforeAll
     public static void setUp() {
-        validTechnologyGuid = "validTechnologyGuid";
+        validTechnologyId = "validTechnologyId";
     }
 
     @Test
     public void testConstructorValidData() {
-        FindDevelopersByTechnologyCommand command = new FindDevelopersByTechnologyCommand(validTechnologyGuid);
-        assertEquals(validTechnologyGuid, command.getTechnology());
+        FindDevelopersByTechnologyCommand command = new FindDevelopersByTechnologyCommand(validTechnologyId);
+        assertEquals(validTechnologyId, command.technologyId());
     }
 
     @Test
-    public void testConstructorEmptyTechnologyGuid() {
-        assertThrows(ConstraintViolationException.class,
+    public void testConstructorEmptyTechnologyId() {
+        assertThrows(NullPointerException.class,
                 () -> new FindDevelopersByTechnologyCommand(null));
     }
 }

@@ -8,22 +8,22 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GetDevelopersByTechnologyCommandTest {
-    private static String validTechnologyGuid;
+    private static String validTechnologyId;
 
     @BeforeAll
     public static void setUp() {
-        validTechnologyGuid = "validTechnologyGuid";
+        validTechnologyId = "validTechnologyId";
     }
 
     @Test
     public void testConstructorValidData() {
-        GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(validTechnologyGuid);
-        assertEquals(validTechnologyGuid, command.getTechnology());
+        GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(validTechnologyId);
+        assertEquals(validTechnologyId, command.technologyId());
     }
 
     @Test
-    public void testConstructorEmptyTechnologyGuid() {
-        assertThrows(ConstraintViolationException.class,
+    public void testConstructorEmptyTechnologyId() {
+        assertThrows(NullPointerException.class,
                 () -> new GetDevelopersByTechnologyCommand(null));
     }
 }
