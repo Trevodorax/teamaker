@@ -18,12 +18,12 @@ public class GetDevelopersByTechnologyCommandTest {
     @Test
     public void testConstructorValidData() {
         GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(validTechnologyId);
-        assertEquals(validTechnologyId, command.technologyId());
+        assertEquals(validTechnologyId, command.getTechnology());
     }
 
     @Test
     public void testConstructorEmptyTechnologyId() {
-        assertThrows(NullPointerException.class,
+        assertThrows(ConstraintViolationException.class,
                 () -> new GetDevelopersByTechnologyCommand(null));
     }
 }
