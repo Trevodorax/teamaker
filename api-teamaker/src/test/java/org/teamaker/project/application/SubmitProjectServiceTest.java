@@ -14,6 +14,7 @@ import org.teamaker.project.application.port.out.CreateProjectCommand;
 import org.teamaker.project.application.port.out.CreateProjectPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.Status;
 
 class SubmitProjectServiceTest {
     private static CreateProjectPort createProjectPortMock;
@@ -32,13 +33,14 @@ class SubmitProjectServiceTest {
         String mockName = "Project Name";
         String mockDescription = "Project Description";
         Priority mockPriority = Priority.CRITICAL;
+        Status mockStatus = Status.OPEN;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
         LocalDate mockEndDate = mockStartDate.plusDays(5);
         ArrayList<UUID> mockTechnologies = new ArrayList<>();
         SubmitProjectCommand command = new SubmitProjectCommand(mockName, mockDescription, mockPriority, mockStartDate, mockEndDate, mockTechnologies);
 
         // mock the injected command
-        Project expectedProject = new Project("test-id");
+        Project expectedProject = new Project("test-id", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate);
         when(createProjectPortMock.createProject(any(CreateProjectCommand.class))).thenReturn(expectedProject); // mock createProject method
 
         // === when === //

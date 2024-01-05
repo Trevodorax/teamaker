@@ -1,14 +1,17 @@
 package org.teamaker.project.application;
 
+import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.project.application.port.out.LoadProjectsPort;
-import org.teamaker.project.domain.Project;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import org.teamaker.project.application.port.out.LoadProjectsPort;
+import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.Status;
 
 class GetProjectsServiceTest {
     private static LoadProjectsPort loadProjectsPortMock;
@@ -22,10 +25,17 @@ class GetProjectsServiceTest {
 
     @Test
     public void testGetProjects() {
+        String mockName = "Project Name";
+        String mockDescription = "Project Description";
+        Priority mockPriority = Priority.CRITICAL;
+        Status mockStatus = Status.OPEN;
+        LocalDate mockStartDate = LocalDate.now().plusDays(1);
+        LocalDate mockEndDate = mockStartDate.plusDays(5);
+
         List<Project> expectedProjects = List.of(
-                new Project("577c2860-b584-4d27-94d8-21b10c095aac"),
-                new Project("577c2860-b584-4d27-94d8-21b10c095aad"),
-                new Project("577c2860-b584-4d27-94d8-21b10c095aae")
+                new Project("577c2860-b584-4d27-94d8-21b10c095aac", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate),
+                new Project("577c2860-b584-4d27-94d8-21b10c095aad", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate),
+                new Project("577c2860-b584-4d27-94d8-21b10c095aae", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate)
         );
 
         when(loadProjectsPortMock.loadProjects()).thenReturn(expectedProjects);

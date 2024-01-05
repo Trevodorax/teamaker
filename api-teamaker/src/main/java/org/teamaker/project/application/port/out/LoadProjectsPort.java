@@ -5,5 +5,5 @@ import java.util.List;
 import org.teamaker.project.domain.Project;
 
 public interface LoadProjectsPort {
-    public List<Project> loadProjects();
+    List<Project> loadProjects();
 }
