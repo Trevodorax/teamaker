@@ -36,5 +36,4 @@ public class GetTechnologiesServiceTest {
         verify(loadTechnologiesPortMock).loadTechnologies();
         assertEquals(expectedTechnologies, result);
     }
-
 }
