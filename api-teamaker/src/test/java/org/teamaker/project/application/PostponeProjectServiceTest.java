@@ -65,7 +65,7 @@ public class PostponeProjectServiceTest {
         LocalDate mockNewStartDate = mockStartDate.plusDays(1);
         LocalDate mockNewEndDate = mockEndDate.plusDays(1);
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.IN_PROGRESS, mockStartDate, mockEndDate);
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.ACCEPTED, mockStartDate, mockEndDate);
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);

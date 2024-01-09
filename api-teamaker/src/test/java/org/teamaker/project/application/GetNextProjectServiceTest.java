@@ -1,8 +1,10 @@
 package org.teamaker.project.application;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.teamaker.project.application.port.out.findNextProject.FindNextProject;
+import org.mockito.Mockito;
+import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
@@ -14,13 +16,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class GetNextProjectServiceTest {
-    private static FindNextProject findNextProjectMock;
+    private static FindNextProjectPort findNextProjectMock;
     private static GetNextProjectService getNextProjectService;
 
     @BeforeAll
     public static void setUp() {
-        findNextProjectMock = mock(FindNextProject.class);
+        findNextProjectMock = mock(FindNextProjectPort.class);
         getNextProjectService = new GetNextProjectService(findNextProjectMock);
+    }
+
+    @BeforeEach
+    public void beforeEach() {
+        Mockito.reset(findNextProjectMock);
     }
 
     @Test
@@ -43,7 +50,6 @@ class GetNextProjectServiceTest {
         assertThrows(NoSuchElementException.class, () -> {
             getNextProjectService.getNextProject();
         });
-
         verify(findNextProjectMock).findNextProject();
     }
 }

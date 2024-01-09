@@ -18,7 +18,7 @@ public class SaveProjectCommandTest {
 
     @BeforeAll
     public static void setUp() {
-        project = new Project("validProjectId", "validProjectName", "validProjectDescription", Priority.CRITICAL, ProjectStatus.IN_PROGRESS, LocalDate.now(), LocalDate.now().plusDays(1));
+        project = new Project("validProjectId", "validProjectName", "validProjectDescription", Priority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(1));
     }
 
     @Test

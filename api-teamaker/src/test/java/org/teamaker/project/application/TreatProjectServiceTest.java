@@ -34,15 +34,15 @@ public class TreatProjectServiceTest {
     @Test
     public void testTreatProject() {
         String mockId = "577c2860-b584-4d27-94d8-21b10c095aac";
-        String status = "PENDING"; // "IN_PROGRESS", "DONE"
+        ProjectStatus status = ProjectStatus.PENDING;
 
         Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(5));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
-        Project expectedProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.valueOf(status), LocalDate.now(), LocalDate.now().plusDays(5));
+        Project expectedProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, status, LocalDate.now(), LocalDate.now().plusDays(5));
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
-        TreatProjectCommand command = new TreatProjectCommand(mockId, ProjectStatus.valueOf(status));
+        TreatProjectCommand command = new TreatProjectCommand(mockId, status);
         treatProjectService.treatProject(command);
 
         ArgumentCaptor<SaveProjectCommand> captor = ArgumentCaptor.forClass(SaveProjectCommand.class);
@@ -50,18 +50,20 @@ public class TreatProjectServiceTest {
         SaveProjectCommand capturedCommand = captor.getValue();
 
         assertEquals(mockId, capturedCommand.getProject().getProjectId());
-        assertEquals(status, capturedCommand.getProject().getStatus().toString());
+        assertEquals(status, capturedCommand.getProject().getStatus());
     }
+
+
 
     @Test
     public void testTreatProjectNotPending() {
         String mockId = "577c2860-b584-4d27-94d8-21b10c095aac";
-        String status = "IN_PROGRESS"; // "PENDING", "DONE"
+        ProjectStatus status = ProjectStatus.ACCEPTED;
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.IN_PROGRESS, LocalDate.now(), LocalDate.now().plusDays(5));
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(5));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
-        TreatProjectCommand command = new TreatProjectCommand(mockId, ProjectStatus.valueOf(status));
+        TreatProjectCommand command = new TreatProjectCommand(mockId, status);
         assertThrows(IllegalStateException.class, () -> treatProjectService.treatProject(command));
     }
 }
