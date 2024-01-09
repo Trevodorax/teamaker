@@ -14,7 +14,7 @@ import org.teamaker.project.application.port.out.createProject.CreateProjectComm
 import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
-import org.teamaker.project.domain.Status;
+import org.teamaker.project.domain.ProjectStatus;
 
 class SubmitProjectServiceTest {
     private static CreateProjectPort createProjectPortMock;
@@ -33,7 +33,7 @@ class SubmitProjectServiceTest {
         String mockName = "Project Name";
         String mockDescription = "Project Description";
         Priority mockPriority = Priority.CRITICAL;
-        Status mockStatus = Status.OPEN;
+        ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
         LocalDate mockEndDate = mockStartDate.plusDays(5);
         ArrayList<UUID> mockTechnologies = new ArrayList<>();

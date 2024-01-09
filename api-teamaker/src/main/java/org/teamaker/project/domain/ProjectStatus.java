@@ -1,7 +1,7 @@
 package org.teamaker.project.domain;
 
-public enum Status {
-    OPEN,
+public enum ProjectStatus {
+    PENDING,
     IN_PROGRESS,
     DONE
 }

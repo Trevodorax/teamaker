@@ -7,11 +7,11 @@ public class Project {
     private String name;
     private String description;
     private Priority priority;
-    private Status status;
+    private ProjectStatus status;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Project(String projectId, String name, String description, Priority priority, Status status, LocalDate startDate, LocalDate endDate) {
+    public Project(String projectId, String name, String description, Priority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate) {
         this.projectId = projectId;
         this.name = name;
         this.description = description;
@@ -37,7 +37,7 @@ public class Project {
         return priority;
     }
 
-    public Status getStatus() {
+    public ProjectStatus getStatus() {
         return status;
     }
 
@@ -47,5 +47,16 @@ public class Project {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public void postpone(LocalDate startDate, LocalDate endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public void postpone(LocalDate startDate) {
+        int daysToPostpone = startDate.getDayOfMonth() - this.startDate.getDayOfMonth();
+        this.startDate = startDate;
+        this.endDate = startDate.plusDays(daysToPostpone);
     }
 }

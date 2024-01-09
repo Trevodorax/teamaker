@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProject;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
-import org.teamaker.project.domain.Status;
+import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
@@ -26,7 +26,7 @@ class GetNextProjectServiceTest {
     @Test
     public void testGetNextProject() {
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
-        Project expectedProject = new Project("577c2860-b584-4d27-94d8-21b10c095aac", "Project Name", "Project Description", Priority.CRITICAL, Status.OPEN, mockStartDate, mockStartDate.plusDays(5));
+        Project expectedProject = new Project("577c2860-b584-4d27-94d8-21b10c095aac", "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockStartDate.plusDays(5));
 
         when(findNextProjectMock.findNextProject()).thenReturn(expectedProject);
 

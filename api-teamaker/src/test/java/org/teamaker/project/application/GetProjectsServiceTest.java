@@ -11,7 +11,7 @@ import java.util.List;
 import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
-import org.teamaker.project.domain.Status;
+import org.teamaker.project.domain.ProjectStatus;
 
 class GetProjectsServiceTest {
     private static LoadProjectsPort loadProjectsPortMock;
@@ -28,7 +28,7 @@ class GetProjectsServiceTest {
         String mockName = "Project Name";
         String mockDescription = "Project Description";
         Priority mockPriority = Priority.CRITICAL;
-        Status mockStatus = Status.OPEN;
+        ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
         LocalDate mockEndDate = mockStartDate.plusDays(5);
 
