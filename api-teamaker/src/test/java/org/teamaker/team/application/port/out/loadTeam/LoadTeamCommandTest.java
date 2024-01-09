@@ -1,11 +1,11 @@
-package org.teamaker.team.application.port.in;
+package org.teamaker.team.application.port.out.loadTeam;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import javax.validation.ConstraintViolationException;
 import static org.junit.jupiter.api.Assertions.*;
+import javax.validation.ConstraintViolationException;
 
-class GetTeamCommandTest {
+class LoadTeamCommandTest {
     private static String validTeamId;
 
     @BeforeAll
@@ -15,13 +15,13 @@ class GetTeamCommandTest {
 
     @Test
     public void testConstructorValidData() {
-        GetTeamCommand command = new GetTeamCommand(validTeamId);
+        LoadTeamCommand command = new LoadTeamCommand(validTeamId);
         assertEquals(validTeamId, command.getId());
     }
 
     @Test
     public void testConstructorEmptyTechnologyId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new GetTeamCommand(null));
+                () -> new LoadTeamCommand(null));
     }
 }

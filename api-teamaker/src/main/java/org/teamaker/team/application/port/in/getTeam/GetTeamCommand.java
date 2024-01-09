@@ -1,15 +1,14 @@
-package org.teamaker.team.application.port.out;
+package org.teamaker.team.application.port.in.getTeam;
 
 import org.teamaker.shared.validation.SelfValidating;
-import org.teamaker.team.application.port.in.GetTeamCommand;
 
 import javax.validation.constraints.NotNull;
 
-public class LoadTeamCommand extends SelfValidating<LoadTeamCommand> {
+public class GetTeamCommand extends SelfValidating<GetTeamCommand> {
     @NotNull
     private final String id;
 
-    public LoadTeamCommand(String id) {
+    public GetTeamCommand(String id) {
         this.id = id;
 
         this.validateSelf();

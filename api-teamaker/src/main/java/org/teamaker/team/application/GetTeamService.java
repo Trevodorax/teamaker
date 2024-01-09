@@ -1,9 +1,9 @@
 package org.teamaker.team.application;
 
-import org.teamaker.team.application.port.in.GetTeamCommand;
-import org.teamaker.team.application.port.in.GetTeamUseCase;
-import org.teamaker.team.application.port.out.LoadTeamCommand;
-import org.teamaker.team.application.port.out.LoadTeamPort;
+import org.teamaker.team.application.port.in.getTeam.GetTeamCommand;
+import org.teamaker.team.application.port.in.getTeam.GetTeamUseCase;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
 import org.teamaker.team.domain.Team;
 
 public class GetTeamService implements GetTeamUseCase {

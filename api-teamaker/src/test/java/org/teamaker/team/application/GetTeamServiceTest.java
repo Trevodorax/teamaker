@@ -3,14 +3,16 @@ package org.teamaker.team.application;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.teamaker.team.application.port.in.GetTeamCommand;
-import org.teamaker.team.application.port.out.LoadTeamCommand;
-import org.teamaker.team.application.port.out.LoadTeamPort;
-import org.teamaker.team.domain.Team;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+
+import org.teamaker.team.application.port.in.getTeam.GetTeamCommand;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.domain.Team;
+
+
 
 class GetTeamServiceTest {
     private static LoadTeamPort loadTeamPortMock;
