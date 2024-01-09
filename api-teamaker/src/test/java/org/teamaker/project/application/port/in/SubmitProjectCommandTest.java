@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.domain.Priority;
 
 class SubmitProjectCommandTest {

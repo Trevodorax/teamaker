@@ -2,6 +2,7 @@ package org.teamaker.project.application.port.in;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 
 import javax.validation.ConstraintViolationException;
 

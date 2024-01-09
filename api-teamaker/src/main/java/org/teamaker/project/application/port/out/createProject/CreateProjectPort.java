@@ -1,4 +1,4 @@
-package org.teamaker.project.application.port.out;
+package org.teamaker.project.application.port.out.createProject;
 
 import org.teamaker.project.domain.Project;
 

@@ -3,13 +3,12 @@ package org.teamaker.project.application;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.teamaker.project.application.port.in.GetProjectCommand;
-import org.teamaker.project.application.port.out.LoadProjectCommand;
-import org.teamaker.project.application.port.out.LoadProjectPort;
+import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
+import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
+import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.Status;
-import org.teamaker.technology.application.port.out.CreateTechnologyCommand;
 
 import java.time.LocalDate;
 

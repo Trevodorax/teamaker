@@ -1,4 +1,4 @@
-package org.teamaker.project.application.port.out;
+package org.teamaker.project.application.port.out.loadProject;
 
 import org.teamaker.shared.validation.SelfValidating;
 

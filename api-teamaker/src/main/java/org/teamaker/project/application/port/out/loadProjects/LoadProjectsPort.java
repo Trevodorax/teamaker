@@ -1,4 +1,4 @@
-package org.teamaker.project.application.port.out;
+package org.teamaker.project.application.port.out.loadProjects;
 
 import java.util.List;
 

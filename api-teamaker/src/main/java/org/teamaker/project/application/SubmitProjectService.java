@@ -2,10 +2,10 @@ package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
 
-import org.teamaker.project.application.port.in.SubmitProjectCommand;
-import org.teamaker.project.application.port.in.SubmitProjectUseCase;
-import org.teamaker.project.application.port.out.CreateProjectCommand;
-import org.teamaker.project.application.port.out.CreateProjectPort;
+import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
+import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;
+import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
+import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
 import org.teamaker.project.domain.Project;
 
 @Component

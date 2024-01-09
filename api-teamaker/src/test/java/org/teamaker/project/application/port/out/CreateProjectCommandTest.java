@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.domain.Priority;
 
 class CreateProjectCommandTest {
