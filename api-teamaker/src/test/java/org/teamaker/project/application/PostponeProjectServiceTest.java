@@ -43,13 +43,13 @@ public class PostponeProjectServiceTest {
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         Project expectedProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.PENDING, mockNewStartDate, mockNewEndDate);
-        when(saveProjectPortMock.modifyProjectDates(any())).thenReturn(expectedProject);
+        when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);
         postponeProjectService.postponeProject(command);
 
         ArgumentCaptor<SaveProjectCommand> captor = ArgumentCaptor.forClass(SaveProjectCommand.class);
-        verify(saveProjectPortMock).modifyProjectDates(captor.capture());
+        verify(saveProjectPortMock).saveProject(captor.capture());
         SaveProjectCommand capturedCommand = captor.getValue();
 
         assertEquals(mockId, capturedCommand.getProject().getProjectId());

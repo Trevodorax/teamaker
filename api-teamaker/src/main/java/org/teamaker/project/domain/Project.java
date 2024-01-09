@@ -59,4 +59,8 @@ public class Project {
         this.startDate = startDate;
         this.endDate = startDate.plusDays(daysToPostpone);
     }
+
+    public void treat(ProjectStatus status) {
+        this.status = status;
+    }
 }

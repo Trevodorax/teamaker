@@ -32,7 +32,7 @@ public class PostponeProjectService implements PostponeProjectUseCase {
             project.postpone(command.getNewStartDate(), command.getNewEndDate());
         }
 
-        Project modifiedProject = saveProjectPort.modifyProjectDates(new SaveProjectCommand(project));
+        Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
 
         return new PostponeProjectResponse(modifiedProject.getProjectId(), modifiedProject.getStartDate(), modifiedProject.getEndDate());
     }
