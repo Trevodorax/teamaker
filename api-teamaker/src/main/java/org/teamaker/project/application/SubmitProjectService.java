@@ -2,6 +2,7 @@ package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
 
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
@@ -17,9 +18,9 @@ class SubmitProjectService implements SubmitProjectUseCase {
     }
 
     @Override
-    public Project submitProject(SubmitProjectCommand command) {
+    public ProjectResponse submitProject(SubmitProjectCommand command) {
         Project createdProject = createProjectPort.createProject(new CreateProjectCommand(command.getName(), command.getDescription(), command.getPriority(), command.getStartDate(), command.getEndDate()));
         // TODO: create the team and assign the devs to the project
-        return createdProject;
+        return createdProject.toResponse();
     }
 }

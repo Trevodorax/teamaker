@@ -9,6 +9,7 @@ import java.util.UUID;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
@@ -44,7 +45,7 @@ class SubmitProjectServiceTest {
         when(createProjectPortMock.createProject(any(CreateProjectCommand.class))).thenReturn(expectedProject); // mock createProject method
 
         // === when === //
-        Project result = submitProjectService.submitProject(command);
+        ProjectResponse result = submitProjectService.submitProject(command);
 
         // === then === //
         ArgumentCaptor<CreateProjectCommand> captor = ArgumentCaptor.forClass(CreateProjectCommand.class);
@@ -56,7 +57,7 @@ class SubmitProjectServiceTest {
         assertEquals(mockPriority, capturedCommand.getPriority());
         assertEquals(mockStartDate, capturedCommand.getStartDate());
         assertEquals(mockEndDate, capturedCommand.getEndDate());
-        assertEquals(expectedProject, result);
+        assertEquals(expectedProject.toResponse(), result);
     }
 }
 
