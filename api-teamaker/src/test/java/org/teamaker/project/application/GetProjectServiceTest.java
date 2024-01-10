@@ -3,6 +3,7 @@ package org.teamaker.project.application;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -39,14 +40,14 @@ class GetProjectServiceTest {
         Project expectedProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate);
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(expectedProject);
 
-        Project result = getProjectService.getProject(command);
+        ProjectResponse result = getProjectService.getProject(command);
 
         ArgumentCaptor<LoadProjectCommand> captor = ArgumentCaptor.forClass(LoadProjectCommand.class);
         verify(loadProjectPortMock).loadProject(captor.capture());
         LoadProjectCommand capturedCommand = captor.getValue();
         
         assertEquals(mockId, capturedCommand.getProjectId());
-        assertEquals(expectedProject, result);
+        assertEquals(expectedProject.toResponse(), result);
     }
 
 }

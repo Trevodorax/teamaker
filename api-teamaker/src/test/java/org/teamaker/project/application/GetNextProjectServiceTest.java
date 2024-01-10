@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
@@ -37,10 +38,10 @@ class GetNextProjectServiceTest {
 
         when(findNextProjectMock.findNextProject()).thenReturn(expectedProject);
 
-        Project result = getNextProjectService.getNextProject();
+        ProjectResponse result = getNextProjectService.getNextProject();
 
         verify(findNextProjectMock).findNextProject();
-        assertEquals(expectedProject, result);
+        assertEquals(expectedProject.toResponse(), result);
     }
 
     @Test

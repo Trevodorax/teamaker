@@ -1,7 +1,8 @@
 package org.teamaker.project.application.port.in.getProject;
 
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.domain.Project;
 
 public interface GetProjectUseCase {
-    Project getProject(GetProjectCommand command);
+    ProjectResponse getProject(GetProjectCommand command);
 }

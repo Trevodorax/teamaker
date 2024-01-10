@@ -1,5 +1,7 @@
 package org.teamaker.project.domain;
 
+import org.teamaker.project.application.port.dto.ProjectResponse;
+
 import java.time.LocalDate;
 
 public class Project {
@@ -62,5 +64,9 @@ public class Project {
 
     public void treat(ProjectStatus status) {
         this.status = status;
+    }
+
+    public ProjectResponse toResponse() {
+        return new ProjectResponse(this.projectId, this.name, this.description, this.status, this.priority, this.startDate, this.endDate);
     }
 }

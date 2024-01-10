@@ -1,5 +1,6 @@
 package org.teamaker.project.application;
 
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 import org.teamaker.project.application.port.in.getProject.GetProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
@@ -14,7 +15,7 @@ public class GetProjectService implements GetProjectUseCase {
     }
 
     @Override
-    public Project getProject(GetProjectCommand command) {
-        return loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
+    public ProjectResponse getProject(GetProjectCommand command) {
+        return loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId())).toResponse();
     }
 }

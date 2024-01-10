@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Priority;
 import org.teamaker.project.domain.Project;
@@ -40,9 +41,9 @@ class GetProjectsServiceTest {
 
         when(loadProjectsPortMock.loadProjects()).thenReturn(expectedProjects);
 
-        List<Project> result = getProjectsService.getProjects();
+        List<ProjectResponse> result = getProjectsService.getProjects();
 
         verify(loadProjectsPortMock).loadProjects();
-        assertEquals(expectedProjects, result);
+        assertEquals(expectedProjects.stream().map(Project::toResponse).toList(), result);
     }
 }
