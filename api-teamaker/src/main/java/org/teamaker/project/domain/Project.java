@@ -66,7 +66,24 @@ public class Project {
         this.status = status;
     }
 
+    public ProjectProgress projectProgress() {
+        if (this.status == ProjectStatus.PENDING) {
+            return ProjectProgress.NOT_STARTED;
+        } else if (this.status == ProjectStatus.ACCEPTED) {
+            LocalDate today = LocalDate.now();
+            if (today.isBefore(this.startDate)) {
+                return ProjectProgress.NOT_STARTED;
+            } else if (today.isAfter(this.endDate)) {
+                return ProjectProgress.DONE;
+            } else {
+                return ProjectProgress.IN_PROGRESS;
+            }
+        } else {
+            return ProjectProgress.ABORTED;
+        }
+    }
+
     public ProjectResponse toResponse() {
-        return new ProjectResponse(this.projectId, this.name, this.description, this.status, this.priority, this.startDate, this.endDate);
+        return new ProjectResponse(this.projectId, this.name, this.description, this.status, this.priority, this.startDate, this.endDate, this.projectProgress());
     }
 }
