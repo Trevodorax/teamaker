@@ -4,7 +4,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.shared.validation.SelfValidating;
 
 public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
@@ -12,12 +12,12 @@ public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
     private final String name;
     private final String description;
     @NotNull
-    private final Priority priority;
+    private final ProjectPriority priority;
     @Future
     private final LocalDate startDate;
     private final LocalDate endDate;
 
-    public CreateProjectCommand(String name, String description, Priority priority, LocalDate startDate, LocalDate endDate) {
+    public CreateProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -39,7 +39,7 @@ public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
         return description;
     }
 
-    public Priority getPriority() {
+    public ProjectPriority getPriority() {
         return priority;
     }
 

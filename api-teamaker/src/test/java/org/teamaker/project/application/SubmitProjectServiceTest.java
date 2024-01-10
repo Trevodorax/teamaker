@@ -13,7 +13,7 @@ import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
-import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 
@@ -33,7 +33,7 @@ class SubmitProjectServiceTest {
         // args for submitProject()
         String mockName = "Project Name";
         String mockDescription = "Project Description";
-        Priority mockPriority = Priority.CRITICAL;
+        ProjectPriority mockPriority = ProjectPriority.CRITICAL;
         ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
         LocalDate mockEndDate = mockStartDate.plusDays(5);

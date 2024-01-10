@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
-import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 
@@ -18,7 +18,7 @@ public class SaveProjectCommandTest {
 
     @BeforeAll
     public static void setUp() {
-        project = new Project("validProjectId", "validProjectName", "validProjectDescription", Priority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(1));
+        project = new Project("validProjectId", "validProjectName", "validProjectDescription", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(1));
     }
 
     @Test

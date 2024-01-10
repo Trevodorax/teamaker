@@ -8,7 +8,7 @@ import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
-import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 
@@ -39,10 +39,10 @@ public class PostponeProjectServiceTest {
         LocalDate mockNewStartDate = mockStartDate.plusDays(1);
         LocalDate mockNewEndDate = mockEndDate.plusDays(1);
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockEndDate);
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockEndDate);
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
-        Project expectedProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.PENDING, mockNewStartDate, mockNewEndDate);
+        Project expectedProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockNewStartDate, mockNewEndDate);
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);
@@ -65,7 +65,7 @@ public class PostponeProjectServiceTest {
         LocalDate mockNewStartDate = mockStartDate.plusDays(1);
         LocalDate mockNewEndDate = mockEndDate.plusDays(1);
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.ACCEPTED, mockStartDate, mockEndDate);
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, mockStartDate, mockEndDate);
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);

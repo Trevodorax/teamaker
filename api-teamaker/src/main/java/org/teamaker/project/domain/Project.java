@@ -8,12 +8,12 @@ public class Project {
     private final String projectId;
     private String name;
     private String description;
-    private Priority priority;
+    private ProjectPriority priority;
     private ProjectStatus status;
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public Project(String projectId, String name, String description, Priority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate) {
+    public Project(String projectId, String name, String description, ProjectPriority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate) {
         this.projectId = projectId;
         this.name = name;
         this.description = description;
@@ -35,7 +35,7 @@ public class Project {
         return description;
     }
 
-    public Priority getPriority() {
+    public ProjectPriority getPriority() {
         return priority;
     }
 
@@ -81,6 +81,12 @@ public class Project {
         } else {
             return ProjectProgress.ABORTED;
         }
+    }
+
+    public void updateInfo(String newName, String newDescription, ProjectPriority newPriority) {
+        this.name = newName != null ? newName : this.name;
+        this.description = newDescription != null ? newDescription : this.description;
+        this.priority = newPriority != null ? newPriority : this.priority;
     }
 
     public ProjectResponse toResponse() {

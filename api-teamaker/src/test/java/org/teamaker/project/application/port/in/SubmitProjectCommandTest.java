@@ -9,12 +9,12 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
-import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.ProjectPriority;
 
 class SubmitProjectCommandTest {
     private static String validName = "Project Name";
     private static String validDescription = "Project Description";
-    private static Priority validPriority = Priority.CRITICAL;
+    private static ProjectPriority validPriority = ProjectPriority.CRITICAL;
     private static LocalDate validStartDate = LocalDate.now().plusDays(1);
     private static LocalDate validEndDate = validStartDate.plusDays(5);
     private static ArrayList<UUID> validTechnologies = new ArrayList<>();
@@ -23,7 +23,7 @@ class SubmitProjectCommandTest {
     public static void setUp() {
         validName = "Project Name";
         validDescription = "Project Description";
-        validPriority = Priority.CRITICAL;
+        validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
         validEndDate = validStartDate.plusDays(5);
         validTechnologies = new ArrayList<>();

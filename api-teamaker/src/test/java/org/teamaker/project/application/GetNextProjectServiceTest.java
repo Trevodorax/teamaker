@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
-import org.teamaker.project.domain.Priority;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 
@@ -34,7 +34,7 @@ class GetNextProjectServiceTest {
     @Test
     public void testGetNextProject() {
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
-        Project expectedProject = new Project("577c2860-b584-4d27-94d8-21b10c095aac", "Project Name", "Project Description", Priority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockStartDate.plusDays(5));
+        Project expectedProject = new Project("577c2860-b584-4d27-94d8-21b10c095aac", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockStartDate.plusDays(5));
 
         when(findNextProjectMock.findNextProject()).thenReturn(expectedProject);
 
