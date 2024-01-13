@@ -1,5 +1,6 @@
 package org.teamaker.project.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.project.application.port.dto.TreatProjectResponse;
 import org.teamaker.project.application.port.in.treatProject.TreatProjectCommand;
 import org.teamaker.project.application.port.in.treatProject.TreatProjectUseCase;
@@ -10,6 +11,7 @@ import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 
+@Component
 public class TreatProjectService implements TreatProjectUseCase {
     private final LoadProjectPort loadProjectPort;
     private final SaveProjectPort saveProjectPort;

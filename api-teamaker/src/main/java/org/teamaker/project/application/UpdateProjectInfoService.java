@@ -1,5 +1,6 @@
 package org.teamaker.project.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoCommand;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoUseCase;
@@ -9,6 +10,7 @@ import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
 import org.teamaker.project.domain.Project;
 
+@Component
 public class UpdateProjectInfoService implements UpdateProjectInfoUseCase {
     private final LoadProjectPort loadProjectPort;
     private final SaveProjectPort saveProjectPort;
