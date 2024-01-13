@@ -1,7 +1,6 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
-
 import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;

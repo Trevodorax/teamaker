@@ -1,12 +1,12 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
-import java.util.List;
-
 import org.teamaker.project.application.port.dto.ProjectResponse;
-import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.application.port.in.getProjects.GetProjectsUseCase;
+import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Project;
+
+import java.util.List;
 
 @Component
 public class GetProjectsService implements GetProjectsUseCase {

@@ -3,19 +3,20 @@ package org.teamaker.project.application;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.UUID;
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
-import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class SubmitProjectServiceTest {
     private static CreateProjectPort createProjectPortMock;

@@ -5,7 +5,6 @@ import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 import org.teamaker.project.application.port.in.getProject.GetProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
-import org.teamaker.project.domain.Project;
 
 public class GetProjectService implements GetProjectUseCase {
     private final LoadProjectPort loadProjectPort;

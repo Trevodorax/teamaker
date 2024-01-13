@@ -2,12 +2,14 @@ package org.teamaker.project.application.port.out;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import javax.validation.ConstraintViolationException;
-import java.time.LocalDate;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.domain.ProjectPriority;
+
+import javax.validation.ConstraintViolationException;
+import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CreateProjectCommandTest {
     private static String validName = "Project Name";

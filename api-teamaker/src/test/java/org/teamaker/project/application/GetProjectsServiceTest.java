@@ -1,18 +1,18 @@
 package org.teamaker.project.application;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.teamaker.project.application.port.dto.ProjectResponse;
+import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
+import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.ProjectPriority;
+import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import org.teamaker.project.application.port.dto.ProjectResponse;
-import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
-import org.teamaker.project.domain.ProjectPriority;
-import org.teamaker.project.domain.Project;
-import org.teamaker.project.domain.ProjectStatus;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 class GetProjectsServiceTest {
     private static LoadProjectsPort loadProjectsPortMock;

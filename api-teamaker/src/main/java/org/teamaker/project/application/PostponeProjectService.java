@@ -14,8 +14,8 @@ public class PostponeProjectService implements PostponeProjectUseCase {
     private final SaveProjectPort saveProjectPort;
     private final LoadProjectPort loadProjectPort;
 
-    public PostponeProjectService(SaveProjectPort modifyProjectDatesPort, LoadProjectPort loadProjectPort) {
-        this.saveProjectPort = modifyProjectDatesPort;
+    public PostponeProjectService(SaveProjectPort saveProjectPort, LoadProjectPort loadProjectPort) {
+        this.saveProjectPort = saveProjectPort;
         this.loadProjectPort = loadProjectPort;
     }
 

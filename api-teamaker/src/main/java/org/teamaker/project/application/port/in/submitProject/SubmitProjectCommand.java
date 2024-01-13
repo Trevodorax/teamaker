@@ -1,13 +1,13 @@
 package org.teamaker.project.application.port.in.submitProject;
 
+import org.teamaker.project.domain.ProjectPriority;
+import org.teamaker.shared.validation.SelfValidating;
+
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-
-import org.teamaker.project.domain.ProjectPriority;
-import org.teamaker.shared.validation.SelfValidating;
 
 public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     @NotNull

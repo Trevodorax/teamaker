@@ -6,14 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
-import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class GetNextProjectServiceTest {

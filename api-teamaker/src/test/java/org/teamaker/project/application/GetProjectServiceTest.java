@@ -7,13 +7,13 @@ import org.teamaker.project.application.port.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
-import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class GetProjectServiceTest {

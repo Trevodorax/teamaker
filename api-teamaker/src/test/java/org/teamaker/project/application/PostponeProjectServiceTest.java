@@ -8,8 +8,8 @@ import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
-import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;

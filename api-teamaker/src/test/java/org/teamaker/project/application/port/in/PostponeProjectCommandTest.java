@@ -1,12 +1,13 @@
 package org.teamaker.project.application.port.in;
 
-import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectCommand;
+
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 
-import org.teamaker.project.application.port.in.postponeProject.PostponeProjectCommand;
+import static org.junit.jupiter.api.Assertions.*;
 
 class PostponeProjectCommandTest {
     private static String validProjectId;
