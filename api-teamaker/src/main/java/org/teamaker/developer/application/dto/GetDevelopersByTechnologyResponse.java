@@ -1,9 +1,9 @@
 package org.teamaker.developer.application.dto;
 
+import org.teamaker.developer.domain.Developer;
+
 import java.util.List;
 import java.util.Objects;
-
-import org.teamaker.developer.domain.Developer;
 
 public record GetDevelopersByTechnologyResponse(String technologyId, List<Developer> developers) {
 

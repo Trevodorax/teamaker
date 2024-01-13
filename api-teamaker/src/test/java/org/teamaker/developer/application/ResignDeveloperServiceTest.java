@@ -8,13 +8,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 
-import org.teamaker.developer.application.port.in.HireDeveloperCommand;
-import org.teamaker.developer.application.port.in.ResignDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperPort;
-import org.teamaker.developer.application.port.out.UpdateDeveloperPort;
-import org.teamaker.developer.application.port.out.UpdateDeveloperResignationDateCommand;
-import org.teamaker.developer.domain.Developer;
+import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
+import org.teamaker.developer.application.port.out.updateDeveloper.UpdateDeveloperPort;
+import org.teamaker.developer.application.port.out.updateDeveloper.UpdateDeveloperResignationDateCommand;
 
 public class ResignDeveloperServiceTest {
     private static UpdateDeveloperPort updateDeveloperPortMock;

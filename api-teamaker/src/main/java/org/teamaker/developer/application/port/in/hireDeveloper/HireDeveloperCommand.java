@@ -1,4 +1,4 @@
-package org.teamaker.developer.application.port.in;
+package org.teamaker.developer.application.port.in.hireDeveloper;
 
 import org.teamaker.shared.validation.SelfValidating;
 

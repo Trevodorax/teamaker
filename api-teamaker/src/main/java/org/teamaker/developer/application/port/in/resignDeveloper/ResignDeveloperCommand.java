@@ -1,10 +1,10 @@
-package org.teamaker.developer.application.port.in;
+package org.teamaker.developer.application.port.in.resignDeveloper;
+
+import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-
-import org.teamaker.shared.validation.SelfValidating;
 
 public class ResignDeveloperCommand extends SelfValidating<ResignDeveloperCommand> {
     @Email

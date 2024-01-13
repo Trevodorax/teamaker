@@ -1,12 +1,11 @@
 package org.teamaker.developer.application;
 
-import java.time.LocalDate;
+import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
+import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperUseCase;
+import org.teamaker.developer.application.port.out.updateDeveloper.UpdateDeveloperPort;
+import org.teamaker.developer.application.port.out.updateDeveloper.UpdateDeveloperResignationDateCommand;
 
-import org.teamaker.developer.application.port.in.ResignDeveloperCommand;
-import org.teamaker.developer.application.port.in.ResignDeveloperUseCase;
-import org.teamaker.developer.application.port.out.UpdateDeveloperPort;
-import org.teamaker.developer.application.port.out.UpdateDeveloperResignationDateCommand;
-import org.teamaker.developer.domain.Developer;
+import java.time.LocalDate;
 
 public class ResignDeveloperService implements ResignDeveloperUseCase {
     private final UpdateDeveloperPort updateDeveloperPort;

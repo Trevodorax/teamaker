@@ -7,9 +7,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import org.teamaker.developer.application.port.in.HireDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperPort;
+import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
+import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperCommand;
+import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperPort;
 import org.teamaker.developer.domain.Developer;
 
 import java.time.LocalDate;
