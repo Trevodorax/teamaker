@@ -1,7 +1,7 @@
 package org.teamaker.developer.application.port.in.hireDeveloper;
 
-import org.teamaker.developer.domain.Developer;
+import org.teamaker.developer.application.dto.DeveloperResponse;
 
 public interface HireDeveloperUseCase {
-    Developer hireDeveloper(HireDeveloperCommand command);
+    DeveloperResponse hireDeveloper(HireDeveloperCommand command);
 }
