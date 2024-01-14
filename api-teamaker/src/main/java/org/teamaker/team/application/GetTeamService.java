@@ -15,6 +15,6 @@ public class GetTeamService implements GetTeamUseCase {
 
     @Override
     public Team getTeam(GetTeamCommand command) {
-        return loadTeamPort.loadTeam(new LoadTeamCommand(command.getId()));
+        return loadTeamPort.loadTeam(new LoadTeamCommand(command.getTeamId()));
     }
 }

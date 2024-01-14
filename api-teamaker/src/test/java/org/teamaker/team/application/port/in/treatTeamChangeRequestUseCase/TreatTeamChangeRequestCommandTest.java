@@ -16,7 +16,7 @@ class TreatTeamChangeRequestCommandTest {
     @BeforeAll
     public static void setUp() {
         validTeamChangeRequestId = "validTeamChangeRequestId";
-        validStatus = TreatTeamStatus.approved;
+        validStatus = TreatTeamStatus.APPROVED;
     }
 
     @Test

@@ -19,7 +19,7 @@ class GetTeamCommandTest {
     @Test
     public void testConstructorValidData() {
         GetTeamCommand command = new GetTeamCommand(validTeamId);
-        assertEquals(validTeamId, command.getId());
+        assertEquals(validTeamId, command.getTeamId());
     }
 
     @Test
