@@ -20,7 +20,7 @@ class GetTeamCommandTest {
     }
 
     @Test
-    public void testConstructorEmptyTechnologyId() {
+    public void testConstructorEmptyTeamId() {
         assertThrows(ConstraintViolationException.class,
                 () -> new GetTeamCommand(null));
     }

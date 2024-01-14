@@ -22,7 +22,7 @@ class GetTeamChangeRequestCommandTest {
     }
 
     @Test
-    public void testConstructorEmptyTechnologyId() {
+    public void testConstructorEmptyId() {
         assertThrows(ConstraintViolationException.class,
                 () -> new GetTeamChangeRequestCommand(null));
     }

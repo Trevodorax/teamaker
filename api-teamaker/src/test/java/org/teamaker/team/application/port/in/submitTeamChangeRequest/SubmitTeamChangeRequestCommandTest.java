@@ -31,7 +31,7 @@ class SubmitTeamChangeRequestCommandTest {
     }
 
     @Test
-    void testConstructorNullProjectId() {
+    void testConstructorNullId() {
         assertThrows(ConstraintViolationException.class,
                 () -> new SubmitTeamChangeRequestCommand(validDeveloperId, null));
     }
