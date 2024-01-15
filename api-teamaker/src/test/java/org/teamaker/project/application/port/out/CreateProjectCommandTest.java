@@ -2,16 +2,19 @@ package org.teamaker.project.application.port.out;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
+import org.teamaker.project.domain.ProjectPriority;
+
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import static org.junit.jupiter.api.Assertions.*;
 
-import org.teamaker.project.domain.Priority;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CreateProjectCommandTest {
     private static String validName = "Project Name";
     private static String validDescription = "Project Description";
-    private static Priority validPriority = Priority.CRITICAL;
+    private static ProjectPriority validPriority = ProjectPriority.CRITICAL;
     private static LocalDate validStartDate = LocalDate.now().plusDays(1);
     private static LocalDate validEndDate = validStartDate.plusDays(5);
 
@@ -19,7 +22,7 @@ class CreateProjectCommandTest {
     public static void setUp() {
         validName = "Project Name";
         validDescription = "Project Description";
-        validPriority = Priority.CRITICAL;
+        validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
         validEndDate = validStartDate.plusDays(5);
     }
