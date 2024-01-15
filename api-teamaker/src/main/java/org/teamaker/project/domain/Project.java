@@ -59,7 +59,7 @@ public class Project {
     public void postpone(LocalDate startDate) {
         int daysToPostpone = startDate.getDayOfMonth() - this.startDate.getDayOfMonth();
         this.startDate = startDate;
-        this.endDate = startDate.plusDays(daysToPostpone);
+        this.endDate = endDate.plusDays(daysToPostpone);
     }
 
     public void treat(ProjectStatus status) {
