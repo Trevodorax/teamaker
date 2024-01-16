@@ -1,10 +1,13 @@
 package org.teamaker.team.application;
 
+import org.teamaker.developer.domain.Developer;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.team.application.port.in.getTeam.GetTeamCommand;
 import org.teamaker.team.application.port.in.getTeam.GetTeamUseCase;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
-import org.teamaker.team.domain.Team;
+
+import java.util.List;
 
 public class GetTeamService implements GetTeamUseCase {
     private final LoadTeamPort loadTeamPort;
@@ -14,7 +17,10 @@ public class GetTeamService implements GetTeamUseCase {
     }
 
     @Override
-    public Team getTeam(GetTeamCommand command) {
-        return loadTeamPort.loadTeam(new LoadTeamCommand(command.getTeamId()));
+    public List<DeveloperResponse> getTeam(GetTeamCommand command) {
+        return loadTeamPort.loadTeam(new LoadTeamCommand(command.getTeamId()))
+                .stream()
+                .map(Developer::toResponse)
+                .toList();
     }
 }

@@ -1,7 +1,7 @@
 package org.teamaker.team.application.port.in.assignDeveloperToTeam;
 
-import org.teamaker.developer.domain.Developer;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 public interface AssignDeveloperToTeamUseCase {
-    Developer assignDeveloperToTeam(AssignDeveloperToTeamCommand command);
+    DeveloperResponse assignDeveloperToTeam(AssignDeveloperToTeamCommand command);
 }
