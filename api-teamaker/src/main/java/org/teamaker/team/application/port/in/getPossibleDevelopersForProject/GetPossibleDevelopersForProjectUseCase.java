@@ -3,7 +3,8 @@ package org.teamaker.team.application.port.in.getPossibleDevelopersForProject;
 import java.util.List;
 
 import org.teamaker.developer.domain.Developer;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 public interface GetPossibleDevelopersForProjectUseCase {
-    public List<Developer> getPossibleDevelopersForProjectUseCase(GetPossibleDevelopersForProjectCommand command);
+    List<DeveloperResponse> getPossibleDevelopersForProjectUseCase(GetPossibleDevelopersForProjectCommand command);
 }

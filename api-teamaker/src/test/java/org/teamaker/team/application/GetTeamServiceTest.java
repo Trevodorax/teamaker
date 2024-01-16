@@ -7,11 +7,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import org.teamaker.developer.domain.Developer;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.team.application.port.in.getTeam.GetTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
 import org.teamaker.team.domain.Team;
 
+import java.time.LocalDate;
+import java.util.List;
 
 
 class GetTeamServiceTest {
@@ -31,10 +35,13 @@ class GetTeamServiceTest {
 
         // mock the injected command
         Team expectedTeam = new Team("mock-id");
-        when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(expectedTeam); // mock createProject method
+        Developer mockDeveloper1 = new Developer("mock-developer-id", "John McLane", "johnmcclane@test.com", LocalDate.now().minusDays(1));
+        Developer mockDeveloper2 = new Developer("mock-developer-id", "Jane McLane", "janemcclane@test.com", LocalDate.now().minusDays(10));
+        List<Developer> expectedDevelopers = List.of(mockDeveloper1, mockDeveloper2);
+        when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(expectedDevelopers);
 
         // === when === //
-        Team result = getTeamService.getTeam(command);
+        List<DeveloperResponse> result = getTeamService.getTeam(command);
 
         // === then === //
         ArgumentCaptor<LoadTeamCommand> captor = ArgumentCaptor.forClass(LoadTeamCommand.class);
