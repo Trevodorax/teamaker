@@ -4,45 +4,29 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import javax.validation.ConstraintViolationException;
-import java.time.LocalDate;
 
-public class ResignDeveloperCommandTest {
-    private static String validEmail;
-    private static String invalidEmail;
-    private static LocalDate validResignationDate;
+class ResignDeveloperCommandTest {
+    private static String validDeveloperId;
 
     @BeforeAll
-    public static void setUp() {
-        validEmail = "john.doe@teamaker.com";
-        invalidEmail = "john.doeteamaker.com";
-        validResignationDate = LocalDate.of(2024, 6, 21);
+    static void setUp() {
+        validDeveloperId = "validDeveloperId";
     }
 
     @Test
-    public void testConstructorValidData() {
-        ResignDeveloperCommand command = new ResignDeveloperCommand(validEmail, validResignationDate);
-        assertEquals(validEmail, command.getEmail());
-        assertEquals(validResignationDate, command.getResignationDate());
+    void testConstructor() {
+        ResignDeveloperCommand resignDeveloperCommand = new ResignDeveloperCommand(validDeveloperId);
+        assertEquals(validDeveloperId, resignDeveloperCommand.getDeveloperId());
     }
 
     @Test
-    public void testConstructorEmptyEmail() {
+    void testConstructorNullDeveloperId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new ResignDeveloperCommand(null, validResignationDate));
+                () -> new ResignDeveloperCommand(null));
     }
 
-    @Test
-    public void testConstructorEmptyResignationDate() {
-        assertThrows(ConstraintViolationException.class,
-                () -> new ResignDeveloperCommand(validEmail, null));
-    }
-
-    @Test
-    public void testConstructorInvalidEmail() {
-        assertThrows(ConstraintViolationException.class,
-                () -> new ResignDeveloperCommand(invalidEmail, validResignationDate));
-    }
 }

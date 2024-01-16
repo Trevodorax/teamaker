@@ -12,16 +12,15 @@ public class Developer {
     private LocalDate hiringDate;
     private LocalDate resignationDate;
 
-    public Developer(String developerId, String fullName, String email, LocalDate hiringDate, LocalDate resignationDate) {
+    public Developer(String developerId, String fullName, String email, LocalDate hiringDate) {
         this.developerId = developerId;
         this.fullName = fullName;
         this.email = email;
         this.hiringDate = hiringDate;
-        this.resignationDate = resignationDate;
     }
 
-    public LocalDate getResignationDate() {
-        return resignationDate;
+    public void resign() {
+        this.resignationDate = LocalDate.now();
     }
 
     public DeveloperResponse toResponse() {
