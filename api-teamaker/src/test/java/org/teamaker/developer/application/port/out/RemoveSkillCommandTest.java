@@ -1,14 +1,15 @@
-package org.teamaker.developer.application.port.in;
+package org.teamaker.developer.application.port.out;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
+import org.teamaker.developer.application.port.out.removeSkill.RemoveSkillCommand;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class LearnSkillCommandTest {
+class RemoveSkillCommandTest {
     private static String validDeveloperId;
     private static String validSkillId;
 
@@ -20,19 +21,19 @@ class LearnSkillCommandTest {
 
     @Test
     void testConstructorValidData() {
-        LearnSkillCommand learnSkillCommand = new LearnSkillCommand(validDeveloperId, validSkillId);
-        assertEquals(validDeveloperId, learnSkillCommand.getDeveloperId());
+        RemoveSkillCommand removeSkillCommand = new RemoveSkillCommand(validDeveloperId, validSkillId);
+        assertEquals(validDeveloperId, removeSkillCommand.getDeveloperId());
     }
 
     @Test
     void testConstructorNullDeveloperId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new LearnSkillCommand(null, validSkillId));
+                () -> new RemoveSkillCommand(null, validSkillId));
     }
 
     @Test
     void testConstructorNullSkillId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new LearnSkillCommand(validDeveloperId, null));
+                () -> new RemoveSkillCommand(validDeveloperId, null));
     }
 }
