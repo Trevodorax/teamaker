@@ -5,7 +5,7 @@ import org.teamaker.developer.domain.Developer;
 import java.util.List;
 import java.util.Objects;
 
-public record GetDevelopersByTechnologyResponse(String technologyId, List<Developer> developers) {
+public record GetDevelopersByTechnologyResponse(String technologyId, List<DeveloperResponse> developers) {
 
     public GetDevelopersByTechnologyResponse {
         Objects.requireNonNull(technologyId);
