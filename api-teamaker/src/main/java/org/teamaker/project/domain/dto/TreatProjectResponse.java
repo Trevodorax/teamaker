@@ -1,4 +1,4 @@
-package org.teamaker.project.application.port.dto;
+package org.teamaker.project.domain.dto;
 
 import org.teamaker.project.domain.ProjectStatus;
 

@@ -2,7 +2,7 @@ package org.teamaker.project.application;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.project.application.port.dto.ProjectResponse;
+import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;

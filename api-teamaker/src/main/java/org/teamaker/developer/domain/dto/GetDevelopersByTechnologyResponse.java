@@ -1,4 +1,4 @@
-package org.teamaker.developer.application.dto;
+package org.teamaker.developer.domain.dto;
 
 import org.teamaker.developer.domain.Developer;
 

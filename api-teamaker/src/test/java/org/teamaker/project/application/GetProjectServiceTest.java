@@ -3,7 +3,7 @@ package org.teamaker.project.application;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.teamaker.project.application.port.dto.ProjectResponse;
+import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;

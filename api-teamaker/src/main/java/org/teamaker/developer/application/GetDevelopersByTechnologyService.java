@@ -1,7 +1,7 @@
 package org.teamaker.developer.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.developer.application.dto.GetDevelopersByTechnologyResponse;
+import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyResponse;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyUseCase;
 import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyCommand;

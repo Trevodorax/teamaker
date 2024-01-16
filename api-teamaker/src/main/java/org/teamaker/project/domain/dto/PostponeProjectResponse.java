@@ -1,4 +1,4 @@
-package org.teamaker.project.application.port.dto;
+package org.teamaker.project.domain.dto;
 
 import java.time.LocalDate;
 import java.util.Objects;

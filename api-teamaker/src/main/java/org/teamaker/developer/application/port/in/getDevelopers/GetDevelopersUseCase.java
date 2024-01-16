@@ -1,6 +1,6 @@
 package org.teamaker.developer.application.port.in.getDevelopers;
 
-import org.teamaker.developer.application.dto.DeveloperResponse;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 import java.util.List;
 

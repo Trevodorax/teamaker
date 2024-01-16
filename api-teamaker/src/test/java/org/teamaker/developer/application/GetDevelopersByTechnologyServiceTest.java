@@ -8,7 +8,7 @@ import org.mockito.ArgumentCaptor;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.teamaker.developer.application.dto.GetDevelopersByTechnologyResponse;
+import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyResponse;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyPort;

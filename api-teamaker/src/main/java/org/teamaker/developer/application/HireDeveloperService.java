@@ -1,7 +1,7 @@
 package org.teamaker.developer.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.developer.application.dto.DeveloperResponse;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperUseCase;
 import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperCommand;
