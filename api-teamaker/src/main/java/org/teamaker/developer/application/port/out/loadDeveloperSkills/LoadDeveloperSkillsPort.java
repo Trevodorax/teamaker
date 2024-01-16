@@ -5,5 +5,5 @@ import org.teamaker.technology.domain.Technology;
 import java.util.List;
 
 public interface LoadDeveloperSkillsPort {
-    List<Technology> loadDeveloperSkills(String developerId);
+    List<Technology> loadDeveloperSkills(LoadDeveloperSkillsCommand command);
 }

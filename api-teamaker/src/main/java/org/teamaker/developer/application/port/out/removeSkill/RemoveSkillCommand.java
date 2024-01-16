@@ -10,7 +10,6 @@ public class RemoveSkillCommand extends SelfValidating<RemoveSkillCommand> {
     private final String developerId;
     @NotNull
     private final String skillId;
-    private final LocalDate removalDate = LocalDate.now();
 
     public RemoveSkillCommand(String developerId, String skillId) {
         this.developerId = developerId;
@@ -24,9 +23,5 @@ public class RemoveSkillCommand extends SelfValidating<RemoveSkillCommand> {
 
     public String getSkillId() {
         return skillId;
-    }
-
-    public LocalDate getRemovalDate() {
-        return removalDate;
     }
 }

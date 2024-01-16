@@ -10,7 +10,6 @@ public class AcquireSkillCommand extends SelfValidating<AcquireSkillCommand> {
     private final String developerId;
     @NotNull
     private final String skillId;
-    private final LocalDate acquisitionDate = LocalDate.now();
 
     public AcquireSkillCommand(String developerId, String skillId) {
         this.developerId = developerId;
@@ -24,9 +23,5 @@ public class AcquireSkillCommand extends SelfValidating<AcquireSkillCommand> {
 
     public String getSkillId() {
         return skillId;
-    }
-
-    public LocalDate getAcquisitionDate() {
-        return acquisitionDate;
     }
 }
