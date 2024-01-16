@@ -2,45 +2,46 @@ package org.teamaker.developer.application.port.in;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
+
 import javax.validation.ConstraintViolationException;
+
 import java.time.LocalDate;
 
-public class ResignDeveloperCommandTest {
-    private static String validEmail;
-    private static String invalidEmail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class ResignDeveloperCommandTest {
+    private static String validDeveloperId;
     private static LocalDate validResignationDate;
 
     @BeforeAll
-    public static void setUp() {
-        validEmail = "john.doe@teamaker.com";
-        invalidEmail = "john.doeteamaker.com";
-        validResignationDate = LocalDate.of(2024, 6, 21);
+    static void setUp() {
+        validDeveloperId = "validDeveloperId";
+        validResignationDate = LocalDate.now().plusDays(3);
     }
 
     @Test
-    public void testConstructorValidData() {
-        ResignDeveloperCommand command = new ResignDeveloperCommand(validEmail, validResignationDate);
-        assertEquals(validEmail, command.getEmail());
-        assertEquals(validResignationDate, command.getResignationDate());
+    void testConstructor() {
+        ResignDeveloperCommand resignDeveloperCommand = new ResignDeveloperCommand(validDeveloperId, validResignationDate);
+        assertEquals(validDeveloperId, resignDeveloperCommand.getDeveloperId());
     }
 
     @Test
-    public void testConstructorEmptyEmail() {
+    void testConstructorNullDeveloperId() {
         assertThrows(ConstraintViolationException.class,
                 () -> new ResignDeveloperCommand(null, validResignationDate));
     }
 
     @Test
-    public void testConstructorEmptyResignationDate() {
+    void testConstructorNullResignationDate() {
         assertThrows(ConstraintViolationException.class,
-                () -> new ResignDeveloperCommand(validEmail, null));
+                () -> new ResignDeveloperCommand(validDeveloperId, null));
     }
 
     @Test
-    public void testConstructorInvalidEmail() {
+    void testConstructorPastResignationDate() {
         assertThrows(ConstraintViolationException.class,
-                () -> new ResignDeveloperCommand(invalidEmail, validResignationDate));
+                () -> new ResignDeveloperCommand(validDeveloperId, LocalDate.now().minusDays(1)));
     }
 }

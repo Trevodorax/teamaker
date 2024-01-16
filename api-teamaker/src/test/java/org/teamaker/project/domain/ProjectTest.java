@@ -2,7 +2,7 @@ package org.teamaker.project.domain;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.project.application.port.dto.ProjectResponse;
+import org.teamaker.project.domain.dto.ProjectResponse;
 
 import java.time.LocalDate;
 

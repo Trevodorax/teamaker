@@ -1,13 +1,14 @@
 package org.teamaker.developer.application;
 
 import org.springframework.stereotype.Component;
-import java.time.LocalDate;
-
-import org.teamaker.developer.application.port.in.HireDeveloperCommand;
-import org.teamaker.developer.application.port.in.HireDeveloperUseCase;
-import org.teamaker.developer.application.port.out.CreateDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperPort;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
+import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
+import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperUseCase;
+import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperCommand;
+import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperPort;
 import org.teamaker.developer.domain.Developer;
+
+import java.time.LocalDate;
 
 @Component
 class HireDeveloperService implements HireDeveloperUseCase {
@@ -17,9 +18,9 @@ class HireDeveloperService implements HireDeveloperUseCase {
         this.createDeveloperPort = createDeveloperPort;
     }
 
-    public Developer hireDeveloper(HireDeveloperCommand command) {
+    public DeveloperResponse hireDeveloper(HireDeveloperCommand command) {
         Developer createdDeveloper = createDeveloperPort.createDeveloper(new CreateDeveloperCommand(command.getFullName(), command.getEmail(), LocalDate.now()));
         // TODO: check if email is already taken
-        return createdDeveloper;
+        return createdDeveloper.toResponse();
     }
 }

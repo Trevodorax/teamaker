@@ -1,7 +1,7 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.project.application.port.dto.PostponeProjectResponse;
+import org.teamaker.project.domain.dto.PostponeProjectResponse;
 import org.teamaker.project.application.port.in.postponeProject.PostponeProjectCommand;
 import org.teamaker.project.application.port.in.postponeProject.PostponeProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;

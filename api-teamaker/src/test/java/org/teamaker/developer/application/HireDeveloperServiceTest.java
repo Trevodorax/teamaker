@@ -7,9 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import org.teamaker.developer.application.port.in.HireDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperCommand;
-import org.teamaker.developer.application.port.out.CreateDeveloperPort;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
+import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
+import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperCommand;
+import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperPort;
 import org.teamaker.developer.domain.Developer;
 
 import java.time.LocalDate;
@@ -26,14 +27,15 @@ public class HireDeveloperServiceTest {
 
     @Test
     public void testHireDeveloper() {
+        String mockDeveloperId = "867GVC876a";
         String mockName = "John DOE";
         String mockEmail = "john.doe@teamaker.com";
         HireDeveloperCommand command = new HireDeveloperCommand(mockName, mockEmail);
 
-        Developer expectedDeveloper = new Developer(mockName, mockEmail, LocalDate.now(), null);
+        Developer expectedDeveloper = new Developer(mockDeveloperId, mockName, mockEmail, LocalDate.now());
         when(createDeveloperPortMock.createDeveloper(any(CreateDeveloperCommand.class))).thenReturn(expectedDeveloper);
 
-        Developer result = hireDeveloperService.hireDeveloper(command);
+        DeveloperResponse result = hireDeveloperService.hireDeveloper(command);
 
         ArgumentCaptor<CreateDeveloperCommand> captor = ArgumentCaptor.forClass(CreateDeveloperCommand.class);
         verify(createDeveloperPortMock).createDeveloper(captor.capture());
@@ -41,6 +43,6 @@ public class HireDeveloperServiceTest {
 
         assertEquals(mockName, capturedCommand.getFullName());
         assertEquals(mockEmail, capturedCommand.getEmail());
-        assertEquals(expectedDeveloper, result);
+        assertEquals(expectedDeveloper.toResponse(), result);
     }
 }

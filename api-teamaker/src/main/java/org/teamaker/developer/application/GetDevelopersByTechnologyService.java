@@ -1,11 +1,11 @@
 package org.teamaker.developer.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.developer.application.dto.GetDevelopersByTechnologyResponse;
-import org.teamaker.developer.application.port.in.GetDevelopersByTechnologyCommand;
-import org.teamaker.developer.application.port.in.GetDevelopersByTechnologyUseCase;
-import org.teamaker.developer.application.port.out.FindDevelopersByTechnologyCommand;
-import org.teamaker.developer.application.port.out.FindDevelopersByTechnologyPort;
+import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyResponse;
+import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyCommand;
+import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyUseCase;
+import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyCommand;
+import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyPort;
 
 @Component
 class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCase {

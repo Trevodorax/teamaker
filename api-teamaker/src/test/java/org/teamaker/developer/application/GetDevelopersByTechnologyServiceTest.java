@@ -8,10 +8,11 @@ import org.mockito.ArgumentCaptor;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.teamaker.developer.application.dto.GetDevelopersByTechnologyResponse;
-import org.teamaker.developer.application.port.in.GetDevelopersByTechnologyCommand;
-import org.teamaker.developer.application.port.out.FindDevelopersByTechnologyCommand;
-import org.teamaker.developer.application.port.out.FindDevelopersByTechnologyPort;
+import org.teamaker.developer.domain.dto.DeveloperResponse;
+import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyResponse;
+import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyCommand;
+import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyCommand;
+import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyPort;
 import org.teamaker.developer.domain.Developer;
 
 public class GetDevelopersByTechnologyServiceTest {
@@ -28,9 +29,9 @@ public class GetDevelopersByTechnologyServiceTest {
     public void testGetDevelopersByTechnology() {
         String mockTechnologyId = "Technology Id";
         LocalDate mockDate = LocalDate.now();
-        List<Developer> mockDevelopers = List.of(
-                new Developer("Developer fullName", "Developer email", mockDate, null),
-                new Developer("Developer fullName 2", "Developer email 2", mockDate, null)
+        List<DeveloperResponse> mockDevelopers = List.of(
+                new Developer("867GVC876a", "Developer fullName", "Developer email", mockDate).toResponse(),
+                new Developer("867GVC876b", "Developer fullName 2", "Developer email 2", mockDate).toResponse()
         );
         GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyId);
 

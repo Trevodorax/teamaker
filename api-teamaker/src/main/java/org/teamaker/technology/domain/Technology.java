@@ -1,5 +1,7 @@
 package org.teamaker.technology.domain;
 
+import org.teamaker.technology.domain.dto.TechnologyResponse;
+
 public class Technology {
     private final String id;
     private final String name;
@@ -15,5 +17,9 @@ public class Technology {
 
     public String getId() {
         return id;
+    }
+
+    public TechnologyResponse toResponse() {
+        return new TechnologyResponse(this.id, this.name);
     }
 }
