@@ -19,11 +19,18 @@ public class Developer {
         this.hiringDate = hiringDate;
     }
 
-    public void resign() {
-        this.resignationDate = LocalDate.now();
+    public void resign(LocalDate resignationDate) {
+        this.resignationDate = resignationDate;
+    }
+
+    public DeveloperStatus getStatus() {
+        if (this.resignationDate == null || this.resignationDate.isAfter(LocalDate.now())) {
+            return DeveloperStatus.ACTIVE;
+        }
+        return DeveloperStatus.RESIGNED;
     }
 
     public DeveloperResponse toResponse() {
-        return new DeveloperResponse(this.developerId, this.fullName, this.email, this.hiringDate, this.resignationDate);
+        return new DeveloperResponse(this.developerId, this.fullName, this.email, this.hiringDate, this.resignationDate, this.getStatus());
     }
 }
