@@ -92,4 +92,12 @@ public class Project {
     public ProjectResponse toResponse() {
         return new ProjectResponse(this.projectId, this.name, this.description, this.status, this.priority, this.startDate, this.endDate, this.projectProgress());
     }
+
+    /**
+     * @param checkedProject Project for which we check if it is overlapping with this one
+     * @return Are the projects overlapping?
+     */
+    public boolean isOverlapping(Project checkedProject) {
+        return !(endDate.isBefore(checkedProject.startDate) || startDate.isAfter(checkedProject.endDate));
+    }
 }

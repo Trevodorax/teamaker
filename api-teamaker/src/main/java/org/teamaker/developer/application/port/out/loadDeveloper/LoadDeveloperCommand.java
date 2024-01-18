@@ -4,11 +4,11 @@ import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.NotNull;
 
-public class loadDeveloperCommand extends SelfValidating<loadDeveloperCommand> {
+public class LoadDeveloperCommand extends SelfValidating<LoadDeveloperCommand> {
     @NotNull
     private final String developerId;
 
-    public loadDeveloperCommand(String developerId) {
+    public LoadDeveloperCommand(String developerId) {
         this.developerId = developerId;
 
         this.validateSelf();
