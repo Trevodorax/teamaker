@@ -6,15 +6,15 @@ import javax.validation.constraints.NotNull;
 
 public class LoadTeamCommand extends SelfValidating<LoadTeamCommand> {
     @NotNull
-    private final String id;
+    private final String projectId;
 
-    public LoadTeamCommand(String id) {
-        this.id = id;
+    public LoadTeamCommand(String projectId) {
+        this.projectId = projectId;
 
         this.validateSelf();
     }
 
-    public String getId() {
-        return id;
+    public String getProjectId() {
+        return projectId;
     }
 }

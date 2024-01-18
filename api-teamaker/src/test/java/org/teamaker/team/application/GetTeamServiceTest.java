@@ -2,7 +2,6 @@ package org.teamaker.team.application;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -27,27 +26,26 @@ class GetTeamServiceTest {
         loadTeamPortMock = mock(LoadTeamPort.class);
         getTeamService = new GetTeamService(loadTeamPortMock);
     }
+
     @Test
-    public void testSubmitProject() {
+    public void testGetTeam() {
         // === given === //
         String mockId = "mock-id";
         GetTeamCommand command = new GetTeamCommand(mockId);
 
         // mock the injected command
-        Team expectedTeam = new Team("mock-id");
         Developer mockDeveloper1 = new Developer("mock-developer-id", "John McLane", "johnmcclane@test.com", LocalDate.now().minusDays(1));
         Developer mockDeveloper2 = new Developer("mock-developer-id", "Jane McLane", "janemcclane@test.com", LocalDate.now().minusDays(10));
-        List<Developer> expectedDevelopers = List.of(mockDeveloper1, mockDeveloper2);
-        when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(expectedDevelopers);
+        List<Developer> givenDevelopers = List.of(mockDeveloper1, mockDeveloper2);
+        Team targettedTeam = new Team(mockId, givenDevelopers);
+
+        when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(targettedTeam);
 
         // === when === //
         List<DeveloperResponse> result = getTeamService.getTeam(command);
 
         // === then === //
-        ArgumentCaptor<LoadTeamCommand> captor = ArgumentCaptor.forClass(LoadTeamCommand.class);
-        verify(loadTeamPortMock).loadTeam(captor.capture());
-        LoadTeamCommand capturedCommand = captor.getValue();
-
-        assertEquals(mockId, capturedCommand.getId());
+        List<DeveloperResponse> developerResponses = givenDevelopers.stream().map(Developer::toResponse).toList();
+        assertEquals(result, developerResponses);
     }
 }

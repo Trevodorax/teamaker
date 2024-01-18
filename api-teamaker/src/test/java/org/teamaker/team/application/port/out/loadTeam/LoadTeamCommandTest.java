@@ -16,7 +16,7 @@ class LoadTeamCommandTest {
     @Test
     public void testConstructorValidData() {
         LoadTeamCommand command = new LoadTeamCommand(validTeamId);
-        assertEquals(validTeamId, command.getId());
+        assertEquals(validTeamId, command.getProjectId());
     }
 
     @Test
