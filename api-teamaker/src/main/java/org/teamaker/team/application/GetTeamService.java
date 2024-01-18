@@ -18,7 +18,8 @@ public class GetTeamService implements GetTeamUseCase {
 
     @Override
     public List<DeveloperResponse> getTeam(GetTeamCommand command) {
-        return loadTeamPort.loadTeam(new LoadTeamCommand(command.getTeamId()))
+        return loadTeamPort.loadTeam(new LoadTeamCommand(command.getProjectId()))
+                .getDevelopers()
                 .stream()
                 .map(Developer::toResponse)
                 .toList();

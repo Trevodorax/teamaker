@@ -1,13 +1,23 @@
 package org.teamaker.team.domain;
 
-public class Team {
-    private final String id;
+import org.teamaker.developer.domain.Developer;
 
-    public Team(String id) {
-        this.id = id;
+import java.util.List;
+
+public class Team {
+    private final String projectId;
+    private final List<Developer> developers;
+
+    public Team(String projectId, List<Developer> developers) {
+        this.projectId = projectId;
+        this.developers = developers;
     }
 
-    public String getId() {
-        return id;
+    public List<Developer> getDevelopers() {
+        return developers;
+    }
+
+    public String getProjectId() {
+        return projectId;
     }
 }
