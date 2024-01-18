@@ -164,8 +164,8 @@ public class ProjectTest {
     @Test
     public void isOverlapping_False() {
         Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
-                LocalDate.of(2024, 1, 1),  // Set a start date
-                LocalDate.of(2024, 1, 10)  // Set an end date
+                LocalDate.of(2024, 1, 1),
+                LocalDate.of(2024, 1, 10)
         );
 
         Project nonOverlappingProject = new Project("id2", "name2", "description2", ProjectPriority.NORMAL, ProjectStatus.PENDING,
