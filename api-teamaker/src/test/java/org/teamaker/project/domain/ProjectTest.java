@@ -6,7 +6,7 @@ import org.teamaker.project.domain.dto.ProjectResponse;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectTest {
 
@@ -135,5 +135,53 @@ public class ProjectTest {
         assertEquals(project.getStartDate(), projectResponse.startDate());
         assertEquals(project.getEndDate(), projectResponse.endDate());
         assertEquals(project.projectProgress(), projectResponse.progress());
+    }
+
+    @Test
+    public void isOverlapping_True() {
+        Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
+                LocalDate.of(2024, 1, 1),
+                LocalDate.of(2024, 1, 10)
+        );
+
+        Project overlappingProject = new Project("id2", "name2", "description2", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
+                LocalDate.of(2024, 1, 5),
+                LocalDate.of(2024, 1, 15)
+        );
+
+        Project overlappingProject2 = new Project("id3", "name3", "description3", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
+                LocalDate.of(2024, 1, 7),
+                LocalDate.of(2024, 1, 12)
+        );
+
+        boolean result1 = testProject.isOverlapping(overlappingProject);
+        boolean result2 = testProject.isOverlapping(overlappingProject2);
+
+        assertTrue(result1);
+        assertTrue(result2);
+    }
+
+    @Test
+    public void isOverlapping_False() {
+        Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
+                LocalDate.of(2024, 1, 1),  // Set a start date
+                LocalDate.of(2024, 1, 10)  // Set an end date
+        );
+
+        Project nonOverlappingProject = new Project("id2", "name2", "description2", ProjectPriority.NORMAL, ProjectStatus.PENDING,
+                LocalDate.of(2024, 1, 11),
+                LocalDate.of(2024, 1, 15)
+        );
+
+        Project nonOverlappingProject2 = new Project("id3", "name3",  "description3", ProjectPriority.NORMAL, ProjectStatus.PENDING,
+                LocalDate.of(2023, 12, 25),
+                LocalDate.of(2023, 12, 31)
+        );
+
+        boolean result1 = testProject.isOverlapping(nonOverlappingProject);
+        boolean result2 = testProject.isOverlapping(nonOverlappingProject2);
+
+        assertFalse(result1);
+        assertFalse(result2);
     }
 }
