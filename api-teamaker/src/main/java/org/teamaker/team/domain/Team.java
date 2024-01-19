@@ -60,7 +60,6 @@ public class Team {
     public List<String> getTeamProblems(Project teamProject) {
         ArrayList<String> teamProblems = new ArrayList<>();
 
-        // TODO: implement this
         if(this.developers.size() < 3) {
             teamProblems.add("Not enough developers in team.");
         }
