@@ -94,4 +94,27 @@ class DeveloperTest {
         assertThrows(IllegalStateException.class,
                 () -> developer.addProject(addedProject));
     }
+
+    @Test
+    public void testGetExperienceLevel_Junior() {
+        LocalDate hiringDate = LocalDate.now().minusYears(2); // Hiring date 2 years ago
+        Developer developer = new Developer("123", "John Doe", "john@example.com", hiringDate);
+        assertEquals(ExperienceLevel.JUNIOR, developer.getExperienceLevel());
+    }
+
+    @Test
+    public void testGetExperienceLevel_Experienced() {
+        LocalDate hiringDate = LocalDate.now().minusYears(4); // Hiring date 4 years ago
+        Developer developer = new Developer("456", "Jane Smith", "jane@example.com", hiringDate);
+        assertEquals(ExperienceLevel.EXPERIENCED, developer.getExperienceLevel());
+    }
+
+    @Test
+    public void testGetExperienceLevel_Expert() {
+        LocalDate hiringDate = LocalDate.now().minusYears(6); // Hiring date 6 years ago
+        Developer developer = new Developer("789", "Bob Johnson", "bob@example.com", hiringDate);
+        assertEquals(ExperienceLevel.EXPERT, developer.getExperienceLevel());
+    }
+
+
 }

@@ -4,6 +4,7 @@ import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.domain.Project;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 public class Developer {
@@ -68,5 +69,19 @@ public class Developer {
 
     public DeveloperResponse toResponse() {
         return new DeveloperResponse(this.developerId, this.fullName, this.email, this.hiringDate, this.resignationDate, this.getStatus());
+    }
+
+    public ExperienceLevel getExperienceLevel() {
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(this.hiringDate, currentDate);
+        int yearsOfExperience = period.getYears();
+
+        if (yearsOfExperience >= 0 && yearsOfExperience <= 3) {
+            return ExperienceLevel.JUNIOR;
+        } else if (yearsOfExperience > 3 && yearsOfExperience <= 5) {
+            return ExperienceLevel.EXPERIENCED;
+        } else {
+            return ExperienceLevel.EXPERT;
+        }
     }
 }
