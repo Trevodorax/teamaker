@@ -37,6 +37,10 @@ public class Developer {
         return DeveloperStatus.RESIGNED;
     }
 
+    public String getDeveloperId() {
+        return developerId;
+    }
+
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }

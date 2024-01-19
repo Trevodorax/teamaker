@@ -95,6 +95,37 @@ public class Team {
         return isLocked;
     }
 
+    /**
+     * @param developerId id of the developer we are trying to remove
+     *
+     * @return Team rules broken if there were any (if so, the dev isn't removed)
+     * @throws IllegalStateException If the devs haven't been loaded in the team
+     */
+    public List<String> removeDeveloperById(String developerId, Project teamProject) throws IllegalStateException {
+        if (this.getDevelopers() == null) {
+            throw new IllegalStateException("Please load the developers in the team before editing them.");
+        }
+
+        // to revert in case of failure
+        List<Developer> originalDevelopers = new ArrayList<>(this.getDevelopers());
+
+        this.getDevelopers().removeIf(developer -> developer.getDeveloperId().equals(developerId));
+
+        if (!isLocked()) {
+            return null;
+        }
+
+        // check that the removal didn't break any rules
+        List<String> problems = this.getTeamProblems(teamProject);
+        if (!problems.isEmpty()) {
+            this.getDevelopers().clear();
+            this.getDevelopers().addAll(originalDevelopers);
+            return problems;
+        }
+
+        return null;
+    }
+
     private int countDevelopersWithLevelOfExperience(ExperienceLevel level) {
         int count = 0;
         for (Developer developer : this.developers) {

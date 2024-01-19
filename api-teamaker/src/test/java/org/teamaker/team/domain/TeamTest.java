@@ -244,13 +244,52 @@ class TeamTest {
         }
     }
 
+    @Nested
+    @DisplayName("removeDeveloper")
+    class RemoveDeveloper {
+        @Test
+        public void testRemoveDeveloper_SuccessLocked() {
+            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = getDevelopersForValidTeam();
+            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
+            Team team = new Team(project.getProjectId(), developers, true);
+
+            team.removeDeveloperById("removed", project);
+
+            assertEquals(3, team.getDevelopers().size());
+        }
+        @Test
+        public void testRemoveDeveloper_SuccessNotLocked() {
+            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = new ArrayList<>();
+            developers.add(new Developer("safe", "i'm safe", "cheh@gmail.com", LocalDate.of(2022, 1, 1)));
+            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
+            Team team = new Team(project.getProjectId(), developers, false);
+
+            team.removeDeveloperById("removed", project);
+
+            assertEquals(1, team.getDevelopers().size());
+        }
+
+        @Test
+        public void testRemoveDeveloper_Failure() {
+            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = getDevelopersForValidTeam();
+            Team team = new Team(project.getProjectId(), developers, true);
+
+            List<String> response = team.removeDeveloperById("dev1", project);
+
+            assertFalse(response.isEmpty());
+            assertEquals(3, team.getDevelopers().size());
+        }
+    }
+
     private List<Developer> getDevelopersForValidTeam() {
         ArrayList<Developer> developers = new ArrayList<>();
 
         developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2019, 1, 1)));
         developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2019, 1, 1)));
         developers.add(new Developer("dev3", "Anaelle", "p@gmail.com", LocalDate.of(2019, 1, 1)));
-        developers.add(new Developer("dev4", "Jean", "p@gmail.com", LocalDate.of(2019, 1, 1)));
 
         return developers;
     }
