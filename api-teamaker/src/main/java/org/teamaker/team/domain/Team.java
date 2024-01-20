@@ -6,10 +6,18 @@ import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 
 import java.time.Duration;
+import java.time.Period;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
+    private static final int MAX_NB_DEVS = 8;
+    private static final int MIN_NB_DEVS = 3;
+    private static final int MAX_NB_JUNIORS = 3;
+    private static final int MIN_NB_DEVS_FOR_EXPERT = 5;
+    private static final Duration LONG_PROJECT_DURATION = Duration.ofDays(Period.ofMonths(6).plusDays(1).toTotalMonths() * 30);
+
     private final String projectId;
     private final List<Developer> developers;
     private boolean isLocked; // a locked team is a valid team for which the rules can't change anymore
@@ -60,11 +68,11 @@ public class Team {
     public List<String> getTeamProblems(Project teamProject) {
         ArrayList<String> teamProblems = new ArrayList<>();
 
-        if(this.developers.size() < 3) {
+        if(this.developers.size() < MIN_NB_DEVS) {
             teamProblems.add("Not enough developers in team.");
         }
 
-        if(this.developers.size() > 8) {
+        if(this.developers.size() > MAX_NB_DEVS) {
             teamProblems.add("Too many developers in team.");
         }
 
@@ -73,19 +81,19 @@ public class Team {
             teamProblems.add("Cannot have a junior without an expert in a team.");
         }
 
-        if(this.countDevelopersWithLevelOfExperience(ExperienceLevel.JUNIOR) > 3) {
-            teamProblems.add("Cannot have more than 3 juniors in a team.");
+        if(this.countDevelopersWithLevelOfExperience(ExperienceLevel.JUNIOR) > MAX_NB_JUNIORS) {
+            teamProblems.add("Cannot have more than " + MAX_NB_JUNIORS + " juniors in a team.");
         }
 
-        if(teamProject.getDuration().compareTo(Duration.ofDays(30 * 6)) > 0
+        if(teamProject.getDuration().compareTo(LONG_PROJECT_DURATION) > 0
                 && this.countDevelopersWithLevelOfExperience(ExperienceLevel.EXPERT) == 0) {
             teamProblems.add("Cannot do a project longer than 6 months without an expert in the team.");
         }
 
-        if(this.developers.size() < 5
+        if(this.developers.size() < MIN_NB_DEVS_FOR_EXPERT
                 && this.countDevelopersWithLevelOfExperience(ExperienceLevel.EXPERT) > 0
                 && teamProject.getPriority() != ProjectPriority.CRITICAL) {
-            teamProblems.add("An expert cannot be in a team of less than 5 developers unless it is a critical project.");
+            teamProblems.add("An expert cannot be in a team of less than " + MIN_NB_DEVS_FOR_EXPERT + " developers unless it is a critical project.");
         }
 
         return teamProblems;
