@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.teamaker.project.domain.dto.ProjectResponse;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -183,5 +184,17 @@ public class ProjectTest {
 
         assertFalse(result1);
         assertFalse(result2);
+    }
+
+    @Test
+    public void testGetDuration() {
+        Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
+                LocalDate.of(2022, 1, 1),
+                LocalDate.of(2022, 12, 31)
+        );
+
+        Duration duration = testProject.getDuration();
+
+        assertEquals(364, duration.toDays());
     }
 }

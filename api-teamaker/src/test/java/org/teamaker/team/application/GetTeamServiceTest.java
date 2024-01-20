@@ -37,7 +37,7 @@ class GetTeamServiceTest {
         Developer mockDeveloper1 = new Developer("mock-developer-id", "John McLane", "johnmcclane@test.com", LocalDate.now().minusDays(1));
         Developer mockDeveloper2 = new Developer("mock-developer-id", "Jane McLane", "janemcclane@test.com", LocalDate.now().minusDays(10));
         List<Developer> givenDevelopers = List.of(mockDeveloper1, mockDeveloper2);
-        Team targettedTeam = new Team(mockId, givenDevelopers);
+        Team targettedTeam = new Team(mockId, givenDevelopers, false);
 
         when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(targettedTeam);
 

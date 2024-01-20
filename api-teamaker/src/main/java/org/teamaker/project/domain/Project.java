@@ -2,6 +2,7 @@ package org.teamaker.project.domain;
 
 import org.teamaker.project.domain.dto.ProjectResponse;
 
+import java.time.Duration;
 import java.time.LocalDate;
 
 public class Project {
@@ -99,5 +100,9 @@ public class Project {
      */
     public boolean isOverlapping(Project checkedProject) {
         return !(endDate.isBefore(checkedProject.startDate) || startDate.isAfter(checkedProject.endDate));
+    }
+
+    public Duration getDuration() {
+        return Duration.between(startDate.atStartOfDay(), endDate.atStartOfDay());
     }
 }
