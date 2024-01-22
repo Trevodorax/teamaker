@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 public class LoadPossibleDevelopersForProjectCommand extends SelfValidating<LoadPossibleDevelopersForProjectCommand> {
     @NotNull
-    String projectId;
+    private final String projectId;
 
     public LoadPossibleDevelopersForProjectCommand(String projectId) {
         this.projectId = projectId;
