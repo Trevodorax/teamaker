@@ -11,5 +11,5 @@ public interface LoadTeamChangeRequestPort {
      * @return The team change request
      * @throws IllegalArgumentException If the team change request is not found
      */
-    TeamChangeRequest loadTeamChangeRequest(LoadDeveloperTeamChangeRequestsCommand command) throws IllegalArgumentException;
+    TeamChangeRequest loadTeamChangeRequest(LoadTeamChangeRequestCommand command) throws IllegalArgumentException;
 }
