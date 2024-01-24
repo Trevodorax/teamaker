@@ -1,6 +1,8 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
+import org.teamaker.project.application.port.in.getNextProject.GetNextProjectResponse;
+import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoResponse;
 import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoCommand;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoUseCase;
@@ -21,11 +23,11 @@ public class UpdateProjectInfoService implements UpdateProjectInfoUseCase {
     }
 
     @Override
-    public ProjectResponse updateProjectInfo(UpdateProjectInfoCommand command) {
+    public UpdateProjectInfoResponse.Response updateProjectInfo(UpdateProjectInfoCommand command) {
         Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
         project.updateInfo(command.getName(), command.getDescription(), command.getPriority());
 
         Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
-        return modifiedProject.toResponse();
+        return new UpdateProjectInfoResponse.SuccessResponse(modifiedProject.toResponse());
     }
 }
