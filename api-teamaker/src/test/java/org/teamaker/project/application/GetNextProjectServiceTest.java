@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.teamaker.project.application.port.in.getNextProject.GetNextProjectResponse;
 import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
 import org.teamaker.project.domain.Project;
@@ -13,8 +14,7 @@ import org.teamaker.project.domain.ProjectStatus;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class GetNextProjectServiceTest {
@@ -39,19 +39,20 @@ class GetNextProjectServiceTest {
 
         when(findNextProjectMock.findNextProject()).thenReturn(expectedProject);
 
-        ProjectResponse result = getNextProjectService.getNextProject();
+        GetNextProjectResponse.Response result = getNextProjectService.getNextProject();
 
         verify(findNextProjectMock).findNextProject();
-        assertEquals(expectedProject.toResponse(), result);
+        assertInstanceOf(GetNextProjectResponse.SuccessResponse.class, result);
+        assertEquals(expectedProject.toResponse(), ((GetNextProjectResponse.SuccessResponse) result).project());
     }
 
     @Test
     public void testGetNextProjectNotFound() {
         when(findNextProjectMock.findNextProject()).thenThrow(new NoSuchElementException("Aucun futur projet trouvé"));
 
-        assertThrows(NoSuchElementException.class, () -> {
-            getNextProjectService.getNextProject();
-        });
+        GetNextProjectResponse.Response result = getNextProjectService.getNextProject();
+
         verify(findNextProjectMock).findNextProject();
+        assertEquals(result, new GetNextProjectResponse.ErrorResponse("Aucun futur projet trouvé"));
     }
 }
