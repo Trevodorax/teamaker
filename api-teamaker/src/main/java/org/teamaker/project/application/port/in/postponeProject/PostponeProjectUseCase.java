@@ -1,7 +1,5 @@
 package org.teamaker.project.application.port.in.postponeProject;
 
-import org.teamaker.project.domain.dto.PostponeProjectDtoResponse;
-
 public interface PostponeProjectUseCase {
     /**
      * Postpone a project

@@ -1,7 +1,5 @@
 package org.teamaker.project.application.port.in.treatProject;
 
-import org.teamaker.project.domain.dto.TreatProjectDtoResponse;
-
 public interface TreatProjectUseCase {
     /**
      * Change the status of a project
