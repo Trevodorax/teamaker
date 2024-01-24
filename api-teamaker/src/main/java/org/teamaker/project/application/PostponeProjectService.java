@@ -1,7 +1,8 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.project.domain.dto.PostponeProjectResponse;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectResponse;
+import org.teamaker.project.domain.dto.PostponeProjectDtoResponse;
 import org.teamaker.project.application.port.in.postponeProject.PostponeProjectCommand;
 import org.teamaker.project.application.port.in.postponeProject.PostponeProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
@@ -22,7 +23,7 @@ public class PostponeProjectService implements PostponeProjectUseCase {
     }
 
     @Override
-    public PostponeProjectResponse postponeProject(PostponeProjectCommand command) {
+    public PostponeProjectResponse.Response postponeProject(PostponeProjectCommand command) {
         Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
         if (project.getStatus() != ProjectStatus.PENDING) {
             throw new IllegalStateException("Project cannot be postponed if it is not pending");
@@ -36,6 +37,6 @@ public class PostponeProjectService implements PostponeProjectUseCase {
 
         Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
 
-        return new PostponeProjectResponse(modifiedProject.getProjectId(), modifiedProject.getStartDate(), modifiedProject.getEndDate());
+        return new PostponeProjectResponse.SuccessResponse(new PostponeProjectDtoResponse(modifiedProject.getProjectId(), modifiedProject.getStartDate(), modifiedProject.getEndDate()));
     }
 }

@@ -1,6 +1,6 @@
 package org.teamaker.developer.application;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
@@ -20,8 +20,8 @@ public class HireDeveloperServiceTest {
     private static CreateDeveloperPort createDeveloperPortMock;
     private static HireDeveloperService hireDeveloperService;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         createDeveloperPortMock = mock(CreateDeveloperPort.class);
         hireDeveloperService = new HireDeveloperService(createDeveloperPortMock);
     }

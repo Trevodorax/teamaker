@@ -1,9 +1,9 @@
 package org.teamaker.project.application;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.teamaker.project.application.port.in.postponeProject.PostponeProjectCommand;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectResponse;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
@@ -14,8 +14,7 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,8 +23,8 @@ public class PostponeProjectServiceTest {
     private static LoadProjectPort loadProjectPortMock;
     private static PostponeProjectService postponeProjectService;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         saveProjectPortMock = mock(SaveProjectPort.class);
         loadProjectPortMock = mock(LoadProjectPort.class);
         postponeProjectService = new PostponeProjectService(saveProjectPortMock, loadProjectPortMock);
@@ -46,15 +45,17 @@ public class PostponeProjectServiceTest {
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);
-        postponeProjectService.postponeProject(command);
 
-        ArgumentCaptor<SaveProjectCommand> captor = ArgumentCaptor.forClass(SaveProjectCommand.class);
-        verify(saveProjectPortMock).saveProject(captor.capture());
-        SaveProjectCommand capturedCommand = captor.getValue();
+        PostponeProjectResponse.Response response = postponeProjectService.postponeProject(command);
 
-        assertEquals(mockId, capturedCommand.getProject().getProjectId());
-        assertEquals(mockNewStartDate, capturedCommand.getProject().getStartDate());
-        assertEquals(mockNewEndDate, capturedCommand.getProject().getEndDate());
+        verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
+        verify(saveProjectPortMock).saveProject(any(SaveProjectCommand.class));
+
+        assertInstanceOf(PostponeProjectResponse.SuccessResponse.class, response);
+
+        assertEquals(expectedProject.getProjectId(), ((PostponeProjectResponse.SuccessResponse) response).project().projectId());
+        assertEquals(expectedProject.getStartDate(), ((PostponeProjectResponse.SuccessResponse) response).project().newStartDate());
+        assertEquals(expectedProject.getEndDate(), ((PostponeProjectResponse.SuccessResponse) response).project().newEndDate());
     }
 
     @Test
@@ -69,6 +70,10 @@ public class PostponeProjectServiceTest {
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);
+
         assertThrows(IllegalStateException.class, () -> postponeProjectService.postponeProject(command));
+
+        verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
+        verify(saveProjectPortMock, never()).saveProject(any(SaveProjectCommand.class));
     }
 }

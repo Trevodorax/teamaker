@@ -1,7 +1,7 @@
 package org.teamaker.project.application.port.in.postponeProject;
 
-import org.teamaker.project.domain.dto.PostponeProjectResponse;
+import org.teamaker.project.domain.dto.PostponeProjectDtoResponse;
 
 public interface PostponeProjectUseCase {
-    PostponeProjectResponse postponeProject(PostponeProjectCommand command);
+    PostponeProjectResponse.Response postponeProject(PostponeProjectCommand command) throws IllegalStateException;
 }
