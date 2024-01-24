@@ -3,6 +3,7 @@ package org.teamaker.technology.application;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
+import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesResponse;
 import org.teamaker.technology.application.port.out.loadTechnologies.LoadTechnologiesPort;
 import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesUseCase;
 import org.teamaker.technology.domain.Technology;
@@ -16,7 +17,10 @@ class GetTechnologiesService implements GetTechnologiesUseCase{
     }
 
     @Override
-    public List<Technology> getTechnologies() {
-        return loadTechnologiesPort.loadTechnologies();
+    public GetTechnologiesResponse.Response getTechnologies() {
+        return new GetTechnologiesResponse.SuccessResponse(loadTechnologiesPort.loadTechnologies()
+                .stream()
+                .map(Technology::toResponse)
+                .toList());
     }
 }

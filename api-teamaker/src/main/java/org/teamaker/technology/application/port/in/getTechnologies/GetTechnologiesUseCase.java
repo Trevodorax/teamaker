@@ -1,9 +1,10 @@
 package org.teamaker.technology.application.port.in.getTechnologies;
 
+import org.teamaker.technology.domain.Technology;
+import org.teamaker.technology.domain.dto.TechnologyResponse;
+
 import java.util.List;
 
-import org.teamaker.technology.domain.Technology;
-
 public interface GetTechnologiesUseCase {
-    public List<Technology> getTechnologies();
+    GetTechnologiesResponse.Response getTechnologies();
 }
