@@ -6,9 +6,6 @@ import org.teamaker.project.domain.Project;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.teamaker.project.domain.ProjectStatus.ACCEPTED;
-import static org.teamaker.team.domain.TeamRequestStatus.REFUSED;
-
 public class TeamChangeRequest {
     private final String id;
     private final String developerId;
@@ -57,7 +54,7 @@ public class TeamChangeRequest {
 
                 // execute switch
                 fromProject.removeDeveloperById(developerId, false);
-                toProject.addDeveloper(developer, true);
+                toProject.addDeveloper(developer, false);
 
                 this.status = TeamRequestStatus.ACCEPTED;
             }
