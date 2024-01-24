@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
-import org.mockito.ArgumentCaptor;
 
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyResponse;
 import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyCommand;
 import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyPort;
 import org.teamaker.technology.domain.Technology;
@@ -30,13 +30,11 @@ public class AddTechnologyServiceTest {
         Technology expectedTechnology = new Technology(mockId, mockName);
         when(createTechnologyPortMock.createTechnology(any(CreateTechnologyCommand.class))).thenReturn(expectedTechnology);
 
-        Technology result = addTechnologyService.addTechnology(command);
+        AddTechnologyResponse.Response result = addTechnologyService.addTechnology(command);
 
-        ArgumentCaptor<CreateTechnologyCommand> captor = ArgumentCaptor.forClass(CreateTechnologyCommand.class);
-        verify(createTechnologyPortMock).createTechnology(captor.capture());
-        CreateTechnologyCommand capturedCommand = captor.getValue();
+        assertInstanceOf(AddTechnologyResponse.SuccessResponse.class, result);
 
-        assertEquals(mockName, capturedCommand.getName());
-        assertEquals(expectedTechnology, result);
+        assertEquals(expectedTechnology.getTechnologyId(), ((AddTechnologyResponse.SuccessResponse) result).technology().technologyId());
+        assertEquals(expectedTechnology.getName(), ((AddTechnologyResponse.SuccessResponse) result).technology().name());
     }
 }

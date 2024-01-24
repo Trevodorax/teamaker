@@ -3,6 +3,7 @@ package org.teamaker.technology.application;
 import org.springframework.stereotype.Component;
 
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyResponse;
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyUseCase;
 import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyCommand;
 import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyPort;
@@ -17,9 +18,11 @@ class AddTechnologyService implements AddTechnologyUseCase {
     }
 
     @Override
-    public Technology addTechnology(AddTechnologyCommand command) {
-        Technology createdTechnology = createTechnologyPort.createTechnology(new CreateTechnologyCommand(command.getName()));
+    public AddTechnologyResponse.Response addTechnology(AddTechnologyCommand command) {
+        Technology createdTechnology = createTechnologyPort.createTechnology(
+                new CreateTechnologyCommand(command.getName())
+        );
 
-        return createdTechnology;
+        return new AddTechnologyResponse.SuccessResponse(createdTechnology.toResponse());
     }
 }
