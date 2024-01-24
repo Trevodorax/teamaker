@@ -1,4 +1,4 @@
-package org.teamaker.technology.application.port.in;
+package org.teamaker.technology.application.port.in.addTechnology;
 
 import org.teamaker.technology.domain.Technology;
 

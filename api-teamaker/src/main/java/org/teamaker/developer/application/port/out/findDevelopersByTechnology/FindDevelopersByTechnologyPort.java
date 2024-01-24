@@ -1,6 +1,5 @@
-package org.teamaker.developer.application.port.out.findDeveloperByTechnology;
+package org.teamaker.developer.application.port.out.findDevelopersByTechnology;
 
-import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 import java.util.List;

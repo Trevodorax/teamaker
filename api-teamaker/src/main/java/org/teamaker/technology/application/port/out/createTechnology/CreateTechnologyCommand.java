@@ -1,4 +1,4 @@
-package org.teamaker.technology.application.port.out;
+package org.teamaker.technology.application.port.out.createTechnology;
 
 import javax.validation.constraints.NotNull;
 

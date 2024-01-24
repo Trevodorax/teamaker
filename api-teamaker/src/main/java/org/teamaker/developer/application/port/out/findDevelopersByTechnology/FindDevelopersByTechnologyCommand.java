@@ -1,4 +1,4 @@
-package org.teamaker.developer.application.port.out.findDeveloperByTechnology;
+package org.teamaker.developer.application.port.out.findDevelopersByTechnology;
 
 import org.teamaker.shared.validation.SelfValidating;
 

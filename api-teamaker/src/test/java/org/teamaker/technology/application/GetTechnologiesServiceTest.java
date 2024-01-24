@@ -1,22 +1,23 @@
 package org.teamaker.technology.application;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.teamaker.technology.application.port.out.LoadTechnologiesPort;
+import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesResponse;
+import org.teamaker.technology.application.port.out.loadTechnologies.LoadTechnologiesPort;
 import org.teamaker.technology.domain.Technology;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.*;
 
 public class GetTechnologiesServiceTest {
     private static LoadTechnologiesPort loadTechnologiesPortMock;
     private static GetTechnologiesService getTechnologiesService;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         loadTechnologiesPortMock = mock(LoadTechnologiesPort.class);
         getTechnologiesService = new GetTechnologiesService(loadTechnologiesPortMock);
     }
@@ -31,9 +32,27 @@ public class GetTechnologiesServiceTest {
 
         when(loadTechnologiesPortMock.loadTechnologies()).thenReturn(expectedTechnologies);
 
-        List<Technology> result = getTechnologiesService.getTechnologies();
+        GetTechnologiesResponse.Response result = getTechnologiesService.getTechnologies();
 
         verify(loadTechnologiesPortMock).loadTechnologies();
-        assertEquals(expectedTechnologies, result);
+        assertInstanceOf(GetTechnologiesResponse.SuccessResponse.class, result);
+        assertEquals(expectedTechnologies.stream().map(Technology::toResponse).toList(), ((GetTechnologiesResponse.SuccessResponse) result).technologies());
+
+        assertEquals(expectedTechnologies.size(), ((GetTechnologiesResponse.SuccessResponse) result).technologies().size());
+    }
+
+    @Test
+    public void testGetTechnologiesEmpty() {
+        List<Technology> expectedTechnologies = List.of();
+
+        when(loadTechnologiesPortMock.loadTechnologies()).thenReturn(expectedTechnologies);
+
+        GetTechnologiesResponse.Response result = getTechnologiesService.getTechnologies();
+
+        verify(loadTechnologiesPortMock).loadTechnologies();
+        assertInstanceOf(GetTechnologiesResponse.SuccessResponse.class, result);
+        assertEquals(List.of(), ((GetTechnologiesResponse.SuccessResponse) result).technologies());
+
+        assertEquals(0, ((GetTechnologiesResponse.SuccessResponse) result).technologies().size());
     }
 }

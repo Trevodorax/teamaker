@@ -6,9 +6,9 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 import org.mockito.ArgumentCaptor;
 
-import org.teamaker.technology.application.port.in.AddTechnologyCommand;
-import org.teamaker.technology.application.port.out.CreateTechnologyCommand;
-import org.teamaker.technology.application.port.out.CreateTechnologyPort;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
+import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyCommand;
+import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyPort;
 import org.teamaker.technology.domain.Technology;
 
 public class AddTechnologyServiceTest {

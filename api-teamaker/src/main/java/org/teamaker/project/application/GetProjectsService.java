@@ -16,13 +16,9 @@ public class GetProjectsService implements GetProjectsUseCase {
 
     @Override
     public GetProjectsResponse.Response getProjects() {
-        try {
-            return new GetProjectsResponse.SuccessResponse(loadProjectsPort.loadProjects()
-                    .stream()
-                    .map(Project::toResponse)
-                    .toList());
-        } catch (Exception exception) {
-            return new GetProjectsResponse.ErrorResponse(exception.getMessage());
-        }
+        return new GetProjectsResponse.SuccessResponse(loadProjectsPort.loadProjects()
+                .stream()
+                .map(Project::toResponse)
+                .toList());
     }
 }
