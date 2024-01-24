@@ -14,7 +14,8 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -64,7 +65,10 @@ public class TreatProjectServiceTest {
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         TreatProjectCommand command = new TreatProjectCommand(mockId, status);
-        assertThrows(IllegalStateException.class, () -> treatProjectService.treatProject(command));
+        TreatProjectResponse.Response response = treatProjectService.treatProject(command);
+
+        assertInstanceOf(TreatProjectResponse.ErrorResponse.class, response);
+        assertEquals("Project cannot be treated if it is not pending", ((TreatProjectResponse.ErrorResponse) response).message());
 
         verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
         verify(saveProjectPortMock, never()).saveProject(any(SaveProjectCommand.class));

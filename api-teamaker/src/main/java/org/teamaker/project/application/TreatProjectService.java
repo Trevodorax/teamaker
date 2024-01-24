@@ -26,7 +26,7 @@ public class TreatProjectService implements TreatProjectUseCase {
     public TreatProjectResponse.Response treatProject(TreatProjectCommand command) {
         Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
         if (project.getStatus() != ProjectStatus.PENDING) {
-            throw new IllegalStateException("Project cannot be treated if it is not pending");
+            return new TreatProjectResponse.ErrorResponse("Project cannot be treated if it is not pending");
         }
         project.treat(command.getStatus());
 

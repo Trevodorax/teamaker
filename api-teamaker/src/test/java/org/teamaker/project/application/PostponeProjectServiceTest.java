@@ -14,7 +14,8 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -71,7 +72,10 @@ public class PostponeProjectServiceTest {
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);
 
-        assertThrows(IllegalStateException.class, () -> postponeProjectService.postponeProject(command));
+        PostponeProjectResponse.Response response = postponeProjectService.postponeProject(command);
+
+        assertInstanceOf(PostponeProjectResponse.ErrorResponse.class, response);
+        assertEquals("Project cannot be postponed if it is not pending", ((PostponeProjectResponse.ErrorResponse) response).errorMessage());
 
         verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
         verify(saveProjectPortMock, never()).saveProject(any(SaveProjectCommand.class));

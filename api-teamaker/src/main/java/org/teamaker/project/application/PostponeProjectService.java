@@ -26,7 +26,7 @@ public class PostponeProjectService implements PostponeProjectUseCase {
     public PostponeProjectResponse.Response postponeProject(PostponeProjectCommand command) {
         Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
         if (project.getStatus() != ProjectStatus.PENDING) {
-            throw new IllegalStateException("Project cannot be postponed if it is not pending");
+            return new PostponeProjectResponse.ErrorResponse("Project cannot be postponed if it is not pending");
         }
 
         if (command.getNewEndDate() == null) {
