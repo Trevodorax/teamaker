@@ -1,7 +1,8 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.project.domain.dto.TreatProjectResponse;
+import org.teamaker.project.application.port.in.treatProject.TreatProjectResponse;
+import org.teamaker.project.domain.dto.TreatProjectDtoResponse;
 import org.teamaker.project.application.port.in.treatProject.TreatProjectCommand;
 import org.teamaker.project.application.port.in.treatProject.TreatProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
@@ -22,7 +23,7 @@ public class TreatProjectService implements TreatProjectUseCase {
     }
 
     @Override
-    public TreatProjectResponse treatProject(TreatProjectCommand command) {
+    public TreatProjectResponse.Response treatProject(TreatProjectCommand command) {
         Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
         if (project.getStatus() != ProjectStatus.PENDING) {
             throw new IllegalStateException("Project cannot be treated if it is not pending");
@@ -31,6 +32,11 @@ public class TreatProjectService implements TreatProjectUseCase {
 
         Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
 
-        return new TreatProjectResponse(modifiedProject.getProjectId(), modifiedProject.getStatus());
+        return new TreatProjectResponse.SuccessResponse(
+                new TreatProjectDtoResponse(
+                        modifiedProject.getProjectId(),
+                        modifiedProject.getStatus()
+                )
+        );
     }
 }

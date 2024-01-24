@@ -1,9 +1,9 @@
 package org.teamaker.project.application;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.teamaker.project.application.port.in.treatProject.TreatProjectCommand;
+import org.teamaker.project.application.port.in.treatProject.TreatProjectResponse;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
@@ -14,8 +14,7 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,8 +23,8 @@ public class TreatProjectServiceTest {
     private static LoadProjectPort loadProjectPortMock;
     private static TreatProjectService treatProjectService;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         saveProjectPortMock = mock(SaveProjectPort.class);
         loadProjectPortMock = mock(LoadProjectPort.class);
         treatProjectService = new TreatProjectService(loadProjectPortMock, saveProjectPortMock);
@@ -43,14 +42,15 @@ public class TreatProjectServiceTest {
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         TreatProjectCommand command = new TreatProjectCommand(mockId, status);
-        treatProjectService.treatProject(command);
+        TreatProjectResponse.Response response = treatProjectService.treatProject(command);
 
-        ArgumentCaptor<SaveProjectCommand> captor = ArgumentCaptor.forClass(SaveProjectCommand.class);
-        verify(saveProjectPortMock).saveProject(captor.capture());
-        SaveProjectCommand capturedCommand = captor.getValue();
+        verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
+        verify(saveProjectPortMock).saveProject(any(SaveProjectCommand.class));
 
-        assertEquals(mockId, capturedCommand.getProject().getProjectId());
-        assertEquals(status, capturedCommand.getProject().getStatus());
+        assertInstanceOf(TreatProjectResponse.SuccessResponse.class, response);
+
+        assertEquals(expectedProject.getProjectId(), ((TreatProjectResponse.SuccessResponse) response).project().projectId());
+        assertEquals(expectedProject.getStatus(), ((TreatProjectResponse.SuccessResponse) response).project().status());
     }
 
 
@@ -65,5 +65,8 @@ public class TreatProjectServiceTest {
 
         TreatProjectCommand command = new TreatProjectCommand(mockId, status);
         assertThrows(IllegalStateException.class, () -> treatProjectService.treatProject(command));
+
+        verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
+        verify(saveProjectPortMock, never()).saveProject(any(SaveProjectCommand.class));
     }
 }

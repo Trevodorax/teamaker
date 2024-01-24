@@ -4,8 +4,8 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.util.Objects;
 
-public record TreatProjectResponse(String projectId, ProjectStatus status) {
-    public TreatProjectResponse {
+public record TreatProjectDtoResponse(String projectId, ProjectStatus status) {
+    public TreatProjectDtoResponse {
         Objects.requireNonNull(projectId);
         Objects.requireNonNull(status);
     }
