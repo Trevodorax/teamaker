@@ -1,8 +1,8 @@
 package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
+import org.teamaker.project.application.port.in.getProject.GetProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -16,7 +16,11 @@ public class GetProjectService implements GetProjectUseCase {
     }
 
     @Override
-    public ProjectResponse getProject(GetProjectCommand command) {
-        return loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId())).toResponse();
+    public GetProjectResponse.Response getProject(GetProjectCommand command) {
+        try {
+            return new GetProjectResponse.SuccessResponse(loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId())).toResponse());
+        } catch(IllegalArgumentException exception) {
+            return new GetProjectResponse.ErrorResponse(exception.getMessage());
+        }
     }
 }
