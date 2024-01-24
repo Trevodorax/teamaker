@@ -254,7 +254,7 @@ class TeamTest {
             developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
             Team team = new Team(project.getProjectId(), developers, true);
 
-            team.removeDeveloperById("removed", project);
+            team.removeDeveloperById("removed", project, false);
 
             assertEquals(3, team.getDevelopers().size());
         }
@@ -266,7 +266,7 @@ class TeamTest {
             developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
             Team team = new Team(project.getProjectId(), developers, false);
 
-            team.removeDeveloperById("removed", project);
+            team.removeDeveloperById("removed", project, false);
 
             assertEquals(1, team.getDevelopers().size());
         }
@@ -277,12 +277,86 @@ class TeamTest {
             List<Developer> developers = getDevelopersForValidTeam();
             Team team = new Team(project.getProjectId(), developers, true);
 
-            List<String> response = team.removeDeveloperById("dev1", project);
+            List<String> response = team.removeDeveloperById("dev1", project, false);
 
             assertFalse(response.isEmpty());
             assertEquals(3, team.getDevelopers().size());
         }
+
+        @Test
+        public void testRemoveDeveloper_NoRemove() {
+            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = getDevelopersForValidTeam();
+            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
+            Team team = new Team(project.getProjectId(), developers, true);
+
+            team.removeDeveloperById("removed", project, true);
+
+            assertEquals(4, team.getDevelopers().size());
+        }
     }
+
+    @Nested
+    @DisplayName("addDeveloperToTeam")
+    class AddDeveloperToTeam {
+
+        @Test
+        public void testAddDeveloper_SuccessLocked() {
+            Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = getDevelopersForValidTeam();
+            Team team = new Team(project.getProjectId(), developers, true);
+            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2020, 1, 1));
+
+            List<String> errors = team.addDeveloperToTeam(newDeveloper, project, false);
+
+            assertNull(errors);
+            assertTrue(team.getDevelopers().contains(newDeveloper));
+            assertEquals(4, team.getDevelopers().size());
+
+        }
+
+        @Test
+        public void testAddDeveloper_SuccessNotLocked() {
+            Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = new ArrayList<>();
+            Team team = new Team(project.getProjectId(), developers, false);
+            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2023, 1, 1));
+
+            team.addDeveloperToTeam(newDeveloper, project, false);
+
+            assertTrue(team.getDevelopers().contains(newDeveloper));
+            assertEquals(1, team.getDevelopers().size());
+        }
+
+        @Test
+        public void testAddDeveloper_Failure() {
+            Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = getDevelopersForValidTeam();
+            Team team = new Team(project.getProjectId(), developers, true);
+            Developer newDeveloper = new Developer("dev1", "Existing Developer", "existingdev@gmail.com", LocalDate.of(2023, 1, 1)); // assuming dev1 breaks rules
+
+            List<String> response = team.addDeveloperToTeam(newDeveloper, project, false);
+
+            assertFalse(response.isEmpty());
+            assertFalse(team.getDevelopers().contains(newDeveloper));
+            assertEquals(3, team.getDevelopers().size());
+        }
+
+        @Test
+        public void testAddDeveloper_NoAdd() {
+            Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10));
+            List<Developer> developers = getDevelopersForValidTeam();
+            Team team = new Team(project.getProjectId(), developers, true);
+            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2020, 1, 1));
+
+            List<String> errors = team.addDeveloperToTeam(newDeveloper, project, true);
+
+            assertNull(errors);
+            assertFalse(team.getDevelopers().contains(newDeveloper));
+            assertEquals(3, team.getDevelopers().size());
+        }
+    }
+
 
     private List<Developer> getDevelopersForValidTeam() {
         ArrayList<Developer> developers = new ArrayList<>();

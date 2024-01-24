@@ -7,7 +7,6 @@ import org.teamaker.project.domain.ProjectPriority;
 
 import java.time.Duration;
 import java.time.Period;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,11 +104,11 @@ public class Team {
 
     /**
      * @param developerId id of the developer we are trying to remove
-     *
+     * @param noRemove true if we don't want to remove the dev, but just see if we could
      * @return Team rules broken if there were any (if so, the dev isn't removed)
      * @throws IllegalStateException If the devs haven't been loaded in the team
      */
-    public List<String> removeDeveloperById(String developerId, Project teamProject) throws IllegalStateException {
+    public List<String> removeDeveloperById(String developerId, Project teamProject, boolean noRemove) throws IllegalStateException {
         if (this.getDevelopers() == null) {
             throw new IllegalStateException("Please load the developers in the team before editing them.");
         }
@@ -129,6 +128,50 @@ public class Team {
             this.getDevelopers().clear();
             this.getDevelopers().addAll(originalDevelopers);
             return problems;
+        }
+
+        // cancel removal if noRemove
+        if (noRemove) {
+            this.getDevelopers().clear();
+            this.getDevelopers().addAll(originalDevelopers);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param newDeveloper Developer object we are trying to add
+     * @param teamProject Current project of the team
+     * @param noAdd true if we don't want to actually add the dev, but just see if we could
+     * @return Team rules broken if there were any (if so, the dev isn't added)
+     * @throws IllegalStateException If the devs haven't been loaded in the team
+     */
+    public List<String> addDeveloperToTeam(Developer newDeveloper, Project teamProject, boolean noAdd) throws IllegalStateException {
+        if (this.getDevelopers() == null) {
+            throw new IllegalStateException("Please load the developers in the team before editing them.");
+        }
+
+        // to revert in case of failure
+        List<Developer> originalDevelopers = new ArrayList<>(this.getDevelopers());
+
+        this.getDevelopers().add(newDeveloper);
+
+        if (!isLocked()) {
+            return null;
+        }
+
+        // check that the addition didn't break any rules
+        List<String> problems = this.getTeamProblems(teamProject);
+        if (!problems.isEmpty()) {
+            this.getDevelopers().clear();
+            this.getDevelopers().addAll(originalDevelopers);
+            return problems;
+        }
+
+        // cancel addition if noAdd
+        if (noAdd) {
+            this.getDevelopers().clear();
+            this.getDevelopers().addAll(originalDevelopers);
         }
 
         return null;
