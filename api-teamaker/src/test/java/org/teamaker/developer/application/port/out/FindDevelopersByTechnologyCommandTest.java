@@ -2,7 +2,7 @@ package org.teamaker.developer.application.port.out;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyCommand;
+import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyCommand;
 
 import javax.validation.ConstraintViolationException;
 import static org.junit.jupiter.api.Assertions.assertEquals;

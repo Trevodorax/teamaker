@@ -11,8 +11,8 @@ import java.util.List;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyResponse;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyCommand;
-import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyCommand;
-import org.teamaker.developer.application.port.out.findDeveloperByTechnology.FindDevelopersByTechnologyPort;
+import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyCommand;
+import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyPort;
 import org.teamaker.developer.domain.Developer;
 
 public class GetDevelopersByTechnologyServiceTest {
