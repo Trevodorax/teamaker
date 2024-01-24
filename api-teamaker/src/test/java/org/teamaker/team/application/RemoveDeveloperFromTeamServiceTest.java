@@ -59,7 +59,8 @@ class RemoveDeveloperFromTeamServiceTest {
         // mock out ports
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10)
+                LocalDate.of(2024, 1, 10),
+                new Team("id", new ArrayList<>(), false)
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -86,7 +87,8 @@ class RemoveDeveloperFromTeamServiceTest {
         // mock out ports
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED,
                 LocalDate.now().minusDays(2),
-                LocalDate.now().plusDays(2)
+                LocalDate.now().plusDays(2),
+                new Team("id", new ArrayList<>(), false)
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -113,7 +115,8 @@ class RemoveDeveloperFromTeamServiceTest {
         // mock out ports
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10)
+                LocalDate.of(2024, 1, 10),
+                new Team("id", new ArrayList<>(), false)
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -140,7 +143,8 @@ class RemoveDeveloperFromTeamServiceTest {
         // mock out ports
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10)
+                LocalDate.of(2024, 1, 10),
+                new Team("id", new ArrayList<>(), false)
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 

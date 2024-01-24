@@ -10,6 +10,7 @@ import org.teamaker.project.application.port.out.createProject.CreateProjectPort
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ class SubmitProjectServiceTest {
         SubmitProjectCommand command = new SubmitProjectCommand(mockName, mockDescription, mockPriority, mockStartDate, mockEndDate, mockTechnologies);
 
         // mock the injected command
-        Project expectedProject = new Project("test-id", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate);
+        Project expectedProject = new Project("test-id", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false));
         when(createProjectPortMock.createProject(any(CreateProjectCommand.class))).thenReturn(expectedProject); // mock createProject method
 
         // === when === //

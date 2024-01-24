@@ -43,7 +43,7 @@ class SubmitTeamChangeRequestServiceTest {
         when(loadDeveloperTeamChangeRequestsPortMock.loadDeveloperTeamChangeRequests(any(LoadDeveloperTeamChangeRequestsCommand.class))).thenReturn(teamChangeRequests);
 
         // Mock createTeamChangeRequestPort
-        TeamChangeRequest createdTeamChangeRequest = new TeamChangeRequest("requestId", "developerId", "requestedProjectId", TeamRequestStatus.PENDING, LocalDate.now());
+        TeamChangeRequest createdTeamChangeRequest = new TeamChangeRequest("requestId", "developerId", "fromProjectId", "toProjectId", TeamRequestStatus.PENDING, LocalDate.now());
         when(createTeamChangeRequestPortMock.createTeamChangeRequest(any(CreateTeamChangeRequestCommand.class))).thenReturn(createdTeamChangeRequest);
 
         // Submit a team change teamChangeRequest
@@ -65,7 +65,7 @@ class SubmitTeamChangeRequestServiceTest {
     void testSubmitTeamChangeRequest_RecentRequestExists() {
         // Mock developer team change requests with a recent teamChangeRequest
         List<TeamChangeRequest> teamChangeRequests = new ArrayList<>();
-        teamChangeRequests.add(new TeamChangeRequest("requestId", "developerId", "requestedProjectId", TeamRequestStatus.PENDING, LocalDate.now().minusMonths(3)));
+        teamChangeRequests.add(new TeamChangeRequest("requestId", "developerId", "fromProjectId", "toProjectId", TeamRequestStatus.PENDING, LocalDate.now().minusMonths(3)));
         when(loadDeveloperTeamChangeRequestsPortMock.loadDeveloperTeamChangeRequests(any(LoadDeveloperTeamChangeRequestsCommand.class))).thenReturn(teamChangeRequests);
 
         // Submit a team change teamChangeRequest

@@ -1,9 +1,12 @@
 package org.teamaker.project.domain;
 
+import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.dto.ProjectResponse;
+import org.teamaker.team.domain.Team;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Project {
     private final String projectId;
@@ -13,8 +16,9 @@ public class Project {
     private ProjectStatus status;
     private LocalDate startDate;
     private LocalDate endDate;
+    private Team team;
 
-    public Project(String projectId, String name, String description, ProjectPriority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate) {
+    public Project(String projectId, String name, String description, ProjectPriority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate, Team team) {
         this.projectId = projectId;
         this.name = name;
         this.description = description;
@@ -22,6 +26,7 @@ public class Project {
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.team = team;
     }
 
     public String getProjectId() {
@@ -50,6 +55,18 @@ public class Project {
 
     public LocalDate getEndDate() {
         return endDate;
+    }
+
+    public List<String> removeDeveloperById(String developerId, boolean noRemove) throws IllegalStateException {
+        return team.removeDeveloperById(developerId, this, noRemove);
+    }
+
+    public List<String> addDeveloper(Developer newDeveloper, boolean noAdd) throws IllegalStateException {
+        return team.addDeveloper(newDeveloper, this, noAdd);
+    }
+
+    public Team getTeam() {
+        return team;
     }
 
     public void postpone(LocalDate startDate, LocalDate endDate) {

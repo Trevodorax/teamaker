@@ -7,8 +7,10 @@ import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,9 +37,9 @@ class GetProjectsServiceTest {
         LocalDate mockEndDate = mockStartDate.plusDays(5);
 
         List<Project> expectedProjects = List.of(
-                new Project("577c2860-b584-4d27-94d8-21b10c095aac", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate),
-                new Project("577c2860-b584-4d27-94d8-21b10c095aad", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate),
-                new Project("577c2860-b584-4d27-94d8-21b10c095aae", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate)
+                new Project("577c2860-b584-4d27-94d8-21b10c095aac", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false)),
+                new Project("577c2860-b584-4d27-94d8-21b10c095aad", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false)),
+                new Project("577c2860-b584-4d27-94d8-21b10c095aae", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false))
         );
 
         when(loadProjectsPortMock.loadProjects()).thenReturn(expectedProjects);

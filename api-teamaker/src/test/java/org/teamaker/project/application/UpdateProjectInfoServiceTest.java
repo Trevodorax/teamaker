@@ -14,8 +14,10 @@ import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,10 +55,10 @@ class UpdateProjectInfoServiceTest {
         String mockNewDescription = "New Project Description";
         ProjectPriority mockNewPriority = ProjectPriority.NORMAL;
 
-        Project initialProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate);
+        Project initialProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(initialProject);
 
-        Project expectedProject = new Project(mockId, mockNewName, mockNewDescription, mockNewPriority, mockStatus, mockStartDate, mockEndDate);
+        Project expectedProject = new Project(mockId, mockNewName, mockNewDescription, mockNewPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false));
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         UpdateProjectInfoCommand command = new UpdateProjectInfoCommand(mockId, mockNewName, mockNewDescription, mockNewPriority);
@@ -84,10 +86,10 @@ class UpdateProjectInfoServiceTest {
         String mockNewDescription = "New Project Description";
         ProjectPriority mockNewPriority = ProjectPriority.NORMAL;
 
-        Project initialProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate);
+        Project initialProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(initialProject);
 
-        Project expectedProject = new Project(mockId, mockName, mockNewDescription, mockNewPriority, mockStatus, mockStartDate, mockEndDate);
+        Project expectedProject = new Project(mockId, mockName, mockNewDescription, mockNewPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false));
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         UpdateProjectInfoCommand command = new UpdateProjectInfoCommand(mockId, null, mockNewDescription, mockNewPriority);

@@ -6,9 +6,11 @@ import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,7 +21,7 @@ public class SaveProjectCommandTest {
 
     @BeforeAll
     public static void setUp() {
-        project = new Project("validProjectId", "validProjectName", "validProjectDescription", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(1));
+        project = new Project("validProjectId", "validProjectName", "validProjectDescription", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(1), new Team("projectId", new ArrayList<>(), false));
     }
 
     @Test
