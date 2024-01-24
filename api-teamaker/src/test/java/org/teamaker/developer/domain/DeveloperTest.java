@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,11 +17,13 @@ class DeveloperTest {
         List<Project> projectList = new ArrayList<>();
         Project project1 = new Project("proj1", "Project 1", "Description 1", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2023, 1, 1),
-                LocalDate.of(2023, 1, 10)
+                LocalDate.of(2023, 1, 10),
+                new Team("projectId", new ArrayList<>(), false)
         );
         Project project2 = new Project("proj2", "Project 2", "Description 2", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2023, 2, 1),
-                LocalDate.of(2023, 2, 15)
+                LocalDate.of(2023, 2, 15),
+                new Team("projectId", new ArrayList<>(), false)
         );
 
         projectList.add(project1);
@@ -38,7 +41,8 @@ class DeveloperTest {
 
         Project projectToCheck = new Project("proj3", "Project 3", "Description 3", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2023, 1, 11),
-                LocalDate.of(2023, 1, 20)
+                LocalDate.of(2023, 1, 20),
+                new Team("projectId", new ArrayList<>(), false)
         );
 
         boolean isAvailable = developer.checkAvailability(projectToCheck);
@@ -56,7 +60,8 @@ class DeveloperTest {
 
         Project projectToCheck = new Project("proj3", "Project 3", "Description 3", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2023, 1, 5),
-                LocalDate.of(2023, 1, 20)
+                LocalDate.of(2023, 1, 20),
+                new Team("projectId", new ArrayList<>(), false)
         );
 
         boolean isAvailable = developer.checkAvailability(projectToCheck);
@@ -70,7 +75,8 @@ class DeveloperTest {
 
         Project projectToCheck = new Project("proj3", "Project 3", "Description 3", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2023, 1, 5),
-                LocalDate.of(2023, 1, 20)
+                LocalDate.of(2023, 1, 20),
+                new Team("projectId", new ArrayList<>(), false)
         );
 
         assertThrows(IllegalStateException.class,
@@ -82,7 +88,7 @@ class DeveloperTest {
         Developer developer = new Developer("dev123", "John Doe", "johndoe@example.com", LocalDate.of(2023, 1, 1));
         List<Project> projectList = new ArrayList<>();
         developer.setProjectList(projectList);
-        Project addedProject = new Project("proj1", "Project 1", "Description 1", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 10));
+        Project addedProject = new Project("proj1", "Project 1", "Description 1", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 10), new Team("projectId", new ArrayList<>(), false));
         developer.addProject(addedProject);
         assertTrue(developer.getProjectList().contains(addedProject));
     }
@@ -90,7 +96,7 @@ class DeveloperTest {
     @Test()
     public void testAddProject_Failure() {
         Developer developer = new Developer("dev123", "John Doe", "johndoe@example.com", LocalDate.of(2023, 1, 1));
-        Project addedProject = new Project("proj1", "Project 1", "Description 1", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 10));
+        Project addedProject = new Project("proj1", "Project 1", "Description 1", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2023, 1, 10), new Team("projectId", new ArrayList<>(), false));
         assertThrows(IllegalStateException.class,
                 () -> developer.addProject(addedProject));
     }

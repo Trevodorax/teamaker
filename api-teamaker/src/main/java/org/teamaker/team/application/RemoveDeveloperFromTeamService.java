@@ -64,7 +64,7 @@ public class RemoveDeveloperFromTeamService implements RemoveDeveloperFromTeamUs
         }
 
         // call the remove function
-        List<String> errors = team.removeDeveloperById(command.getDeveloperId(), project);
+        List<String> errors = team.removeDeveloperById(command.getDeveloperId(), project, false);
         if(errors != null) {
             return new RemoveDeveloperFromTeamResponse.MultipleErrorsResponse(errors);
         }

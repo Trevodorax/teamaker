@@ -17,6 +17,7 @@ import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamCommand;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -50,7 +51,8 @@ class AssignDeveloperToTeamServiceTest {
         // mock out ports
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10)
+                LocalDate.of(2024, 1, 10),
+                new Team("projectId", new ArrayList<>(), false)
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -79,7 +81,8 @@ class AssignDeveloperToTeamServiceTest {
         // mock out ports
         Project mockProject1 = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10)
+                LocalDate.of(2024, 1, 10),
+                new Team("projectId", new ArrayList<>(), false)
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject1);
 
@@ -88,7 +91,8 @@ class AssignDeveloperToTeamServiceTest {
 
         Project mockProject2 = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 2),
-                LocalDate.of(2024, 1, 8)
+                LocalDate.of(2024, 1, 8),
+                new Team("projectId", new ArrayList<>(), false)
         );
         ArrayList<Project> mockProjects = new ArrayList<>();
         mockProjects.add(mockProject2);

@@ -53,6 +53,8 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
             throw new IllegalArgumentException("Developer is not available for this project.");
         }
 
+        // TODO: add the dev to the team and save team, instead of adding project to list of developer
+
         // assign the project to the developer and save the changes
         developer.addProject(project);
 

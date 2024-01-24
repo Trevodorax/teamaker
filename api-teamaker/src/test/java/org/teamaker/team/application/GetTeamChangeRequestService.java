@@ -29,7 +29,7 @@ class GetTeamChangeRequestServiceTest {
     @Test
     void testGetTeamChangeRequest_Success() {
         // Mock loadTeamChangeRequestPort
-        TeamChangeRequest teamChangeRequest = new TeamChangeRequest("requestId", "developerId", "requestedProjectId", TeamRequestStatus.PENDING, LocalDate.now());
+        TeamChangeRequest teamChangeRequest = new TeamChangeRequest("requestId", "developerId", "fromProjectId", "toProjectId", TeamRequestStatus.PENDING, LocalDate.now());
         when(loadTeamChangeRequestPortMock.loadTeamChangeRequest(any(LoadTeamChangeRequestCommand.class))).thenReturn(teamChangeRequest);
 
         // Get a team change request

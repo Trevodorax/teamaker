@@ -11,8 +11,10 @@ import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -36,10 +38,10 @@ public class TreatProjectServiceTest {
         String mockId = "577c2860-b584-4d27-94d8-21b10c095aac";
         ProjectStatus status = ProjectStatus.PENDING;
 
-        Project initialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(5));
+        Project initialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(5), new Team("projectId", new ArrayList<>(), false));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(initialProject);
 
-        Project expectedProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, status, LocalDate.now(), LocalDate.now().plusDays(5));
+        Project expectedProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, status, LocalDate.now(), LocalDate.now().plusDays(5), new Team("projectId", new ArrayList<>(), false));
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         TreatProjectCommand command = new TreatProjectCommand(mockId, status);
@@ -61,7 +63,7 @@ public class TreatProjectServiceTest {
         String mockId = "577c2860-b584-4d27-94d8-21b10c095aac";
         ProjectStatus status = ProjectStatus.ACCEPTED;
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(5));
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, LocalDate.now(), LocalDate.now().plusDays(5), new Team("projectId", new ArrayList<>(), false));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         TreatProjectCommand command = new TreatProjectCommand(mockId, status);

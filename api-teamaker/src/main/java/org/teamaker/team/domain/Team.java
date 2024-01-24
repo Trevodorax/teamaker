@@ -16,7 +16,6 @@ public class Team {
     private static final int MAX_NB_JUNIORS = 3;
     private static final int MIN_NB_DEVS_FOR_EXPERT = 5;
     private static final Duration LONG_PROJECT_DURATION = Duration.ofDays(Period.ofMonths(6).plusDays(1).toTotalMonths() * 30);
-
     private final String projectId;
     private final List<Developer> developers;
     private boolean isLocked; // a locked team is a valid team for which the rules can't change anymore
@@ -146,7 +145,7 @@ public class Team {
      * @return Team rules broken if there were any (if so, the dev isn't added)
      * @throws IllegalStateException If the devs haven't been loaded in the team
      */
-    public List<String> addDeveloperToTeam(Developer newDeveloper, Project teamProject, boolean noAdd) throws IllegalStateException {
+    public List<String> addDeveloper(Developer newDeveloper, Project teamProject, boolean noAdd) throws IllegalStateException {
         if (this.getDevelopers() == null) {
             throw new IllegalStateException("Please load the developers in the team before editing them.");
         }

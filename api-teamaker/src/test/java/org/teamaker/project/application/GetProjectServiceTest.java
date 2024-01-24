@@ -10,8 +10,10 @@ import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -38,7 +40,7 @@ class GetProjectServiceTest {
         LocalDate mockEndDate = mockStartDate.plusDays(5);
         GetProjectCommand command = new GetProjectCommand(mockId);
 
-        Project expectedProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate);
+        Project expectedProject = new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("id", new ArrayList<>(), false));
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(expectedProject);
 
         GetProjectResponse.Response result = getProjectService.getProject(command);
