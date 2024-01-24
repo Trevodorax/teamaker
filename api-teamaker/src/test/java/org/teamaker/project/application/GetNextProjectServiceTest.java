@@ -48,11 +48,11 @@ class GetNextProjectServiceTest {
 
     @Test
     public void testGetNextProjectNotFound() {
-        when(findNextProjectMock.findNextProject()).thenThrow(new NoSuchElementException("Aucun futur projet trouvé"));
+        when(findNextProjectMock.findNextProject()).thenThrow(new NoSuchElementException("No future projects found"));
 
         GetNextProjectResponse.Response result = getNextProjectService.getNextProject();
 
         verify(findNextProjectMock).findNextProject();
-        assertEquals(result, new GetNextProjectResponse.ErrorResponse("Aucun futur projet trouvé"));
+        assertEquals(result, new GetNextProjectResponse.ErrorResponse("No future projects found"));
     }
 }
