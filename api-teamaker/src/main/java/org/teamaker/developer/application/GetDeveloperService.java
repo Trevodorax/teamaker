@@ -22,8 +22,6 @@ class GetDeveloperService implements GetDeveloperUseCase {
             return new GetDeveloperResponse.SuccessResponse(result.toResponse());
         } catch (NoSuchElementException exception) {
             return new GetDeveloperResponse.ErrorResponse("developer not found");
-        } catch (IllegalArgumentException exception) {
-            return new GetDeveloperResponse.ErrorResponse("invalid developer id");
         }
     }
 }

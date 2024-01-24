@@ -48,7 +48,7 @@ public class GetDeveloperServiceTest {
     }
 
     @Test
-    public void testGetDeveloperNotFoundError() {
+    public void testGetDeveloperError() {
         String mockId = "test";
         GetDeveloperCommand command = new GetDeveloperCommand(mockId);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenThrow(new NoSuchElementException("developer not found"));
@@ -61,21 +61,5 @@ public class GetDeveloperServiceTest {
 
         assertEquals(mockId, capturedCommand.getDeveloperId());
         assertEquals(result, new GetDeveloperResponse.ErrorResponse("developer not found"));
-    }
-
-    @Test
-    public void testGetDeveloperIllegalError() {
-        String mockId = "test";
-        GetDeveloperCommand command = new GetDeveloperCommand(mockId);
-        when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenThrow(new IllegalArgumentException("invalid developer id"));
-
-        GetDeveloperResponse.Response result = getDeveloperServiceMock.getDeveloper(command);
-
-        ArgumentCaptor<LoadDeveloperCommand> captor = ArgumentCaptor.forClass(LoadDeveloperCommand.class);
-        verify(loadDeveloperPortMock).loadDeveloper(captor.capture());
-        LoadDeveloperCommand capturedCommand = captor.getValue();
-
-        assertEquals(mockId, capturedCommand.getDeveloperId());
-        assertEquals(result, new GetDeveloperResponse.ErrorResponse("invalid developer id"));
     }
 }
