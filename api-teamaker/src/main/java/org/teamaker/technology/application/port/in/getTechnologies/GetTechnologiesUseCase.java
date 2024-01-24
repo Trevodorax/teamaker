@@ -1,4 +1,4 @@
-package org.teamaker.technology.application.port.in;
+package org.teamaker.technology.application.port.in.getTechnologies;
 
 import java.util.List;
 

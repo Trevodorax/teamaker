@@ -2,10 +2,9 @@ package org.teamaker.technology.application;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.technology.application.port.out.LoadTechnologiesPort;
+import org.teamaker.technology.application.port.out.loadTechnologies.LoadTechnologiesPort;
 import org.teamaker.technology.domain.Technology;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

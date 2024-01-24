@@ -2,10 +2,10 @@ package org.teamaker.technology.application;
 
 import org.springframework.stereotype.Component;
 
-import org.teamaker.technology.application.port.in.AddTechnologyCommand;
-import org.teamaker.technology.application.port.in.AddTechnologyUseCase;
-import org.teamaker.technology.application.port.out.CreateTechnologyCommand;
-import org.teamaker.technology.application.port.out.CreateTechnologyPort;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyUseCase;
+import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyCommand;
+import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyPort;
 import org.teamaker.technology.domain.Technology;
 
 @Component
