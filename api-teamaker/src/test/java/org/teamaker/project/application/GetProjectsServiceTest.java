@@ -2,6 +2,7 @@ package org.teamaker.project.application;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.teamaker.project.application.port.in.getProjects.GetProjectsResponse;
 import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Project;
@@ -10,8 +11,10 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.*;
 
 class GetProjectsServiceTest {
@@ -25,7 +28,7 @@ class GetProjectsServiceTest {
     }
 
     @Test
-    public void testGetProjects() {
+    public void testGetProjects_Success() {
         String mockName = "Project Name";
         String mockDescription = "Project Description";
         ProjectPriority mockPriority = ProjectPriority.CRITICAL;
@@ -41,9 +44,25 @@ class GetProjectsServiceTest {
 
         when(loadProjectsPortMock.loadProjects()).thenReturn(expectedProjects);
 
-        List<ProjectResponse> result = getProjectsService.getProjects();
+        GetProjectsResponse.Response result = getProjectsService.getProjects();
 
         verify(loadProjectsPortMock).loadProjects();
-        assertEquals(expectedProjects.stream().map(Project::toResponse).toList(), result);
+        assertInstanceOf(GetProjectsResponse.SuccessResponse.class, result);
+        assertEquals(expectedProjects.stream().map(Project::toResponse).toList(), ((GetProjectsResponse.SuccessResponse) result).projects());
+
+        assertEquals(expectedProjects.size(), ((GetProjectsResponse.SuccessResponse) result).projects().size());
+    }
+
+    @Test
+    public void testGetProjects_NoProjectsFound() {
+        when(loadProjectsPortMock.loadProjects()).thenReturn(List.of());
+
+        GetProjectsResponse.Response result = getProjectsService.getProjects();
+
+        verify(loadProjectsPortMock).loadProjects();
+        assertInstanceOf(GetProjectsResponse.SuccessResponse.class, result);
+        assertEquals(List.of(), ((GetProjectsResponse.SuccessResponse) result).projects());
+
+        assertEquals(0, ((GetProjectsResponse.SuccessResponse) result).projects().size());
     }
 }

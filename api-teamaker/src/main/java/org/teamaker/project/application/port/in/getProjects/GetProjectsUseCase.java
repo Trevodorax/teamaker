@@ -5,5 +5,5 @@ import org.teamaker.project.domain.dto.ProjectResponse;
 import java.util.List;
 
 public interface GetProjectsUseCase {
-    List<ProjectResponse> getProjects();
+    GetProjectsResponse.Response getProjects();
 }
