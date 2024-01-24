@@ -19,8 +19,10 @@ class AddTechnologyService implements AddTechnologyUseCase {
 
     @Override
     public AddTechnologyResponse.Response addTechnology(AddTechnologyCommand command) {
-        return new AddTechnologyResponse.SuccessResponse(createTechnologyPort.createTechnology(
+        Technology createdTechnology = createTechnologyPort.createTechnology(
                 new CreateTechnologyCommand(command.getName())
-        ).toResponse());
+        );
+
+        return new AddTechnologyResponse.SuccessResponse(createdTechnology.toResponse());
     }
 }
