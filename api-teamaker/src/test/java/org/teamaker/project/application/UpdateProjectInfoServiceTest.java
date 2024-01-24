@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoCommand;
+import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoResponse;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
@@ -59,16 +60,15 @@ class UpdateProjectInfoServiceTest {
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         UpdateProjectInfoCommand command = new UpdateProjectInfoCommand(mockId, mockNewName, mockNewDescription, mockNewPriority);
-        updateProjectInfoService.updateProjectInfo(command);
 
-        ArgumentCaptor<SaveProjectCommand> captor = ArgumentCaptor.forClass(SaveProjectCommand.class);
-        verify(saveProjectPortMock).saveProject(captor.capture());
-        SaveProjectCommand capturedCommand = captor.getValue();
+        UpdateProjectInfoResponse.Response response = updateProjectInfoService.updateProjectInfo(command);
 
-        assertEquals(mockId, capturedCommand.getProject().getProjectId());
-        assertEquals(mockNewName, capturedCommand.getProject().getName());
-        assertEquals(mockNewDescription, capturedCommand.getProject().getDescription());
-        assertEquals(mockNewPriority, capturedCommand.getProject().getPriority());
+        verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
+
+        assertEquals(mockId, ((UpdateProjectInfoResponse.SuccessResponse) response).project().projectId());
+        assertEquals(mockNewName, ((UpdateProjectInfoResponse.SuccessResponse) response).project().name());
+        assertEquals(mockNewDescription, ((UpdateProjectInfoResponse.SuccessResponse) response).project().description());
+        assertEquals(mockNewPriority, ((UpdateProjectInfoResponse.SuccessResponse) response).project().priority());
     }
 
     @Test
@@ -91,16 +91,15 @@ class UpdateProjectInfoServiceTest {
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         UpdateProjectInfoCommand command = new UpdateProjectInfoCommand(mockId, null, mockNewDescription, mockNewPriority);
-        updateProjectInfoService.updateProjectInfo(command);
 
-        ArgumentCaptor<SaveProjectCommand> captor = ArgumentCaptor.forClass(SaveProjectCommand.class);
-        verify(saveProjectPortMock).saveProject(captor.capture());
-        SaveProjectCommand capturedCommand = captor.getValue();
+        UpdateProjectInfoResponse.Response response = updateProjectInfoService.updateProjectInfo(command);
 
-        assertEquals(mockId, capturedCommand.getProject().getProjectId());
-        assertEquals(mockName, capturedCommand.getProject().getName());
-        assertEquals(mockNewDescription, capturedCommand.getProject().getDescription());
-        assertEquals(mockNewPriority, capturedCommand.getProject().getPriority());
+        verify(loadProjectPortMock).loadProject(any(LoadProjectCommand.class));
+
+        assertEquals(mockId, ((UpdateProjectInfoResponse.SuccessResponse) response).project().projectId());
+        assertEquals(mockName, ((UpdateProjectInfoResponse.SuccessResponse) response).project().name());
+        assertEquals(mockNewDescription, ((UpdateProjectInfoResponse.SuccessResponse) response).project().description());
+        assertEquals(mockNewPriority, ((UpdateProjectInfoResponse.SuccessResponse) response).project().priority());
     }
 
 }
