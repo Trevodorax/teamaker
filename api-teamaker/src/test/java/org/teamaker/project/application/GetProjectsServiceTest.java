@@ -1,9 +1,8 @@
 package org.teamaker.project.application;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.teamaker.project.application.port.in.getProjects.GetProjectsResponse;
-import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.loadProjects.LoadProjectsPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
@@ -11,7 +10,6 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -21,8 +19,8 @@ class GetProjectsServiceTest {
     private static LoadProjectsPort loadProjectsPortMock;
     private static GetProjectsService getProjectsService;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         loadProjectsPortMock = mock(LoadProjectsPort.class);
         getProjectsService = new GetProjectsService(loadProjectsPortMock);
     }
