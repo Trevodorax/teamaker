@@ -1,9 +1,8 @@
 package org.teamaker.developer.application.port.out.loadDeveloperSkills;
 
-import org.teamaker.technology.domain.Technology;
-
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface LoadDeveloperSkillsPort {
-    List<Technology> loadDeveloperSkills(LoadDeveloperSkillsCommand command);
+    List<LoadDeveloperSkillsResponse> loadDeveloperSkills(LoadDeveloperSkillsCommand command) throws NoSuchElementException;
 }
