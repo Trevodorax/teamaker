@@ -18,7 +18,7 @@ class GetDeveloperService implements GetDeveloperUseCase {
 
     public GetDeveloperResponse.Response getDeveloper(GetDeveloperCommand command){
         try {
-            Developer result = loadDeveloperPort.loadDeveloper(new LoadDeveloperCommand(command.getId()));
+            Developer result = loadDeveloperPort.loadDeveloper(new LoadDeveloperCommand(command.getDeveloperId()));
             return new GetDeveloperResponse.SuccessResponse(result.toResponse());
         } catch (NoSuchElementException exception) {
             return new GetDeveloperResponse.ErrorResponse("developer not found");
