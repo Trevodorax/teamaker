@@ -11,6 +11,7 @@ import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyDtoResponse;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -65,5 +66,22 @@ public class GetDevelopersByTechnologyServiceTest {
         assertInstanceOf(GetDevelopersByTechnologyResponse.SuccessResponse.class, result);
         assertEquals(expectedResponse, ((GetDevelopersByTechnologyResponse.SuccessResponse) result).developers());
         assertEquals(0, ((GetDevelopersByTechnologyResponse.SuccessResponse) result).developers().developers().size());
+    }
+
+    @Test
+    public void testGetDevelopersByTechnology_Error() {
+        String mockTechnologyId = "Invalid Technology Id";
+        LocalDate mockDate = LocalDate.now();
+        List<Developer> mockDevelopers = List.of();
+        GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyId);
+
+        when(findDevelopersByTechnologyPortMock.findDevelopersByTechnology(any(FindDevelopersByTechnologyCommand.class))).thenThrow(new NoSuchElementException());
+
+        GetDevelopersByTechnologyResponse.Response result = getDevelopersByTechnologyService.getDevelopersByTechnology(command);
+
+        verify(findDevelopersByTechnologyPortMock).findDevelopersByTechnology(any(FindDevelopersByTechnologyCommand.class));
+
+        assertInstanceOf(GetDevelopersByTechnologyResponse.ErrorResponse.class, result);
+        assertEquals("Technology not found", ((GetDevelopersByTechnologyResponse.ErrorResponse) result).message());
     }
 }

@@ -11,6 +11,7 @@ import org.teamaker.developer.application.port.out.findDevelopersByTechnology.Fi
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyPort;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCase {
@@ -23,17 +24,21 @@ class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCa
 
     @Override
     public GetDevelopersByTechnologyResponse.Response getDevelopersByTechnology(GetDevelopersByTechnologyCommand command) {
-        List<Developer> developers = findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnologyId()));
+        try {
+            List<Developer> developers = findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnologyId()));
 
-        return new GetDevelopersByTechnologyResponse.SuccessResponse(
-                new GetDevelopersByTechnologyDtoResponse(
-                        command.getTechnologyId(),
-                        developers
-                                .stream()
-                                .map(Developer::toResponse)
-                                .toList()
-                )
-        );
+            return new GetDevelopersByTechnologyResponse.SuccessResponse(
+                    new GetDevelopersByTechnologyDtoResponse(
+                            command.getTechnologyId(),
+                            developers
+                                    .stream()
+                                    .map(Developer::toResponse)
+                                    .toList()
+                    )
+            );
+        } catch (NoSuchElementException exception) {
+            return new GetDevelopersByTechnologyResponse.ErrorResponse("Technology not found");
+        }
     }
 
 }
