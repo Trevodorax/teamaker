@@ -88,4 +88,17 @@ public class Developer {
             return ExperienceLevel.EXPERT;
         }
     }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void updateInfo(String newName, String newEmail) {
+        this.fullName = newName != null ? newName : this.fullName;
+        this.email = newEmail != null ? newEmail : this.email;
+    }
 }

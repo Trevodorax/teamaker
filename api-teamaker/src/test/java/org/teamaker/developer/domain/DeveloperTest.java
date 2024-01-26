@@ -122,5 +122,31 @@ class DeveloperTest {
         assertEquals(ExperienceLevel.EXPERT, developer.getExperienceLevel());
     }
 
+    @Test
+    public void testUpdateDeveloperInfo_AllFields() {
+        String newName = "newName";
+        String newEmail = "newEmail";
+        Developer developer = new Developer("developerId", "John Doe", "john@doe.com", LocalDate.now());
+        developer.updateInfo(newName, newEmail);
+        assertEquals(newName, developer.getFullName());
+        assertEquals(newEmail, developer.getEmail());
+    }
 
+    @Test
+    public void testUpdateDeveloperInfo_NullName() {
+        String newEmail = "newEmail";
+        Developer developer = new Developer("developerId", "John Doe", "john@doe.com", LocalDate.now());
+        developer.updateInfo(null, newEmail);
+        assertEquals("John Doe", developer.getFullName());
+        assertEquals(newEmail, developer.getEmail());
+    }
+
+    @Test
+    public void testUpdateDeveloperInfo_NullEmail() {
+        String newName = "newName";
+        Developer developer = new Developer("developerId", "John Doe", "john@doe.com", LocalDate.now());
+        developer.updateInfo(newName, null);
+        assertEquals(newName, developer.getFullName());
+        assertEquals("john@doe.com", developer.getEmail());
+    }
 }
