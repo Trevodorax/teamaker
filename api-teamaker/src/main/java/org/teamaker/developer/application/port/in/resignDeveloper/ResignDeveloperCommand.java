@@ -2,7 +2,6 @@ package org.teamaker.developer.application.port.in.resignDeveloper;
 
 import org.teamaker.shared.validation.SelfValidating;
 
-import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -10,7 +9,6 @@ public class ResignDeveloperCommand extends SelfValidating<ResignDeveloperComman
     @NotNull
     private final String developerId;
     @NotNull
-    @FutureOrPresent
     private final LocalDate resignationDate;
 
     public ResignDeveloperCommand(String developerId, LocalDate resignationDate) {

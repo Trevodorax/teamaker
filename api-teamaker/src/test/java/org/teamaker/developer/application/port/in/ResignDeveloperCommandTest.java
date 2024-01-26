@@ -38,10 +38,4 @@ class ResignDeveloperCommandTest {
         assertThrows(ConstraintViolationException.class,
                 () -> new ResignDeveloperCommand(validDeveloperId, null));
     }
-
-    @Test
-    void testConstructorPastResignationDate() {
-        assertThrows(ConstraintViolationException.class,
-                () -> new ResignDeveloperCommand(validDeveloperId, LocalDate.now().minusDays(1)));
-    }
 }
