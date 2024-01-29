@@ -2,6 +2,7 @@ package org.teamaker.developer.domain;
 
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.domain.Project;
+import org.teamaker.project.domain.ProjectProgress;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -11,7 +12,7 @@ public class Developer {
     private final String developerId;
     private String fullName;
     private String email;
-    private LocalDate hiringDate;
+    private final LocalDate hiringDate;
     private LocalDate resignationDate;
     private List<Project> projectList;
 
@@ -22,8 +23,21 @@ public class Developer {
         this.hiringDate = hiringDate;
     }
 
-    public void resign(LocalDate resignationDate) {
-        this.resignationDate = resignationDate;
+    public List<String> resign(List<Project> currentProjects){
+        for (Project project : currentProjects) {
+            List<String> errors = project.removeDeveloperById(this.developerId, true);
+            if (errors != null) {
+                return errors;
+            }
+            project.removeDeveloperById(this.developerId, false);
+        }
+
+        this.resignationDate = LocalDate.now();
+        return null;
+    }
+
+    public LocalDate getResignationDate() {
+        return resignationDate;
     }
 
     public List<Project> getProjectList() {
@@ -54,7 +68,7 @@ public class Developer {
     }
 
     /*
-     * @param checkedProject The project roject to check availability for
+     * @param checkedProject The project to check availability for
      * @return Is the developer available for this project?
      */
     public boolean checkAvailability(Project checkedProject) {
@@ -100,5 +114,16 @@ public class Developer {
     public void updateInfo(String newName, String newEmail) {
         this.fullName = newName != null ? newName : this.fullName;
         this.email = newEmail != null ? newEmail : this.email;
+    }
+
+    public List<Project> getCurrentProjects() throws IllegalStateException{
+        if (this.projectList == null) {
+            throw new IllegalStateException("projectList has not been set.");
+        }
+
+        return this.projectList
+                .stream()
+                .filter(project -> project.projectProgress() != ProjectProgress.DONE)
+                .toList();
     }
 }

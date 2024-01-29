@@ -4,15 +4,17 @@ import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCo
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
-import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperCommand;
-import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperPort;
 import org.teamaker.developer.domain.Developer;
-import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamCommand;
+import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamResponse;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamUseCase;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
+import org.teamaker.team.domain.Team;
 
 import java.util.List;
 
@@ -20,17 +22,19 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
     private final LoadDeveloperPort loadDeveloperPort;
     private final LoadProjectPort loadProjectPort;
     private final LoadDeveloperProjectsPort loadDeveloperProjectsPort;
-    private final SaveDeveloperPort saveDeveloperPort;
+    private final LoadTeamPort loadTeamPort;
+    private final SaveTeamPort saveTeamPort;
 
-    public AssignDeveloperToTeamService(LoadDeveloperPort loadDeveloperPort, LoadProjectPort loadProjectPort, LoadDeveloperProjectsPort loadDeveloperProjectsPort, SaveDeveloperPort saveDeveloperPort) {
+    public AssignDeveloperToTeamService(LoadDeveloperPort loadDeveloperPort, LoadProjectPort loadProjectPort, LoadDeveloperProjectsPort loadDeveloperProjectsPort, LoadTeamPort loadTeamPort, SaveTeamPort saveTeamPort) {
         this.loadDeveloperPort = loadDeveloperPort;
         this.loadProjectPort = loadProjectPort;
         this.loadDeveloperProjectsPort = loadDeveloperProjectsPort;
-        this.saveDeveloperPort = saveDeveloperPort;
+        this.loadTeamPort = loadTeamPort;
+        this.saveTeamPort = saveTeamPort;
     }
 
     @Override
-    public DeveloperResponse assignDeveloperToTeam(AssignDeveloperToTeamCommand command) throws IllegalArgumentException {
+    public AssignDeveloperToTeamResponse.Response assignDeveloperToTeam(AssignDeveloperToTeamCommand command) throws IllegalArgumentException {
         // load developer and project infos
         Developer developer = loadDeveloperPort.loadDeveloper(
                 new LoadDeveloperCommand(command.getDeveloperId())
@@ -50,18 +54,22 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
         boolean isAvailable = developer.checkAvailability(project);
 
         if(!isAvailable) {
-            throw new IllegalArgumentException("Developer is not available for this project.");
+            return new AssignDeveloperToTeamResponse.SingleErrorResponse("Developer is not available for this project.");
         }
 
-        // FIXME: add the dev to the team and save team, instead of adding project to list of developer
-
-        // assign the project to the developer and save the changes
-        developer.addProject(project);
-
-        Developer savedDeveloper = saveDeveloperPort.saveDeveloper(
-                new SaveDeveloperCommand(developer)
+        // add the dev to the team and save team
+        Team team = loadTeamPort.loadTeam(
+                new LoadTeamCommand(command.getProjectId())
         );
 
-        return savedDeveloper.toResponse();
+        List<String> addDeveloperErrors = project.addDeveloper(developer, false);
+
+        if(addDeveloperErrors != null) {
+            return new AssignDeveloperToTeamResponse.MultipleErrorsResponse(addDeveloperErrors);
+        }
+
+        saveTeamPort.saveTeam(team);
+
+        return new AssignDeveloperToTeamResponse.SuccessResponse(developer.toResponse());
     }
 }
