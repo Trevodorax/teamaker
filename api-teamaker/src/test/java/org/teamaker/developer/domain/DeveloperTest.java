@@ -152,9 +152,8 @@ class DeveloperTest {
 
     @Test
     public void testResign() {
-        LocalDate resignationDate = LocalDate.now().plusDays(1);
         Developer developer = new Developer("developerId", "John Doe", "john@doe.com", LocalDate.now());
-        developer.resign(resignationDate, List.of());
-        assertEquals(LocalDate.now().plusDays(1), developer.getResignationDate());
+        developer.resign(List.of());
+        assertEquals(LocalDate.now(), developer.getResignationDate());
     }
 }

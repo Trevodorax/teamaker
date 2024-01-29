@@ -8,20 +8,13 @@ import java.time.LocalDate;
 public class ResignDeveloperCommand extends SelfValidating<ResignDeveloperCommand> {
     @NotNull
     private final String developerId;
-    @NotNull
-    private final LocalDate resignationDate;
 
-    public ResignDeveloperCommand(String developerId, LocalDate resignationDate) {
+    public ResignDeveloperCommand(String developerId) {
         this.developerId = developerId;
-        this.resignationDate = resignationDate;
         this.validateSelf();
     }
 
     public String getDeveloperId() {
         return developerId;
-    }
-
-    public LocalDate getResignationDate() {
-        return resignationDate;
     }
 }

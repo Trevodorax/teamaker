@@ -23,7 +23,7 @@ public class Developer {
         this.hiringDate = hiringDate;
     }
 
-    public List<String> resign(LocalDate resignationDate, List<Project> currentProjects){
+    public List<String> resign(List<Project> currentProjects){
         for (Project project : currentProjects) {
             List<String> errors = project.removeDeveloperById(this.developerId, true);
             if (errors != null) {
@@ -32,7 +32,7 @@ public class Developer {
             project.removeDeveloperById(this.developerId, false);
         }
 
-        this.resignationDate = resignationDate;
+        this.resignationDate = LocalDate.now();
         return null;
     }
 

@@ -45,7 +45,7 @@ public class ResignDeveloperServiceTest {
     @Test
     public void testResignDeveloperSuccess() {
         LocalDate mockResignationDate = LocalDate.now();
-        ResignDeveloperCommand command = new ResignDeveloperCommand(mockId, mockResignationDate);
+        ResignDeveloperCommand command = new ResignDeveloperCommand(mockId);
 
         Developer mockDeveloper = new Developer(mockId, mockName, mockEmail, LocalDate.of(2023, 12, 7));
         assertNull(mockDeveloper.getResignationDate());
@@ -56,7 +56,7 @@ public class ResignDeveloperServiceTest {
         List<Project> mockProjectList = new ArrayList<>();
         mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
-        mockDeveloper.resign(mockResignationDate, mockProjectList);
+        mockDeveloper.resign(mockProjectList);
 
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
@@ -72,8 +72,7 @@ public class ResignDeveloperServiceTest {
     }
     @Test
     public void testResignDeveloperError() {
-        LocalDate mockResignationDate = LocalDate.now();
-        ResignDeveloperCommand command = new ResignDeveloperCommand("dev1", mockResignationDate);
+        ResignDeveloperCommand command = new ResignDeveloperCommand("dev1");
 
         Developer mockDeveloper = new Developer("dev1", mockName, mockEmail, LocalDate.of(2023, 12, 7));
         Project mockProject = new Project(mockId,  "test project", "test", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
@@ -84,7 +83,7 @@ public class ResignDeveloperServiceTest {
         List<Project> mockProjectList = new ArrayList<>();
         mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
-        mockDeveloper.resign(mockResignationDate, mockProjectList);
+        mockDeveloper.resign(mockProjectList);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenThrow(new NoSuchElementException("developer not found"));
 
         ResignDeveloperResponse.Response result = resignDeveloperService.resignDeveloper(command);
@@ -95,8 +94,7 @@ public class ResignDeveloperServiceTest {
     }
     @Test
     public void testResignDeveloperMultipleError() {
-        LocalDate mockResignationDate = LocalDate.now();
-        ResignDeveloperCommand command = new ResignDeveloperCommand("dev1", mockResignationDate);
+        ResignDeveloperCommand command = new ResignDeveloperCommand("dev1");
 
         Developer mockDeveloper = new Developer("dev1", mockName, mockEmail, LocalDate.of(2023, 12, 7));
         Project mockProject = new Project(mockId,  "test project", "test", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
@@ -107,7 +105,7 @@ public class ResignDeveloperServiceTest {
         List<Project> mockProjectList = new ArrayList<>();
         mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
-        mockDeveloper.resign(mockResignationDate, mockProjectList);
+        mockDeveloper.resign(mockProjectList);
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 

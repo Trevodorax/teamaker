@@ -11,6 +11,7 @@ import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -31,7 +32,7 @@ class ResignDeveloperService implements ResignDeveloperUseCase {
                     new LoadDeveloperCommand(command.getDeveloperId())
             );
             List<Project> currentProjects = developerToResign.getCurrentProjects();
-            List<String> errors = developerToResign.resign(command.getResignationDate(), currentProjects);
+            List<String> errors = developerToResign.resign(currentProjects);
             if (errors != null) {
                 return new ResignDeveloperResponse.MultipleErrorsResponse(errors);
             }
