@@ -12,7 +12,7 @@ public class Developer {
     private final String developerId;
     private String fullName;
     private String email;
-    private LocalDate hiringDate;
+    private final LocalDate hiringDate;
     private LocalDate resignationDate;
     private List<Project> projectList;
 

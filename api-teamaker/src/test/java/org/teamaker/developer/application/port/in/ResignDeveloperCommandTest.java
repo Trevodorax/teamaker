@@ -6,8 +6,6 @@ import org.teamaker.developer.application.port.in.resignDeveloper.ResignDevelope
 
 import javax.validation.ConstraintViolationException;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

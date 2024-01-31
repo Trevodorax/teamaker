@@ -1,108 +1,115 @@
 package org.teamaker.team.application;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCommand;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
-import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperCommand;
-import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperPort;
 import org.teamaker.developer.domain.Developer;
-import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamCommand;
+import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamResponse;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
+import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 class AssignDeveloperToTeamServiceTest {
-    private static AssignDeveloperToTeamService assignDeveloperToTeamService;
-    private static LoadDeveloperPort loadDeveloperPortMock;
-    private static LoadProjectPort loadProjectPortMock;
-    private static LoadDeveloperProjectsPort loadDeveloperProjectsPortMock;
-    private static SaveDeveloperPort saveDeveloperPortMock;
+    private AssignDeveloperToTeamService assignDeveloperToTeamService;
 
-    @BeforeAll
-    public static void setUp() {
-        loadDeveloperPortMock = mock(LoadDeveloperPort.class);
-        loadProjectPortMock = mock(LoadProjectPort.class);
-        loadDeveloperProjectsPortMock = mock(LoadDeveloperProjectsPort.class);
-        saveDeveloperPortMock = mock(SaveDeveloperPort.class);
-        assignDeveloperToTeamService = new AssignDeveloperToTeamService(
-                loadDeveloperPortMock,
-                loadProjectPortMock,
-                loadDeveloperProjectsPortMock,
-                saveDeveloperPortMock);
+    @Mock
+    private LoadDeveloperPort loadDeveloperPort;
+
+    @Mock
+    private LoadProjectPort loadProjectPort;
+
+    @Mock
+    private LoadDeveloperProjectsPort loadDeveloperProjectsPort;
+
+    @Mock
+    private LoadTeamPort loadTeamPort;
+
+    @Mock
+    private SaveTeamPort saveTeamPort;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        assignDeveloperToTeamService = new AssignDeveloperToTeamService(loadDeveloperPort, loadProjectPort, loadDeveloperProjectsPort, loadTeamPort, saveTeamPort);
     }
 
     @Test
-    public void testAssignDeveloperToTeam_Success() {
-        // mock out ports
-        Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
-                LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10),
-                new Team("projectId", new ArrayList<>(), false)
-        );
-        when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
+    void testAssignDeveloperToTeam_Success() {
+        // Mock developer, projects, project, and team data
+        Developer mockDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6));
+        when(loadDeveloperPort.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
-        Developer mockDeveloper = new Developer("id", "name", "email", LocalDate.of(2023, 1, 1));
-        when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
+        List<Project> mockDeveloperProjects = new ArrayList<>();
+        when(loadDeveloperProjectsPort.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(mockDeveloperProjects);
 
-        when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(new ArrayList<>());
+        Team mockTeam = new Team("projectId", new ArrayList<>(), false);
+        when(loadTeamPort.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
-        when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
+        Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam);
+        when(loadProjectPort.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
-        // call
-        DeveloperResponse response = assignDeveloperToTeamService.assignDeveloperToTeam(new AssignDeveloperToTeamCommand("devId", "projId"));
+        // Assign developer to the team
+        AssignDeveloperToTeamCommand command = new AssignDeveloperToTeamCommand("developerId", "projectId");
+        AssignDeveloperToTeamResponse.Response response = assignDeveloperToTeamService.assignDeveloperToTeam(command);
 
-        // check the returned dev is the one returned by the saveDeveloper command
-        assertEquals(response, mockDeveloper.toResponse());
+        // Verify the response and that saveTeam was called
+        assertTrue(response instanceof AssignDeveloperToTeamResponse.SuccessResponse);
+        assertEquals(mockDeveloper.toResponse(), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
 
-        // check the dev has been saved with the new project
-        ArgumentCaptor<SaveDeveloperCommand> captor = ArgumentCaptor.forClass(SaveDeveloperCommand.class);
-        verify(saveDeveloperPortMock).saveDeveloper(captor.capture());
-        SaveDeveloperCommand capturedCommand = captor.getValue();
-        assertTrue(capturedCommand.getDeveloper().getProjectList().contains(mockProject));
+        ArgumentCaptor<Team> captor = ArgumentCaptor.forClass(Team.class);
+        verify(saveTeamPort).saveTeam(captor.capture());
+        Team savedTeam = captor.getValue();
+        assertEquals(savedTeam, mockTeam);
     }
 
     @Test
-    public void testAssignDeveloperToTeam_NotAvailable() {
-        // mock out ports
-        Project mockProject1 = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
-                LocalDate.of(2024, 1, 1),
-                LocalDate.of(2024, 1, 10),
-                new Team("projectId", new ArrayList<>(), false)
-        );
-        when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject1);
+    void testAssignDeveloperToTeam_DeveloperNotAvailable() {
+        // Mock developer, projects, project, and team data
+        Developer mockDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6));
+        when(loadDeveloperPort.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
-        Developer mockDeveloper = new Developer("id", "name", "email", LocalDate.of(2023, 1, 1));
-        when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
+        List<Project> mockDeveloperProjects = new ArrayList<>();
+        when(loadDeveloperProjectsPort.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(mockDeveloperProjects);
 
-        Project mockProject2 = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
-                LocalDate.of(2024, 1, 2),
-                LocalDate.of(2024, 1, 8),
-                new Team("projectId", new ArrayList<>(), false)
-        );
-        ArrayList<Project> mockProjects = new ArrayList<>();
-        mockProjects.add(mockProject2);
-        when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(mockProjects);
+        Team mockTeam = new Team("projectId", new ArrayList<>(), false);
+        when(loadTeamPort.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
-        when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
+        Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam);
+        when(loadProjectPort.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
+        // Developer is not available for this project
+        mockDeveloperProjects.add(mockProject);
 
-        // call
-        assertThrows(IllegalArgumentException.class,
-                () -> assignDeveloperToTeamService.assignDeveloperToTeam(new AssignDeveloperToTeamCommand("devId", "projId")));
+        // Assign developer to the team
+        AssignDeveloperToTeamCommand command = new AssignDeveloperToTeamCommand("developerId", "projectId");
+        AssignDeveloperToTeamResponse.Response response = assignDeveloperToTeamService.assignDeveloperToTeam(command);
+
+        // Verify the response
+        assertTrue(response instanceof AssignDeveloperToTeamResponse.SingleErrorResponse);
+        assertEquals("Developer is not available for this project.", ((AssignDeveloperToTeamResponse.SingleErrorResponse) response).errorMessage());
+
+        // Verify that saveTeam was not called
+        verify(saveTeamPort, never()).saveTeam(any(Team.class));
     }
 }

@@ -26,9 +26,9 @@ import static org.mockito.Mockito.*;
 
 public class ResignDeveloperServiceTest {
 
-    private static String mockId = "867GVC876a";
-    private static String mockName = "John DOE";
-    private static String mockEmail = "john.doe@teamaker.com";
+    private final static String mockId = "867GVC876a";
+    private final static String mockName = "John DOE";
+    private final static String mockEmail = "john.doe@teamaker.com";
     private static LoadDeveloperPort loadDeveloperPortMock;
     private static SaveDeveloperPort saveDeveloperPortMock;
     private static SaveTeamPort saveTeamPortMock;
@@ -44,7 +44,6 @@ public class ResignDeveloperServiceTest {
 
     @Test
     public void testResignDeveloperSuccess() {
-        LocalDate mockResignationDate = LocalDate.now();
         ResignDeveloperCommand command = new ResignDeveloperCommand(mockId);
 
         Developer mockDeveloper = new Developer(mockId, mockName, mockEmail, LocalDate.of(2023, 12, 7));
