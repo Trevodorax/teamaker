@@ -7,6 +7,7 @@ import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.technology.domain.Technology;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,6 +24,23 @@ class TeamTest {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false));
             ArrayList<Developer> developers = new ArrayList<>();
             developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            Team team = new Team(project.getProjectId(), developers, false);
+
+            List<String> response = team.getTeamProblems(project);
+
+            assertTrue(response.contains("Not enough developers in team."));
+        }
+
+        @Test
+        public void testGetTeamProblems_notEnoughDevsForATechnology() {
+            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false));
+            ArrayList<Developer> developers = new ArrayList<>();
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1));
+
+            List<Technology> technologies = new ArrayList<>();
+            technologies.add(new Technology("id", "name"));
+
+
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);

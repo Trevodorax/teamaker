@@ -8,6 +8,7 @@ import org.teamaker.project.domain.ProjectPriority;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +20,7 @@ class SubmitProjectCommandTest {
     private static ProjectPriority validPriority = ProjectPriority.CRITICAL;
     private static LocalDate validStartDate = LocalDate.now().plusDays(1);
     private static LocalDate validEndDate = validStartDate.plusDays(5);
-    private static ArrayList<UUID> validTechnologies = new ArrayList<>();
+    private static Map<UUID, Integer> validTechnologies;
 
     @BeforeAll
     public static void setUp() {
@@ -28,8 +29,7 @@ class SubmitProjectCommandTest {
         validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
         validEndDate = validStartDate.plusDays(5);
-        validTechnologies = new ArrayList<>();
-        validTechnologies.add(UUID.randomUUID());
+        validTechnologies = Map.of(UUID.randomUUID(), 3);
     }
 
     @Test

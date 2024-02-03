@@ -7,6 +7,7 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
@@ -18,9 +19,10 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     @Future
     private final LocalDate startDate;
     private final LocalDate endDate;
-    private final ArrayList<UUID> technologies;
+//    private final ArrayList<UUID> technologies;
+    private final Map<UUID, Integer> technologies;
 
-    public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, ArrayList<UUID> technologies) {
+    public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<UUID, Integer> technologies) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -55,7 +57,7 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
         return endDate;
     }
 
-    public ArrayList<UUID> getTechnologies() {
+    public Map<UUID, Integer> getTechnologies() {
         return technologies;
     }
 }
