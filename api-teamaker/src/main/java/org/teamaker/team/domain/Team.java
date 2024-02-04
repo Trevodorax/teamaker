@@ -4,6 +4,7 @@ import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.ExperienceLevel;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
+import org.teamaker.technology.domain.Technology;
 
 import java.time.Duration;
 import java.time.Period;
@@ -65,6 +66,20 @@ public class Team {
      */
     public List<String> getTeamProblems(Project teamProject) {
         ArrayList<String> teamProblems = new ArrayList<>();
+
+        //check if, for each technology of the project, there is at least the good number of developers
+        for (Technology technology : teamProject.getTechnologies().keySet()) {
+            int nbDevsForTech = teamProject.getTechnologies().get(technology);
+            int nbDevsForTechInTeam = 0;
+            for (Developer developer : this.developers) {
+                if (developer.getSkills().contains(technology)) {
+                    nbDevsForTechInTeam++;
+                }
+            }
+            if (nbDevsForTechInTeam < nbDevsForTech) {
+                teamProblems.add("Not enough developers for technology " + technology + " in team.");
+            }
+        }
 
         if(this.developers.size() < MIN_NB_DEVS) {
             teamProblems.add("Not enough developers in team.");

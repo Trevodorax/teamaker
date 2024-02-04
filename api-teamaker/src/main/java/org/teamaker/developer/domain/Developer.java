@@ -3,6 +3,7 @@ package org.teamaker.developer.domain;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectProgress;
+import org.teamaker.technology.domain.Technology;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -15,6 +16,7 @@ public class Developer {
     private final LocalDate hiringDate;
     private LocalDate resignationDate;
     private List<Project> projectList;
+    private List<Technology> skills;
 
     public Developer(String developerId, String fullName, String email, LocalDate hiringDate) {
         this.developerId = developerId;
@@ -125,5 +127,13 @@ public class Developer {
                 .stream()
                 .filter(project -> project.projectProgress() != ProjectProgress.DONE)
                 .toList();
+    }
+
+    public List<Technology> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Technology> skills) {
+        this.skills = skills;
     }
 }

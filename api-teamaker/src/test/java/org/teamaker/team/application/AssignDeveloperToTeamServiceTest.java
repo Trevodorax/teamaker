@@ -25,6 +25,7 @@ import org.teamaker.team.domain.Team;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -66,7 +67,7 @@ class AssignDeveloperToTeamServiceTest {
         Team mockTeam = new Team("projectId", new ArrayList<>(), false);
         when(loadTeamPort.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
-        Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam);
+        Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam, Map.of());
         when(loadProjectPort.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
         // Assign developer to the team
@@ -95,7 +96,7 @@ class AssignDeveloperToTeamServiceTest {
         Team mockTeam = new Team("projectId", new ArrayList<>(), false);
         when(loadTeamPort.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
-        Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam);
+        Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam, Map.of());
         when(loadProjectPort.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
         // Developer is not available for this project

@@ -23,6 +23,7 @@ import org.teamaker.team.domain.Team;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -60,7 +61,7 @@ class RemoveDeveloperFromTeamServiceTest {
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
                 LocalDate.of(2024, 1, 10),
-                new Team("id", new ArrayList<>(), false)
+                new Team("id", new ArrayList<>(), false), Map.of()
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -88,7 +89,7 @@ class RemoveDeveloperFromTeamServiceTest {
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED,
                 LocalDate.now().minusDays(2),
                 LocalDate.now().plusDays(2),
-                new Team("id", new ArrayList<>(), false)
+                new Team("id", new ArrayList<>(), false), Map.of()
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -116,7 +117,7 @@ class RemoveDeveloperFromTeamServiceTest {
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
                 LocalDate.of(2024, 1, 10),
-                new Team("id", new ArrayList<>(), false)
+                new Team("id", new ArrayList<>(), false), Map.of()
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
@@ -144,7 +145,7 @@ class RemoveDeveloperFromTeamServiceTest {
         Project mockProject = new Project("id", "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
                 LocalDate.of(2024, 1, 10),
-                new Team("id", new ArrayList<>(), false)
+                new Team("id", new ArrayList<>(), false), Map.of()
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 

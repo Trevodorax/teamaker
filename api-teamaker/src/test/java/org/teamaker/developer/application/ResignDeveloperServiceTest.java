@@ -18,6 +18,7 @@ import org.teamaker.team.domain.Team;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,7 +52,7 @@ public class ResignDeveloperServiceTest {
         Project mockProject = new Project(mockId,  "test project", "test", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 9, 1),
-                new Team("test project", getDevelopersForValidTeam(), true));
+                new Team("test project", getDevelopersForValidTeam(), true), Map.of());
         List<Project> mockProjectList = new ArrayList<>();
         mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
@@ -77,7 +78,7 @@ public class ResignDeveloperServiceTest {
         Project mockProject = new Project(mockId,  "test project", "test", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 9, 1),
-                new Team("test project", getDevelopersForInValidTeam(), true));
+                new Team("test project", getDevelopersForInValidTeam(), true), Map.of());
 
         List<Project> mockProjectList = new ArrayList<>();
         mockProjectList.add(mockProject);
@@ -99,7 +100,7 @@ public class ResignDeveloperServiceTest {
         Project mockProject = new Project(mockId,  "test project", "test", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 9, 1),
-                new Team("test project", getDevelopersForInValidTeam(), true));
+                new Team("test project", getDevelopersForInValidTeam(), true), Map.of());
 
         List<Project> mockProjectList = new ArrayList<>();
         mockProjectList.add(mockProject);

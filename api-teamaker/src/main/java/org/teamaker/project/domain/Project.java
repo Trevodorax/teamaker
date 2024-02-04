@@ -3,10 +3,12 @@ package org.teamaker.project.domain;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.team.domain.Team;
+import org.teamaker.technology.domain.Technology;
 
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class Project {
     private final String projectId;
@@ -17,8 +19,9 @@ public class Project {
     private LocalDate startDate;
     private LocalDate endDate;
     private Team team;
+    private Map<Technology, Integer> technologies;
 
-    public Project(String projectId, String name, String description, ProjectPriority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate, Team team) {
+    public Project(String projectId, String name, String description, ProjectPriority priority, ProjectStatus status, LocalDate startDate, LocalDate endDate, Team team, Map<Technology, Integer> technologies) {
         this.projectId = projectId;
         this.name = name;
         this.description = description;
@@ -27,6 +30,7 @@ public class Project {
         this.startDate = startDate;
         this.endDate = endDate;
         this.team = team;
+        this.technologies = technologies;
     }
 
     public String getProjectId() {
@@ -67,6 +71,10 @@ public class Project {
 
     public Team getTeam() {
         return team;
+    }
+
+    public Map<Technology, Integer> getTechnologies() {
+        return technologies;
     }
 
     public void postpone(LocalDate startDate, LocalDate endDate) {

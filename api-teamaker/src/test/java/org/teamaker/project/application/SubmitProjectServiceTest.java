@@ -14,6 +14,7 @@ import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -39,11 +40,11 @@ class SubmitProjectServiceTest {
         ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
         LocalDate mockEndDate = mockStartDate.plusDays(5);
-        ArrayList<UUID> mockTechnologies = new ArrayList<>();
+        Map<String, Integer> mockTechnologies = Map.of(UUID.randomUUID().toString(), 1);
         SubmitProjectCommand command = new SubmitProjectCommand(mockName, mockDescription, mockPriority, mockStartDate, mockEndDate, mockTechnologies);
 
         // mock the injected command
-        Project expectedProject = new Project("test-id", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false));
+        Project expectedProject = new Project("test-id", mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("projectId", new ArrayList<>(), false), Map.of());
         when(createProjectPortMock.createProject(any(CreateProjectCommand.class))).thenReturn(expectedProject); // mock createProject method
 
         // === when === //
