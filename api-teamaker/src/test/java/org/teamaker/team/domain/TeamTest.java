@@ -34,9 +34,12 @@ class TeamTest {
 
         @Test
         public void testGetTeamProblems_notEnoughDevsForATechnology() {
-            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
+            Map<Technology, Integer> technologiesForProject = Map.of(new Technology("id", "name"), 2);
+            Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), technologiesForProject);
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            Developer dev1 = new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1));
+            dev1.setDeveloperSkills(List.of(new Technology("id", "name")));
+            developers.add(dev1);
 
             List<Technology> technologies = new ArrayList<>();
             technologies.add(new Technology("id", "name"));
