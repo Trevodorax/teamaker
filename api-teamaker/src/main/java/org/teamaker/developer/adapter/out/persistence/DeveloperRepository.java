@@ -66,7 +66,7 @@ public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>
 
     @Override
     default List<Developer> loadDevelopers() {
-        return null;
+        return findAll().stream().map(DeveloperJPA::toDomain).toList();
     }
 
     @Override

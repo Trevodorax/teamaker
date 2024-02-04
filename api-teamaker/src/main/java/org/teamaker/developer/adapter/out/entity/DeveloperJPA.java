@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.teamaker.developer.domain.Developer;
 import org.teamaker.team.adapter.out.entity.TeamChangeRequestJPA;
 import org.teamaker.team.adapter.out.entity.TeamMembershipJPA;
 import org.teamaker.technology.adapter.out.entity.SkillJPA;
@@ -44,4 +45,8 @@ public class DeveloperJPA {
 
     @OneToMany(mappedBy = "developer")
     private Set<SkillJPA> skills = new HashSet<>();
+
+    public Developer toDomain() {
+        return new Developer(id, name, email, hiringDate);
+    }
 }
