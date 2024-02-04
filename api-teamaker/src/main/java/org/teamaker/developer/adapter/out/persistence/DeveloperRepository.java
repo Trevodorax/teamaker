@@ -56,7 +56,7 @@ public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>
 
     @Override
     default Developer loadDeveloper(LoadDeveloperCommand command) throws NoSuchElementException {
-        return null;
+        return findById(command.getDeveloperId()).map(DeveloperJPA::toDomain).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
