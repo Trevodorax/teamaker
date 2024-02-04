@@ -1,5 +1,6 @@
 package org.teamaker.developer.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperCommand;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperResponse;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperUseCase;
@@ -9,6 +10,7 @@ import org.teamaker.developer.domain.Developer;
 
 import java.util.NoSuchElementException;
 
+@Component
 class GetDeveloperService implements GetDeveloperUseCase {
     private final LoadDeveloperPort loadDeveloperPort;
 

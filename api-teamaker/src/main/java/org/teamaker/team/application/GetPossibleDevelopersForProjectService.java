@@ -1,5 +1,6 @@
 package org.teamaker.team.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.GetPossibleDevelopersForProjectCommand;
 import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.GetPossibleDevelopersForProjectUseCase;
@@ -9,6 +10,7 @@ import org.teamaker.team.application.port.out.loadPossibleDevelopersForProject.L
 
 import java.util.List;
 
+@Component
 public class GetPossibleDevelopersForProjectService implements GetPossibleDevelopersForProjectUseCase {
     private final LoadPossibleDevelopersForProjectPort loadPossibleDevelopersForProjectPort;
 

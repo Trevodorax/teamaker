@@ -1,5 +1,6 @@
 package org.teamaker.team.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.team.application.port.in.getTeamChangeRequest.GetTeamChangeRequestCommand;
 import org.teamaker.team.application.port.in.getTeamChangeRequest.GetTeamChangeRequestResponse;
 import org.teamaker.team.application.port.in.getTeamChangeRequest.GetTeamChangeRequestUseCase;
@@ -7,6 +8,7 @@ import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChan
 import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChangeRequestPort;
 import org.teamaker.team.domain.TeamChangeRequest;
 
+@Component
 public class GetTeamChangeRequestService implements GetTeamChangeRequestUseCase {
     private final LoadTeamChangeRequestPort loadTeamChangeRequestPort;
 

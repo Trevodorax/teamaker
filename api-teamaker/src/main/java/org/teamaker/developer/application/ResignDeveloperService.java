@@ -1,5 +1,6 @@
 package org.teamaker.developer.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperResponse;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperUseCase;
@@ -14,6 +15,7 @@ import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Component
 class ResignDeveloperService implements ResignDeveloperUseCase {
     private final LoadDeveloperPort loadDeveloperPort;
     private final SaveDeveloperPort saveDeveloperPort;

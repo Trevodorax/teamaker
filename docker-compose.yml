@@ -1,0 +1,34 @@
+version: "3.8"
+services:
+  teamaker-db:
+    image: mysql:latest
+    container_name: teamaker-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - my-db:/var/lib/mysql
+  teamaker-app:
+    build: .
+    image: teamaker:latest
+    container_name: teamaker-app
+    restart: always
+    ports:
+      - '8080:8080'
+    depends_on:
+      - teamaker-db
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
+      SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL}
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: ${SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT}
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: ${SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL}
+      SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS: ${SPRING_JPA_PROPERTIES_HIBERNATE_USE_SQL_COMMENTS}
+
+volumes:
+  my-db:

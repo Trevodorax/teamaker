@@ -1,5 +1,6 @@
 package org.teamaker.developer.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsCommand;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsResponse;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsUseCase;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Component
 class GetDeveloperSkillsService implements GetDeveloperSkillsUseCase {
     private final LoadDeveloperSkillsPort loadDeveloperSkillsPort;
 
