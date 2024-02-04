@@ -40,7 +40,7 @@ class SubmitProjectServiceTest {
         ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
         LocalDate mockEndDate = mockStartDate.plusDays(5);
-        Map<UUID, Integer> mockTechnologies = Map.of(UUID.randomUUID(), 3);
+        Map<String, Integer> mockTechnologies = Map.of(UUID.randomUUID().toString(), 1);
         SubmitProjectCommand command = new SubmitProjectCommand(mockName, mockDescription, mockPriority, mockStartDate, mockEndDate, mockTechnologies);
 
         // mock the injected command

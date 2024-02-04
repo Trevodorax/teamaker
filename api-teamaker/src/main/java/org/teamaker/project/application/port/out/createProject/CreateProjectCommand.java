@@ -19,9 +19,9 @@ public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
     private final LocalDate startDate;
     private final LocalDate endDate;
     @NotNull
-    private final Map<UUID, Integer> technologies;
+    private final Map<String, Integer> technologies;
 
-    public CreateProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<UUID, Integer> technologies) {
+    public CreateProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<String, Integer> technologies) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -56,7 +56,7 @@ public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
         return endDate;
     }
 
-    public Map<UUID, Integer> getTechnologies() {
+    public Map<String, Integer> getTechnologies() {
         return technologies;
     }
 }

@@ -19,11 +19,10 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     @Future
     private final LocalDate startDate;
     private final LocalDate endDate;
-//    private final ArrayList<UUID> technologies;
     @NotNull
-    private final Map<UUID, Integer> technologies;
+    private final Map<String, Integer> technologies;
 
-    public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<UUID, Integer> technologies) {
+    public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<String, Integer> technologies) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -58,7 +57,7 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
         return endDate;
     }
 
-    public Map<UUID, Integer> getTechnologies() {
+    public Map<String, Integer> getTechnologies() {
         return technologies;
     }
 }

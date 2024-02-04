@@ -72,7 +72,7 @@ public class Team {
             int nbDevsForTech = teamProject.getTechnologies().get(technology);
             int nbDevsForTechInTeam = 0;
             for (Developer developer : this.developers) {
-                if (developer.getDeveloperSkills().contains(technology)) {
+                if (developer.getSkills().contains(technology)) {
                     nbDevsForTechInTeam++;
                 }
             }

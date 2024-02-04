@@ -38,7 +38,7 @@ class TeamTest {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), technologiesForProject);
             ArrayList<Developer> developers = new ArrayList<>();
             Developer dev1 = new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1));
-            dev1.setDeveloperSkills(List.of(new Technology("id", "name")));
+            dev1.setSkills(List.of(new Technology("id", "name")));
             developers.add(dev1);
 
             List<Technology> technologies = new ArrayList<>();

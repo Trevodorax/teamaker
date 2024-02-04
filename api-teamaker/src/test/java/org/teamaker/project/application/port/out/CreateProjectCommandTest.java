@@ -19,7 +19,7 @@ class CreateProjectCommandTest {
     private static ProjectPriority validPriority = ProjectPriority.CRITICAL;
     private static LocalDate validStartDate = LocalDate.now().plusDays(1);
     private static LocalDate validEndDate = validStartDate.plusDays(5);
-    private static Map<UUID, Integer> validTechnologies = Map.of(UUID.randomUUID(), 3);
+    private static Map<String, Integer> validTechnologies = Map.of(UUID.randomUUID().toString(), 3);
 
     @BeforeAll
     public static void setUp() {
@@ -28,7 +28,7 @@ class CreateProjectCommandTest {
         validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
         validEndDate = validStartDate.plusDays(5);
-        validTechnologies = Map.of(UUID.randomUUID(), 3);
+        validTechnologies = Map.of(UUID.randomUUID().toString(), 3);
     }
 
     @Test

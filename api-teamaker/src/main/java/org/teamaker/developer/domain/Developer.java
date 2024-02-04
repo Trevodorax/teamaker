@@ -16,7 +16,7 @@ public class Developer {
     private final LocalDate hiringDate;
     private LocalDate resignationDate;
     private List<Project> projectList;
-    private List<Technology> developerSkills;
+    private List<Technology> skills;
 
     public Developer(String developerId, String fullName, String email, LocalDate hiringDate) {
         this.developerId = developerId;
@@ -129,11 +129,11 @@ public class Developer {
                 .toList();
     }
 
-    public List<Technology> getDeveloperSkills() {
-        return developerSkills;
+    public List<Technology> getSkills() {
+        return skills;
     }
 
-    public void setDeveloperSkills(List<Technology> developerSkills) {
-        this.developerSkills = developerSkills;
+    public void setSkills(List<Technology> skills) {
+        this.skills = skills;
     }
 }
