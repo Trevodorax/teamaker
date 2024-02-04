@@ -2,6 +2,8 @@ package org.teamaker.team.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.teamaker.developer.domain.Developer;
+import org.teamaker.team.adapter.out.entity.TeamChangeRequestJPA;
+import org.teamaker.team.adapter.out.entity.TeamMembershipJPA;
 import org.teamaker.team.application.port.out.createTeamChangeRequest.CreateTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.createTeamChangeRequest.CreateTeamChangeRequestPort;
 import org.teamaker.team.application.port.out.loadDeveloperTeamChangeRequests.LoadDeveloperTeamChangeRequestsCommand;
@@ -20,7 +22,7 @@ import org.teamaker.team.domain.TeamChangeRequest;
 import java.util.List;
 
 public interface TeamRepository extends
-        JpaRepository<TeamJPA, String>,
+        JpaRepository<TeamChangeRequestJPA, String>,
         CreateTeamChangeRequestPort,
         LoadDeveloperTeamChangeRequestsPort,
         LoadPossibleDevelopersForProjectPort,
