@@ -57,6 +57,10 @@ public class Developer {
         return developerId;
     }
 
+    public LocalDate getHiringDate() {
+        return hiringDate;
+    }
+
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }
