@@ -19,6 +19,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "PROJECT")
 public class ProjectJPA {
     @Id
     private String id;

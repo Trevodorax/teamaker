@@ -1,5 +1,6 @@
 package org.teamaker.developer.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillResponse;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillUseCase;
@@ -13,6 +14,7 @@ import org.teamaker.developer.domain.dto.LearnSkillDtoResponse;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Component
 class LearnSkillService implements LearnSkillUseCase {
     private final AcquireSkillPort acquireSkillPort;
     private final LoadDeveloperSkillsPort loadDeveloperSkillsPort;

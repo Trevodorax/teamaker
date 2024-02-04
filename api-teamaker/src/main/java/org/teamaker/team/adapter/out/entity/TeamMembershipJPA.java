@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "TEAM_MEMBERSHIP")
 public class TeamMembershipJPA {
     @EmbeddedId
     private TeamMembershipPK id;

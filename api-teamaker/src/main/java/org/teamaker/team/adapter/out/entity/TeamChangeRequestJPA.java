@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "TEAM_CHANGE_REQUEST")
 public class TeamChangeRequestJPA {
     @EmbeddedId
     private TeamChangeRequestPK id;

@@ -1,5 +1,6 @@
 package org.teamaker.developer.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.forgetSkill.ForgetSkillCommand;
 import org.teamaker.developer.application.port.in.forgetSkill.ForgetSkillResponse;
 import org.teamaker.developer.application.port.in.forgetSkill.ForgetSkillUseCase;
@@ -8,6 +9,7 @@ import org.teamaker.developer.application.port.out.removeSkill.RemoveSkillPort;
 
 import java.util.NoSuchElementException;
 
+@Component
 class ForgetSkillService implements ForgetSkillUseCase {
     private final RemoveSkillPort removeSkillPort;
 

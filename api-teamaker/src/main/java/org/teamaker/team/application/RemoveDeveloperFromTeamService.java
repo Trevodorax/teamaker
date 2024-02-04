@@ -1,5 +1,6 @@
 package org.teamaker.team.application;
 
+import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCommand;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
@@ -19,6 +20,7 @@ import org.teamaker.team.domain.Team;
 
 import java.util.List;
 
+@Component
 public class RemoveDeveloperFromTeamService implements RemoveDeveloperFromTeamUseCase {
     private final LoadDeveloperPort loadDeveloperPort;
     private final LoadProjectPort loadProjectPort;

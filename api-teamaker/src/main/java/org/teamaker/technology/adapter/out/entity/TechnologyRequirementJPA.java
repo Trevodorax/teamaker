@@ -11,6 +11,7 @@ import org.teamaker.project.adapter.out.persistence.ProjectJPA;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "TECHNOLOGY_REQUIREMENT")
 public class TechnologyRequirementJPA {
     @EmbeddedId
     private TechnologyRequirementPK technologyRequirementPK;

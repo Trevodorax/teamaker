@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "SKILL")
 public class SkillJPA {
     @EmbeddedId
     private SkillPK id;
