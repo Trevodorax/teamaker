@@ -1,7 +1,9 @@
 package org.teamaker.developer.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.teamaker.developer.adapter.out.entity.DeveloperJPA;
 import org.teamaker.developer.application.port.out.acquireSkill.AcquireSkillCommand;
 import org.teamaker.developer.application.port.out.acquireSkill.AcquireSkillPort;
@@ -27,9 +29,12 @@ import org.teamaker.project.domain.Project;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>,
+        CustomDeveloperRepository,
         AcquireSkillPort,
         CreateDeveloperPort,
         FindDevelopersByTechnologyPort,
@@ -46,7 +51,22 @@ public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>
 
     @Override
     default Developer createDeveloper(CreateDeveloperCommand command) throws IllegalArgumentException {
-        return null;
+        String id = UUID.randomUUID().toString();
+        while (existsById(id)) {
+            id = UUID.randomUUID().toString();
+        }
+
+        DeveloperJPA developerJPA = new DeveloperJPA();
+        developerJPA.setId(id);
+        developerJPA.setName(command.getFullName());
+        developerJPA.setEmail(command.getEmail());
+        developerJPA.setHiringDate(command.getHiringDate());
+
+        if (findByEmail(command.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email is already taken");
+        }
+
+        return save(developerJPA).toDomain();
     }
 
     @Override

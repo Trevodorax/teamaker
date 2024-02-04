@@ -105,13 +105,75 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/developers/secondId",
+					"raw": "{{base_url}}/developers/7e96a62e-0a92-4a7c-8369-223114339e1c",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"developers",
-						"secondId"
+						"7e96a62e-0a92-4a7c-8369-223114339e1c"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HireDeveloper",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 201\", function () {",
+							"  pm.expect(pm.response.code).to.equal(201);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Name is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData.developer.name).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Email is in a valid email format\", function () {",
+							"    const responseData = pm.response.json();",
+							"",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.developer.email).to.exist.and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"HiringDate is in a valid date format\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fullName\": \"Paul Gaudeaux\",\n    \"email\": \"paul@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/developers",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"developers"
 					]
 				}
 			},
