@@ -18,7 +18,7 @@ class SubmitProjectService implements SubmitProjectUseCase {
 
     @Override
     public ProjectResponse submitProject(SubmitProjectCommand command) {
-        Project createdProject = createProjectPort.createProject(new CreateProjectCommand(command.getName(), command.getDescription(), command.getPriority(), command.getStartDate(), command.getEndDate()));
+        Project createdProject = createProjectPort.createProject(new CreateProjectCommand(command.getName(), command.getDescription(), command.getPriority(), command.getStartDate(), command.getEndDate(), command.getTechnologies()));
         // TODO: create the team and assign the devs to the project
         return createdProject.toResponse();
     }

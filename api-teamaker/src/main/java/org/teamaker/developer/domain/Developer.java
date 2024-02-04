@@ -18,12 +18,11 @@ public class Developer {
     private List<Project> projectList;
     private List<Technology> developerSkills;
 
-    public Developer(String developerId, String fullName, String email, LocalDate hiringDate, List<Technology> developerSkills) {
+    public Developer(String developerId, String fullName, String email, LocalDate hiringDate) {
         this.developerId = developerId;
         this.fullName = fullName;
         this.email = email;
         this.hiringDate = hiringDate;
-        this.developerSkills = developerSkills;
     }
 
     public List<String> resign(List<Project> currentProjects){
@@ -132,5 +131,9 @@ public class Developer {
 
     public List<Technology> getDeveloperSkills() {
         return developerSkills;
+    }
+
+    public void setDeveloperSkills(List<Technology> developerSkills) {
+        this.developerSkills = developerSkills;
     }
 }

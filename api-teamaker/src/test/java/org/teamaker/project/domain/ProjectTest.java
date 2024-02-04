@@ -8,6 +8,7 @@ import org.teamaker.team.domain.Team;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +20,7 @@ public class ProjectTest {
     @BeforeAll
     public static void setUp() {
         mockTeam = new Team("projectId", new ArrayList<>(), false);
-        project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(5), mockTeam);
+        project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(5), mockTeam, Map.of());
     }
 
     @Test
@@ -50,21 +51,21 @@ public class ProjectTest {
 
     @Test
     public void projectProgress_WhenPending_ShouldBeNotStarted() {
-        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(10), mockTeam);
+        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.PENDING, LocalDate.now(), LocalDate.now().plusDays(10), mockTeam, Map.of());
         assertEquals(ProjectProgress.NOT_STARTED, project.projectProgress());
     }
 
     @Test
     public void projectProgress_WhenAcceptedAndBeforeStartDate_ShouldBeNotStarted() {
         LocalDate futureDate = LocalDate.now().plusDays(5);
-        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.ACCEPTED, futureDate, futureDate.plusDays(10), mockTeam);
+        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.ACCEPTED, futureDate, futureDate.plusDays(10), mockTeam, Map.of());
         assertEquals(ProjectProgress.NOT_STARTED, project.projectProgress());
     }
 
     @Test
     public void projectProgress_WhenAcceptedAndAfterEndDate_ShouldBeDone() {
         LocalDate pastDate = LocalDate.now().minusDays(10);
-        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.ACCEPTED, pastDate, pastDate.plusDays(5), mockTeam);
+        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.ACCEPTED, pastDate, pastDate.plusDays(5), mockTeam, Map.of());
         assertEquals(ProjectProgress.DONE, project.projectProgress());
     }
 
@@ -72,16 +73,16 @@ public class ProjectTest {
     public void projectProgress_WhenAcceptedAndBetweenDates_ShouldBeInProgress() {
         LocalDate startDate = LocalDate.now().minusDays(5);
         LocalDate endDate = LocalDate.now().plusDays(5);
-        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.ACCEPTED, startDate, endDate, mockTeam);
+        Project project = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.ACCEPTED, startDate, endDate, mockTeam, Map.of());
         assertEquals(ProjectProgress.IN_PROGRESS, project.projectProgress());
     }
 
     @Test
     public void projectProgress_WhenNotAccepted_ShouldBeAborted() {
-        Project projectRefused = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.REFUSED, LocalDate.now(), LocalDate.now().plusDays(10), mockTeam);
+        Project projectRefused = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.REFUSED, LocalDate.now(), LocalDate.now().plusDays(10), mockTeam, Map.of());
         assertEquals(ProjectProgress.ABORTED, projectRefused.projectProgress());
 
-        Project projectCancelled = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.CANCELLED, LocalDate.now(), LocalDate.now().plusDays(10), mockTeam);
+        Project projectCancelled = new Project("projectId", "name", "description", ProjectPriority.BEST_EFFORT, ProjectStatus.CANCELLED, LocalDate.now(), LocalDate.now().plusDays(10), mockTeam, Map.of());
         assertEquals(ProjectProgress.ABORTED, projectCancelled.projectProgress());
     }
 
@@ -147,19 +148,19 @@ public class ProjectTest {
         Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
                 LocalDate.of(2024, 1, 10),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         Project overlappingProject = new Project("id2", "name2", "description2", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
                 LocalDate.of(2024, 1, 5),
                 LocalDate.of(2024, 1, 15),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         Project overlappingProject2 = new Project("id3", "name3", "description3", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
                 LocalDate.of(2024, 1, 7),
                 LocalDate.of(2024, 1, 12),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         boolean result1 = testProject.isOverlapping(overlappingProject);
@@ -174,19 +175,19 @@ public class ProjectTest {
         Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 1),
                 LocalDate.of(2024, 1, 10),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         Project nonOverlappingProject = new Project("id2", "name2", "description2", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2024, 1, 11),
                 LocalDate.of(2024, 1, 15),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         Project nonOverlappingProject2 = new Project("id3", "name3",  "description3", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2023, 12, 25),
                 LocalDate.of(2023, 12, 31),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         boolean result1 = testProject.isOverlapping(nonOverlappingProject);
@@ -201,7 +202,7 @@ public class ProjectTest {
         Project testProject = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING,
                 LocalDate.of(2022, 1, 1),
                 LocalDate.of(2022, 12, 31),
-                mockTeam
+                mockTeam, Map.of()
         );
 
         Duration duration = testProject.getDuration();

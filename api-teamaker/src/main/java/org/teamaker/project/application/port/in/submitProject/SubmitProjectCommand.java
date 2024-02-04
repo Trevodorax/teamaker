@@ -20,6 +20,7 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     private final LocalDate startDate;
     private final LocalDate endDate;
 //    private final ArrayList<UUID> technologies;
+    @NotNull
     private final Map<UUID, Integer> technologies;
 
     public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<UUID, Integer> technologies) {

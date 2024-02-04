@@ -15,6 +15,7 @@ import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -41,10 +42,10 @@ public class PostponeProjectServiceTest {
         LocalDate mockNewStartDate = mockStartDate.plusDays(1);
         LocalDate mockNewEndDate = mockEndDate.plusDays(1);
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockEndDate, new Team("id", new ArrayList<>(), false));
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockStartDate, mockEndDate, new Team("id", new ArrayList<>(), false), Map.of());
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
-        Project expectedProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockNewStartDate, mockNewEndDate, new Team("id", new ArrayList<>(), false));
+        Project expectedProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, mockNewStartDate, mockNewEndDate, new Team("id", new ArrayList<>(), false), Map.of());
         when(saveProjectPortMock.saveProject(any())).thenReturn(expectedProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);
@@ -69,7 +70,7 @@ public class PostponeProjectServiceTest {
         LocalDate mockNewStartDate = mockStartDate.plusDays(1);
         LocalDate mockNewEndDate = mockEndDate.plusDays(1);
 
-        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, mockStartDate, mockEndDate, new Team(mockId, new ArrayList<>(), false));
+        Project mockInitialProject = new Project(mockId, "Project Name", "Project Description", ProjectPriority.CRITICAL, ProjectStatus.ACCEPTED, mockStartDate, mockEndDate, new Team(mockId, new ArrayList<>(), false), Map.of());
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockInitialProject);
 
         PostponeProjectCommand command = new PostponeProjectCommand(mockId, mockNewStartDate, mockNewEndDate);

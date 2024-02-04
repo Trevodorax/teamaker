@@ -7,6 +7,8 @@ import org.teamaker.project.domain.ProjectPriority;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +19,7 @@ class CreateProjectCommandTest {
     private static ProjectPriority validPriority = ProjectPriority.CRITICAL;
     private static LocalDate validStartDate = LocalDate.now().plusDays(1);
     private static LocalDate validEndDate = validStartDate.plusDays(5);
+    private static Map<UUID, Integer> validTechnologies = Map.of(UUID.randomUUID(), 3);
 
     @BeforeAll
     public static void setUp() {
@@ -25,11 +28,12 @@ class CreateProjectCommandTest {
         validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
         validEndDate = validStartDate.plusDays(5);
+        validTechnologies = Map.of(UUID.randomUUID(), 3);
     }
 
     @Test
     public void testConstructorValidData() {
-        CreateProjectCommand command = new CreateProjectCommand(validName, validDescription, validPriority, validStartDate, validEndDate);
+        CreateProjectCommand command = new CreateProjectCommand(validName, validDescription, validPriority, validStartDate, validEndDate, validTechnologies);
 
         assertEquals(validName, command.getName());
         assertEquals(validDescription, command.getDescription());
@@ -41,28 +45,28 @@ class CreateProjectCommandTest {
     @Test
     public void testConstructorPastStartDate() {
         assertThrows(ConstraintViolationException.class, () -> {
-            new CreateProjectCommand(validName, validDescription, validPriority, LocalDate.now().minusDays(1), validEndDate);
+            new CreateProjectCommand(validName, validDescription, validPriority, LocalDate.now().minusDays(1), validEndDate, validTechnologies);
         });
     }
 
     @Test
     public void testConstructorEmptyName() {
         assertThrows(ConstraintViolationException.class, () -> {
-            new CreateProjectCommand(null, validDescription, validPriority, validStartDate, validEndDate);
+            new CreateProjectCommand(null, validDescription, validPriority, validStartDate, validEndDate, validTechnologies);
         });
     }
 
     @Test
     public void testConstructorEmptyPriority() {
         assertThrows(ConstraintViolationException.class, () -> {
-            new CreateProjectCommand(validName, validDescription, null, validStartDate, validEndDate);
+            new CreateProjectCommand(validName, validDescription, null, validStartDate, validEndDate, validTechnologies);
         });
     }
 
     @Test
     public void testConstructorEndDateBeforeStartDate() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new CreateProjectCommand(validName, validDescription, validPriority, validStartDate, validStartDate.minusDays(1));
+            new CreateProjectCommand(validName, validDescription, validPriority, validStartDate, validStartDate.minusDays(1), validTechnologies);
         });
     }
 

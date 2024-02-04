@@ -15,6 +15,7 @@ import org.teamaker.team.domain.Team;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +44,7 @@ public class GetDeveloperProjectsServiceTest {
         LocalDate mockEndDate = mockStartDate.plusDays(5);
         GetDeveloperProjectsCommand command = new GetDeveloperProjectsCommand(mockId);
 
-        List<Project> expectedProjectsList = List.of(new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("id", new ArrayList<>(), false)));
+        List<Project> expectedProjectsList = List.of(new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("id", new ArrayList<>(), false), Map.of()));
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(expectedProjectsList);
 
         GetDeveloperProjectsResponse.Response result = getDeveloperProjectsServiceMock.getDeveloperProjects(command);

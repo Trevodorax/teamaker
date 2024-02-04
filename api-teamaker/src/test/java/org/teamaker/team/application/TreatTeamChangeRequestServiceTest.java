@@ -25,6 +25,7 @@ import org.teamaker.team.domain.TreatTeamStatus;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -44,7 +45,7 @@ class TreatTeamChangeRequestServiceTest {
     @BeforeEach
     void setUp() {
         exampleTeam = new Team("projectId", new ArrayList<>(), false);
-        exampleProject = new Project("projectId", "projectName", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 6, 6), LocalDate.of(2023, 6, 12), exampleTeam);
+        exampleProject = new Project("projectId", "projectName", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 6, 6), LocalDate.of(2023, 6, 12), exampleTeam, Map.of());
         exampleDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6));
 
         loadTeamChangeRequestPortMock = mock(LoadTeamChangeRequestPort.class);
