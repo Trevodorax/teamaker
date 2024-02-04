@@ -1,7 +1,6 @@
 package org.teamaker.technology.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.teamaker.technology.adapter.out.persistence.entity.TechnologyJPA;
 import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyCommand;
 import org.teamaker.technology.application.port.out.createTechnology.CreateTechnologyPort;
 import org.teamaker.technology.application.port.out.loadTechnologies.LoadTechnologiesPort;
