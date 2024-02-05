@@ -6,6 +6,7 @@ import org.teamaker.developer.application.port.in.resignDeveloper.ResignDevelope
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperResponse;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCommand;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
+import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
 import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperCommand;
 import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperPort;
@@ -56,10 +57,7 @@ public class ResignDeveloperServiceTest {
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 9, 1),
                 new Team("test project", getDevelopersForValidTeam(), true), Map.of());
-        List<Project> mockProjectList = new ArrayList<>();
-        mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
-        mockDeveloper.resign(mockProjectList);
 
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
@@ -83,11 +81,9 @@ public class ResignDeveloperServiceTest {
                 LocalDate.of(2024, 9, 1),
                 new Team("test project", getDevelopersForInValidTeam(), true), Map.of());
 
-        List<Project> mockProjectList = new ArrayList<>();
-        mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
-        mockDeveloper.resign(mockProjectList);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenThrow(new NoSuchElementException("developer not found"));
+        when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
 
         ResignDeveloperResponse.Response result = resignDeveloperService.resignDeveloper(command);
 
@@ -105,12 +101,10 @@ public class ResignDeveloperServiceTest {
                 LocalDate.of(2024, 9, 1),
                 new Team("test project", getDevelopersForInValidTeam(), true), Map.of());
 
-        List<Project> mockProjectList = new ArrayList<>();
-        mockProjectList.add(mockProject);
         mockDeveloper.setProjectList(List.of(mockProject));
-        mockDeveloper.resign(mockProjectList);
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
+        when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
 
         ResignDeveloperResponse.Response result = resignDeveloperService.resignDeveloper(command);
 
