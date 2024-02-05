@@ -24,7 +24,7 @@ class TeamTest {
         public void testGetTeamProblems_NotEnoughDevs() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -37,7 +37,7 @@ class TeamTest {
             Map<Technology, Integer> technologiesForProject = Map.of(new Technology("id", "name"), 2);
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), technologiesForProject);
             ArrayList<Developer> developers = new ArrayList<>();
-            Developer dev1 = new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1));
+            Developer dev1 = new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null);
             dev1.setSkills(List.of(new Technology("id", "name")));
             developers.add(dev1);
 
@@ -56,9 +56,9 @@ class TeamTest {
         public void testGetTeamProblems_EnoughDevs() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev3", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev3", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -70,15 +70,15 @@ class TeamTest {
         public void testGetTeamProblems_TooManyDevs() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev3", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev4", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev5", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev6", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev7", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev8", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev9", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev3", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev4", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev5", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev6", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev7", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev8", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev9", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -90,9 +90,9 @@ class TeamTest {
         public void testGetTeamProblems_NotTooManyDevs() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev3", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev3", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -104,8 +104,8 @@ class TeamTest {
         public void testGetTeamProblems_JuniorWithoutExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -117,8 +117,8 @@ class TeamTest {
         public void testGetTeamProblems_JuniorWithExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2017, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2017, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -130,10 +130,10 @@ class TeamTest {
         public void testGetTeamProblems_TooManyJuniors() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev3", "Anaelle", "t@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev4", "Jean", "t@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev3", "Anaelle", "t@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev4", "Jean", "t@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -145,9 +145,9 @@ class TeamTest {
         public void testGetTeamProblems_NotTooManyJuniors() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev3", "Anaelle", "t@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Tom", "t@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev3", "Anaelle", "t@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -159,7 +159,7 @@ class TeamTest {
         public void testGetTeamProblems_LongProjectNoExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -171,7 +171,7 @@ class TeamTest {
         public void testGetTeamProblems_ShortProjectNoExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -183,7 +183,7 @@ class TeamTest {
         public void testGetTeamProblems_LongProjectWithExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2017, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2017, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -195,9 +195,9 @@ class TeamTest {
         public void testGetTeamProblems_SmallTeamWithExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Anaelle", "p@gmail.com", LocalDate.of(2017, 1, 1)));
-            developers.add(new Developer("dev3", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Anaelle", "p@gmail.com", LocalDate.of(2017, 1, 1), null));
+            developers.add(new Developer("dev3", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -209,9 +209,9 @@ class TeamTest {
         public void testGetTeamProblems_SmallTeamWithExpertCritical() {
             Project project = new Project("id", "name", "description", ProjectPriority.CRITICAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev2", "Anaelle", "p@gmail.com", LocalDate.of(2017, 1, 1)));
-            developers.add(new Developer("dev3", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev2", "Anaelle", "p@gmail.com", LocalDate.of(2017, 1, 1), null));
+            developers.add(new Developer("dev3", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -223,11 +223,11 @@ class TeamTest {
         public void testGetTeamProblems_BigTeamWithExpert() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             ArrayList<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("dev1", "Anaelle", "p@gmail.com", LocalDate.of(2017, 1, 1)));
-            developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev3", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev4", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1)));
-            developers.add(new Developer("dev5", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1)));
+            developers.add(new Developer("dev1", "Anaelle", "p@gmail.com", LocalDate.of(2017, 1, 1), null));
+            developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev3", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev4", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
+            developers.add(new Developer("dev5", "Tom", "p@gmail.com", LocalDate.of(2023, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             List<String> response = team.getTeamProblems(project);
@@ -273,7 +273,7 @@ class TeamTest {
         public void testRemoveDeveloper_SuccessLocked() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = getDevelopersForValidTeam();
-            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
+            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, true);
 
             team.removeDeveloperById("removed", project, false);
@@ -284,8 +284,8 @@ class TeamTest {
         public void testRemoveDeveloper_SuccessNotLocked() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = new ArrayList<>();
-            developers.add(new Developer("safe", "i'm safe", "cheh@gmail.com", LocalDate.of(2022, 1, 1)));
-            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
+            developers.add(new Developer("safe", "i'm safe", "cheh@gmail.com", LocalDate.of(2022, 1, 1), null));
+            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, false);
 
             team.removeDeveloperById("removed", project, false);
@@ -309,7 +309,7 @@ class TeamTest {
         public void testRemoveDeveloper_NoRemove() {
             Project project = new Project("id", "name", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = getDevelopersForValidTeam();
-            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1)));
+            developers.add(new Developer("removed", "i'll be removed", "helpme@gmail.com", LocalDate.of(2022, 1, 1), null));
             Team team = new Team(project.getProjectId(), developers, true);
 
             team.removeDeveloperById("removed", project, true);
@@ -327,7 +327,7 @@ class TeamTest {
             Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = getDevelopersForValidTeam();
             Team team = new Team(project.getProjectId(), developers, true);
-            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2020, 1, 1));
+            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2020, 1, 1), null);
 
             List<String> errors = team.addDeveloper(newDeveloper, project, false);
 
@@ -342,7 +342,7 @@ class TeamTest {
             Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = new ArrayList<>();
             Team team = new Team(project.getProjectId(), developers, false);
-            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2023, 1, 1));
+            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2023, 1, 1), null);
 
             team.addDeveloper(newDeveloper, project, false);
 
@@ -355,7 +355,7 @@ class TeamTest {
             Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = getDevelopersForValidTeam();
             Team team = new Team(project.getProjectId(), developers, true);
-            Developer newDeveloper = new Developer("dev1", "Existing Developer", "existingdev@gmail.com", LocalDate.of(2023, 1, 1)); // assuming dev1 breaks rules
+            Developer newDeveloper = new Developer("dev1", "Existing Developer", "existingdev@gmail.com", LocalDate.of(2023, 1, 1), null); // assuming dev1 breaks rules
 
             List<String> response = team.addDeveloper(newDeveloper, project, false);
 
@@ -369,7 +369,7 @@ class TeamTest {
             Project project = new Project("id", "Test Project", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 10), new Team("projectId", new ArrayList<>(), false), Map.of());
             List<Developer> developers = getDevelopersForValidTeam();
             Team team = new Team(project.getProjectId(), developers, true);
-            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2020, 1, 1));
+            Developer newDeveloper = new Developer("new", "New Developer", "newdev@gmail.com", LocalDate.of(2020, 1, 1), null);
 
             List<String> errors = team.addDeveloper(newDeveloper, project, true);
 
@@ -383,9 +383,9 @@ class TeamTest {
     private List<Developer> getDevelopersForValidTeam() {
         ArrayList<Developer> developers = new ArrayList<>();
 
-        developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2019, 1, 1)));
-        developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2019, 1, 1)));
-        developers.add(new Developer("dev3", "Anaelle", "p@gmail.com", LocalDate.of(2019, 1, 1)));
+        developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2019, 1, 1), null));
+        developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2019, 1, 1), null));
+        developers.add(new Developer("dev3", "Anaelle", "p@gmail.com", LocalDate.of(2019, 1, 1), null));
 
         return developers;
     }

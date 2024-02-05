@@ -105,13 +105,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{base_url}}/developers/7e96a62e-0a92-4a7c-8369-223114339e1c",
+					"raw": "{{base_url}}/developers/9e029b10-fc84-4488-94da-1aaee1923dc3",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
 						"developers",
-						"7e96a62e-0a92-4a7c-8369-223114339e1c"
+						"9e029b10-fc84-4488-94da-1aaee1923dc3"
 					]
 				}
 			},
@@ -174,6 +174,51 @@
 					],
 					"path": [
 						"developers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ResignDeveloper",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Response status code is 200', function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"})",
+							"",
+							"pm.test('Response has the required field - resignationDate', function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.resignationDate).to.exist;",
+							"})",
+							"",
+							"pm.test('Resignation date is in a valid format', function () {",
+							"    const responseData = pm.response.json();",
+							"    pm.expect(responseData.resignationDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+							"})",
+							"",
+							"pm.test('Content-Type header is set to \\'application/json\\'', function () {",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/developers/9e029b10-fc84-4488-94da-1aaee1923dc3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"developers",
+						"9e029b10-fc84-4488-94da-1aaee1923dc3"
 					]
 				}
 			},

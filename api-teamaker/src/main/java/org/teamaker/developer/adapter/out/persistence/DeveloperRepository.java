@@ -1,9 +1,7 @@
 package org.teamaker.developer.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.teamaker.developer.adapter.out.entity.DeveloperJPA;
 import org.teamaker.developer.application.port.out.acquireSkill.AcquireSkillCommand;
 import org.teamaker.developer.application.port.out.acquireSkill.AcquireSkillPort;
@@ -29,7 +27,6 @@ import org.teamaker.project.domain.Project;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -81,7 +78,8 @@ public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>
 
     @Override
     default List<Project> loadDeveloperProjects(LoadDeveloperProjectsCommand command) throws NoSuchElementException {
-        return null;
+//        return null;
+        return List.of();
     }
 
     @Override
@@ -99,8 +97,10 @@ public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>
     }
 
     @Override
-    default Developer saveDeveloper(SaveDeveloperCommand command) {
-        return null;
+    default Developer saveDeveloper(SaveDeveloperCommand command) throws NoSuchElementException {
+        DeveloperJPA developerJPA = findById(command.getDeveloper().getDeveloperId()).orElseThrow(NoSuchElementException::new);
+        DeveloperJPA updatedDeveloperJPA = developerJPA.fromDomain(command.getDeveloper());
+        return save(updatedDeveloperJPA).toDomain();
     }
 
 }

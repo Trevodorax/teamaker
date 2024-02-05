@@ -34,7 +34,7 @@ public class GetDeveloperServiceTest {
         LocalDate mockHiringDate = LocalDate.now();
         GetDeveloperCommand command = new GetDeveloperCommand(mockId);
 
-        Developer expectedDeveloper = new Developer(mockId, mockName, mockEmail, mockHiringDate);
+        Developer expectedDeveloper = new Developer(mockId, mockName, mockEmail, mockHiringDate, null);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(expectedDeveloper);
 
         GetDeveloperResponse.Response result = getDeveloperServiceMock.getDeveloper(command);

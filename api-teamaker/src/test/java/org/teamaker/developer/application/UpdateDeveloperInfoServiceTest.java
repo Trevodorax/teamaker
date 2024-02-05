@@ -39,10 +39,10 @@ public class UpdateDeveloperInfoServiceTest {
 
         String mockNewFullName = "mockNewFullName";
         String mockNewEmail = "new.mock@email.com";
-        Developer expectedDeveloper = new Developer(mockDeveloperId, mockNewFullName, mockNewEmail, LocalDate.now());
+        Developer expectedDeveloper = new Developer(mockDeveloperId, mockNewFullName, mockNewEmail, LocalDate.now(), null);
 
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(
-                new Developer(mockDeveloperId, mockFullName, mockEmail, LocalDate.now())
+                new Developer(mockDeveloperId, mockFullName, mockEmail, LocalDate.now(), null)
         );
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(expectedDeveloper);
 
@@ -61,10 +61,10 @@ public class UpdateDeveloperInfoServiceTest {
         String mockEmail = "mock@email.com";
 
         String mockNewFullName = "mockNewFullName";
-        Developer expectedDeveloper = new Developer(mockDeveloperId, mockNewFullName, mockEmail, LocalDate.now());
+        Developer expectedDeveloper = new Developer(mockDeveloperId, mockNewFullName, mockEmail, LocalDate.now(), null);
 
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(
-                new Developer(mockDeveloperId, mockFullName, mockEmail, LocalDate.now())
+                new Developer(mockDeveloperId, mockFullName, mockEmail, LocalDate.now(), null)
         );
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(expectedDeveloper);
 
@@ -83,10 +83,10 @@ public class UpdateDeveloperInfoServiceTest {
         String mockEmail = "mock@email.com";
 
         String mockNewEmail = "john@doe.fr";
-        Developer expectedDeveloper = new Developer(mockDeveloperId, mockFullName, mockNewEmail, LocalDate.now());
+        Developer expectedDeveloper = new Developer(mockDeveloperId, mockFullName, mockNewEmail, LocalDate.now(), null);
 
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(
-                new Developer(mockDeveloperId, mockFullName, mockEmail, LocalDate.now())
+                new Developer(mockDeveloperId, mockFullName, mockEmail, LocalDate.now(), null)
         );
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(expectedDeveloper);
 

@@ -46,7 +46,7 @@ class TreatTeamChangeRequestServiceTest {
     void setUp() {
         exampleTeam = new Team("projectId", new ArrayList<>(), false);
         exampleProject = new Project("projectId", "projectName", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 6, 6), LocalDate.of(2023, 6, 12), exampleTeam, Map.of());
-        exampleDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6));
+        exampleDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6), null);
 
         loadTeamChangeRequestPortMock = mock(LoadTeamChangeRequestPort.class);
         loadProjectPortMock = mock(LoadProjectPort.class);

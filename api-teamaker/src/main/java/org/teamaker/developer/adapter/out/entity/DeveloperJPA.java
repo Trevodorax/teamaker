@@ -45,6 +45,10 @@ public class DeveloperJPA {
     private Set<SkillJPA> skills = new HashSet<>();
 
     public Developer toDomain() {
-        return new Developer(id, name, email, hiringDate);
+        return new Developer(id, name, email, hiringDate, resignationDate);
+    }
+
+    public DeveloperJPA fromDomain(Developer developer) {
+        return new DeveloperJPA(developer.getDeveloperId(), developer.getFullName(), developer.getEmail(), developer.getHiringDate(), developer.getHiringDate(), null, null, null);
     }
 }

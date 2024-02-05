@@ -34,8 +34,8 @@ class GetTeamServiceTest {
         GetTeamCommand command = new GetTeamCommand(mockId);
 
         // mock the injected command
-        Developer mockDeveloper1 = new Developer("mock-developer-id", "John McLane", "johnmcclane@test.com", LocalDate.now().minusDays(1));
-        Developer mockDeveloper2 = new Developer("mock-developer-id", "Jane McLane", "janemcclane@test.com", LocalDate.now().minusDays(10));
+        Developer mockDeveloper1 = new Developer("mock-developer-id", "John McLane", "johnmcclane@test.com", LocalDate.now().minusDays(1), null);
+        Developer mockDeveloper2 = new Developer("mock-developer-id", "Jane McLane", "janemcclane@test.com", LocalDate.now().minusDays(10), null);
         List<Developer> givenDevelopers = List.of(mockDeveloper1, mockDeveloper2);
         Team targettedTeam = new Team(mockId, givenDevelopers, false);
 

@@ -25,7 +25,7 @@ public class TeamChangeRequestTest {
 
         private TeamChangeRequest teamChangeRequest;
         private final String developerId = "dev123";
-        private final Developer developer = new Developer(developerId, "Paul GAUDEAUX", "p@g.c", LocalDate.of(2018, 6, 6));
+        private final Developer developer = new Developer(developerId, "Paul GAUDEAUX", "p@g.c", LocalDate.of(2018, 6, 6), null);
         @BeforeEach
         public void setup() {
             MockitoAnnotations.openMocks(this);

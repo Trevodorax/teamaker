@@ -28,8 +28,8 @@ public class GetDevelopersServiceTest {
     public void testGetDevelopers() {
         LocalDate mockDate = LocalDate.now();
         List<Developer> mockDevelopers = List.of(
-                new Developer("867GVC876a", "Developer fullName", "Developer email", mockDate),
-                new Developer("867GVC876b", "Developer fullName 2", "Developer email 2", mockDate)
+                new Developer("867GVC876a", "Developer fullName", "Developer email", mockDate, null),
+                new Developer("867GVC876b", "Developer fullName 2", "Developer email 2", mockDate, null)
         );
         when(loadDevelopersPortMock.loadDevelopers()).thenReturn(mockDevelopers);
         List<DeveloperResponse> result = getDevelopersServiceMock.getDevelopers();
