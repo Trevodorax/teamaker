@@ -108,13 +108,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+							"raw": "{{base_url}}/developers/bf6d630c-1e76-46bd-a4a5-e2b14d500a38",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"6b32c0cd-007f-4794-8d6c-883ceec5be3f"
+								"bf6d630c-1e76-46bd-a4a5-e2b14d500a38"
 							]
 						}
 					},
@@ -228,7 +228,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Paul Gaudeaux\",\n    \"email\": \"paul@gmail.com\"\n}",
+							"raw": "{\n    \"fullName\": \"Anaelle Ea\",\n    \"email\": \"anaelle@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -325,13 +325,140 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/bf6d630c-1e76-46bd-a4a5-e2b14d500a38",
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"bf6d630c-1e76-46bd-a4a5-e2b14d500a38"
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Learn Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('Response has the required fields', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.response).to.exist;",
+									"    pm.expect(responseData.response).to.be.an('array');",
+									"    responseData.response.forEach(function (item) {",
+									"        pm.expect(item.technology).to.exist;",
+									"        pm.expect(item.learningDate).to.exist;",
+									"    })",
+									"})",
+									"",
+									"pm.test('Technology ID is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.response).to.exist.and.to.be.an('array');",
+									"    responseData.response.forEach(function (item) {",
+									"        pm.expect(item.technology).to.exist.and.to.be.an('object');",
+									"        pm.expect(item.technology.technologyId).to.exist.and.to.be.a('string').and.to.have.length.above(0);",
+									"    });",
+									"})",
+									"",
+									"pm.test('Learning date is in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.response).to.be.an('array');",
+									"    responseData.response.forEach(function (item) {",
+									"        pm.expect(item.learningDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f/skills/techid",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+								"skills",
+								"techid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDeveloperSkills",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the technology object within each skill\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.skills).to.exist.and.to.be.an('array');",
+									"    ",
+									"    responseData.skills.forEach(function(skill) {",
+									"        pm.expect(skill.technology).to.exist.and.to.be.an('object');",
+									"        pm.expect(skill.technology.technologyId).to.exist.and.to.be.a('string');",
+									"        pm.expect(skill.technology.name).to.exist.and.to.be.a('string');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate that the learningDate is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.skills).to.be.an('array');",
+									"    ",
+									"    responseData.skills.forEach(function(skill) {",
+									"        pm.expect(skill).to.be.an('object');",
+									"        pm.expect(skill.learningDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the skills array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.skills).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/b3c6b1c0-6779-4b13-baf4-b84e0803baee/skills",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"b3c6b1c0-6779-4b13-baf4-b84e0803baee",
+								"skills"
 							]
 						}
 					},

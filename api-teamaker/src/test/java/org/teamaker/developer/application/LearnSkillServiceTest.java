@@ -62,8 +62,8 @@ public class LearnSkillServiceTest {
         LearnSkillResponse.Response result = learnSkillService.learnSkill(new LearnSkillCommand("developerId", "skillId"));
 
         verify(acquireSkillPortMock).acquireSkill(any(AcquireSkillCommand.class));
-        assertInstanceOf(LearnSkillResponse.ErrorResponse.class, result);
-        assertEquals(new LearnSkillResponse.ErrorResponse("developer not found", HttpStatus.NOT_FOUND), result);
+        assertInstanceOf(LearnSkillResponse.ErrorResponseNotFound.class, result);
+        assertEquals(new LearnSkillResponse.ErrorResponseNotFound("developer not found"), result);
     }
 
     @Test
@@ -73,8 +73,8 @@ public class LearnSkillServiceTest {
         LearnSkillResponse.Response result = learnSkillService.learnSkill(new LearnSkillCommand("developerId", "skillId"));
 
         verify(acquireSkillPortMock).acquireSkill(any(AcquireSkillCommand.class));
-        assertInstanceOf(LearnSkillResponse.ErrorResponse.class, result);
-        assertEquals(new LearnSkillResponse.ErrorResponse("technology not found", HttpStatus.NOT_FOUND), result);
+        assertInstanceOf(LearnSkillResponse.ErrorResponseNotFound.class, result);
+        assertEquals(new LearnSkillResponse.ErrorResponseNotFound("technology not found"), result);
     }
 
         @Test
@@ -84,7 +84,7 @@ public class LearnSkillServiceTest {
             LearnSkillResponse.Response result = learnSkillService.learnSkill(new LearnSkillCommand("developerId", "skillId"));
 
             verify(acquireSkillPortMock).acquireSkill(any(AcquireSkillCommand.class));
-            assertInstanceOf(LearnSkillResponse.ErrorResponse.class, result);
-            assertEquals(new LearnSkillResponse.ErrorResponse("developer already has the skill", HttpStatus.CONFLICT), result);
+            assertInstanceOf(LearnSkillResponse.ErrorResponseConflict.class, result);
+            assertEquals(new LearnSkillResponse.ErrorResponseConflict("developer already has the skill"), result);
         }
     }

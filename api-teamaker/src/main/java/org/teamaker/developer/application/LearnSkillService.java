@@ -1,6 +1,5 @@
 package org.teamaker.developer.application;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillResponse;
@@ -40,9 +39,9 @@ class LearnSkillService implements LearnSkillUseCase {
 
             return new LearnSkillResponse.SuccessResponse(result);
         } catch (NoSuchElementException exception) {
-            return new LearnSkillResponse.ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+            return new LearnSkillResponse.ErrorResponseNotFound(exception.getMessage());
         } catch (IllegalArgumentException exception) {
-            return new LearnSkillResponse.ErrorResponse(exception.getMessage(), HttpStatus.CONFLICT);
+            return new LearnSkillResponse.ErrorResponseConflict(exception.getMessage());
         }
     }
 }

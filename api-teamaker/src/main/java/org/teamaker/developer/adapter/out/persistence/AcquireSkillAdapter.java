@@ -33,6 +33,10 @@ public class AcquireSkillAdapter implements AcquireSkillPort {
                 .findById(command.getDeveloperId())
                 .orElseThrow(()
                         -> new NoSuchElementException("Developer not found with id : " + command.getDeveloperId()));
+
+        if (developer.getResignationDate() != null)
+            throw new IllegalArgumentException("Developer has resigned");
+
         TechnologyJPA technology = technologyRepository
                 .findById(command.getTechnologyId())
                 .orElseThrow(()

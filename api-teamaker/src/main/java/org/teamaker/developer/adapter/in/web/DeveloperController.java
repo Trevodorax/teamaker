@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperCommand;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperResponse;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperUseCase;
+import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsCommand;
+import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsResponse;
+import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsUseCase;
 import org.teamaker.developer.application.port.in.getDevelopers.GetDevelopersUseCase;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperResponse;
@@ -23,6 +26,7 @@ import org.teamaker.developer.application.port.in.updateDeveloperInfo.UpdateDeve
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class DeveloperController {
@@ -32,14 +36,16 @@ public class DeveloperController {
     private final HireDeveloperUseCase hireDeveloperUseCase;
     private final UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase;
     private final LearnSkillUseCase learnSkillUseCase;
+    private final GetDeveloperSkillsUseCase getDeveloperSkillsUseCase;
 
-    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase, LearnSkillUseCase learnSkillUseCase) {
+    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase, LearnSkillUseCase learnSkillUseCase, GetDeveloperSkillsUseCase getDeveloperSkillsUseCase) {
         this.getDeveloperUseCase = getDeveloperUseCase;
         this.resignDeveloperUseCase = resignDeveloperUseCase;
         this.getDevelopersUseCase = getDevelopersUseCase;
         this.hireDeveloperUseCase = hireDeveloperUseCase;
         this.updateDeveloperInfoUseCase = updateDeveloperInfoUseCase;
         this.learnSkillUseCase = learnSkillUseCase;
+        this.getDeveloperSkillsUseCase = getDeveloperSkillsUseCase;
     }
 
     @GetMapping("/developers")
@@ -118,14 +124,33 @@ public class DeveloperController {
     public ResponseEntity<LearnSkillResponse.Response> learnSkill(@PathVariable String developerId, @PathVariable String technologyId) {
         LearnSkillResponse.Response response = learnSkillUseCase.learnSkill(new LearnSkillCommand(developerId, technologyId));
 
-        if (response instanceof LearnSkillResponse.SuccessResponse successResponse) {
-            return ResponseEntity
+        return switch (response) {
+            case LearnSkillResponse.SuccessResponse successResponse -> ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(successResponse);
-        } else {
-            LearnSkillResponse.ErrorResponse errorResponse = (LearnSkillResponse.ErrorResponse) response;
+            case LearnSkillResponse.ErrorResponseNotFound errorResponse -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(errorResponse);
+            case LearnSkillResponse.ErrorResponseConflict errorResponse -> ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(errorResponse);
+            case null, default -> ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build();
+        };
+    }
+
+    @GetMapping("/developers/{developerId}/skills")
+    public ResponseEntity<GetDeveloperSkillsResponse.Response> getDeveloperSkills(@PathVariable String developerId) {
+        GetDeveloperSkillsResponse.Response response = getDeveloperSkillsUseCase.getDeveloperSkills(new GetDeveloperSkillsCommand(developerId));
+
+        if (response instanceof GetDeveloperSkillsResponse.SuccessResponse successResponse) {
             return ResponseEntity
-                    .status(errorResponse.httpStatus())
+                    .ok(successResponse);
+        } else {
+            GetDeveloperSkillsResponse.ErrorResponse errorResponse = (GetDeveloperSkillsResponse.ErrorResponse) response;
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
                     .body(errorResponse);
         }
     }

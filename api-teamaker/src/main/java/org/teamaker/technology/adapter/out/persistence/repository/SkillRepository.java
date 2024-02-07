@@ -7,7 +7,10 @@ import org.teamaker.technology.adapter.out.entity.SkillPK;
 import org.teamaker.technology.adapter.out.entity.TechnologyJPA;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface SkillRepository extends JpaRepository<SkillJPA, SkillPK> {
     Optional<SkillJPA> findByDeveloperAndTechnology(DeveloperJPA developer, TechnologyJPA technology);
+
+    Set<SkillJPA> findByDeveloper(DeveloperJPA developer);
 }

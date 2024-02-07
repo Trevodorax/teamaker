@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String> {
-    @Query("SELECT d FROM DeveloperJPA d JOIN d.skills s WHERE s.technology.id = :technologyId AND d.resignationDate IS NULL")
+    @Query("SELECT d FROM DeveloperJPA d JOIN d.skills s WHERE s.technology.id = :technologyId")
     List<DeveloperJPA> findDevelopersByTechnologyId(@Param("technologyId") String technologyId);
 
     Optional<DeveloperJPA> findByEmail(String email);
