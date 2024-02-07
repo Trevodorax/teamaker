@@ -1,21 +1,22 @@
 package org.teamaker.developer.application.port.out.findDevelopersByTechnology;
 
 import org.teamaker.shared.validation.SelfValidating;
+import org.teamaker.technology.domain.Technology;
 
 import javax.validation.constraints.NotNull;
 
 public class FindDevelopersByTechnologyCommand extends SelfValidating<FindDevelopersByTechnologyCommand> {
 
         @NotNull
-        private final String technologyId;
+        private final Technology technology;
 
-        public FindDevelopersByTechnologyCommand(String technologyId) {
-            this.technologyId = technologyId;
+        public FindDevelopersByTechnologyCommand(Technology technology) {
+            this.technology = technology;
 
             this.validateSelf();
         }
 
-        public String getTechnologyId() {
-            return technologyId;
+        public Technology getTechnology() {
+            return technology;
         }
 }

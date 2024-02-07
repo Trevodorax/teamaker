@@ -9,6 +9,9 @@ import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetD
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyUseCase;
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyPort;
+import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyCommand;
+import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyPort;
+import org.teamaker.technology.domain.Technology;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,15 +20,18 @@ import java.util.NoSuchElementException;
 class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCase {
 
     private final FindDevelopersByTechnologyPort findDevelopersByTechnologyPort;
+    private final LoadTechnologyPort loadTechnologyPort;
 
-    public GetDevelopersByTechnologyService(FindDevelopersByTechnologyPort findDevelopersByTechnologyPort) {
+    public GetDevelopersByTechnologyService(FindDevelopersByTechnologyPort findDevelopersByTechnologyPort, LoadTechnologyPort loadTechnologyPort) {
         this.findDevelopersByTechnologyPort = findDevelopersByTechnologyPort;
+        this.loadTechnologyPort = loadTechnologyPort;
     }
 
     @Override
     public GetDevelopersByTechnologyResponse.Response getDevelopersByTechnology(GetDevelopersByTechnologyCommand command) {
         try {
-            List<Developer> developers = findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnologyId()));
+            Technology technology = loadTechnologyPort.loadTechnology(new LoadTechnologyCommand(command.getTechnologyId()));
+            List<Developer> developers = findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(technology));
 
             return new GetDevelopersByTechnologyResponse.SuccessResponse(
                     new GetDevelopersByTechnologyDtoResponse(

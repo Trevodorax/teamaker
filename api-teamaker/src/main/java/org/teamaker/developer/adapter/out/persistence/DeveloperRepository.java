@@ -24,6 +24,7 @@ import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperCo
 import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
+import org.teamaker.technology.adapter.out.entity.TechnologyJPA;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -67,8 +68,12 @@ public interface DeveloperRepository extends JpaRepository<DeveloperJPA, String>
     }
 
     @Override
-    default List<Developer> findDevelopersByTechnology(FindDevelopersByTechnologyCommand command) throws NoSuchElementException {
-        return null;
+    default List<Developer> findDevelopersByTechnology(FindDevelopersByTechnologyCommand command) {
+        TechnologyJPA technologyJPA = new TechnologyJPA(command.getTechnology());
+        return findDevelopersByTechnologyId(technologyJPA.getId())
+                .stream()
+                .map(DeveloperJPA::toDomain)
+                .toList();
     }
 
     @Override

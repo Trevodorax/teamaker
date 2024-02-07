@@ -7,222 +7,272 @@
 	},
 	"item": [
 		{
-			"name": "GetDevelopers",
-			"event": [
+			"name": "Developers",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Response status code is 200', function () {",
-							"    pm.response.to.have.status(200);",
-							"})",
-							"",
-							"pm.test('Email is in a valid format', function () {",
-							"    const responseData = pm.response.json();",
-							"    responseData.forEach(function (developer) {",
-							"        pm.expect(developer.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);",
-							"    });",
-							"})",
-							"",
-							"pm.test('Hiring date is in a valid date format', function () {",
-							"    const responseData = pm.response.json();",
-							"    pm.expect(responseData).to.be.an('array');",
-							"    responseData.forEach(function (developer) {",
-							"        pm.expect(developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
-							"    });",
-							"})",
-							"",
-							"pm.test('Verify that the \\'status\\' field is one of the allowed values', function () {",
-							"    const responseData = pm.response.json();",
-							"    pm.expect(responseData).to.be.an('array');",
-							"    responseData.forEach(function (developer) {",
-							"        pm.expect(developer.status).to.be.oneOf([",
-							"            'ACTIVE',",
-							"            'RESIGNED'",
-							"        ]);",
-							"    });",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/developers",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"developers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "GetDeveloper",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"",
-							"",
-							"pm.test(\"Email is in a valid format\", function () {",
-							"  const responseData = pm.response.json();",
-							"  ",
-							"  pm.expect(responseData).to.be.an('object');",
-							"  pm.expect(responseData.developer.email).to.match(/^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$/);",
-							"});",
-							"",
-							"",
-							"pm.test(\"Hiring date is in a valid date format\", function () {",
-							"  const responseData = pm.response.json();",
-							"",
-							"  pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
-							"});",
-							"",
-							"",
-							"pm.test(\"Resignation date is null or in a valid date format\", function () {",
-							"    const responseData = pm.response.json();",
-							"    ",
-							"    pm.expect(responseData.developer.resignationDate).to.satisfy(function(date) {",
-							"        return date === null || Date.parse(date);",
-							"    }, \"Resignation date should be null or in a valid date format\");",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/developers/9e029b10-fc84-4488-94da-1aaee1923dc3",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"developers",
-						"9e029b10-fc84-4488-94da-1aaee1923dc3"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "HireDeveloper",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Response status code is 201\", function () {",
-							"  pm.expect(pm.response.code).to.equal(201);",
-							"});",
-							"",
-							"",
-							"pm.test(\"Name is a non-empty string\", function () {",
-							"  const responseData = pm.response.json();",
-							"  ",
-							"  pm.expect(responseData.developer.name).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
-							"});",
-							"",
-							"",
-							"pm.test(\"Email is in a valid email format\", function () {",
-							"    const responseData = pm.response.json();",
-							"",
-							"    pm.expect(responseData).to.be.an('object');",
-							"    pm.expect(responseData.developer.email).to.exist.and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
-							"});",
-							"",
-							"",
-							"pm.test(\"HiringDate is in a valid date format\", function () {",
-							"    const responseData = pm.response.json();",
-							"    ",
-							"    pm.expect(responseData).to.be.an('object');",
-							"    pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"fullName\": \"Paul Gaudeaux\",\n    \"email\": \"paul@gmail.com\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "GetDevelopers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Email is in a valid format', function () {",
+									"    const responseData = pm.response.json();",
+									"    responseData.forEach(function (developer) {",
+									"        pm.expect(developer.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);",
+									"    });",
+									"})",
+									"",
+									"pm.test('Hiring date is in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach(function (developer) {",
+									"        pm.expect(developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"})",
+									"",
+									"pm.test('Verify that the \\'status\\' field is one of the allowed values', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach(function (developer) {",
+									"        pm.expect(developer.status).to.be.oneOf([",
+									"            'ACTIVE',",
+									"            'RESIGNED'",
+									"        ]);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
 						}
-					}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers"
+							]
+						}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{base_url}}/developers",
-					"host": [
-						"{{base_url}}"
-					],
-					"path": [
-						"developers"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "ResignDeveloper",
-			"event": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('Response status code is 200', function () {",
-							"    pm.expect(pm.response.code).to.equal(200);",
-							"})",
-							"",
-							"pm.test('Response has the required field - resignationDate', function () {",
-							"    const responseData = pm.response.json();",
-							"    pm.expect(responseData.resignationDate).to.exist;",
-							"})",
-							"",
-							"pm.test('Resignation date is in a valid format', function () {",
-							"    const responseData = pm.response.json();",
-							"    pm.expect(responseData.resignationDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
-							"})",
-							"",
-							"pm.test('Content-Type header is set to \\'application/json\\'', function () {",
-							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
-							"})"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{base_url}}/developers/9e029b10-fc84-4488-94da-1aaee1923dc3",
-					"host": [
-						"{{base_url}}"
+					"name": "GetDeveloper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.developer.email).to.match(/^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Hiring date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Resignation date is null or in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.developer.resignationDate).to.satisfy(function(date) {",
+									"        return date === null || Date.parse(date);",
+									"    }, \"Resignation date should be null or in a valid date format\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
 					],
-					"path": [
-						"developers",
-						"9e029b10-fc84-4488-94da-1aaee1923dc3"
-					]
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/68de5de9-dad3-40c6-9b7d-1a72c7c6bd81",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"68de5de9-dad3-40c6-9b7d-1a72c7c6bd81"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HireDeveloper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {",
+									"  pm.expect(pm.response.code).to.equal(201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.developer.name).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid email format\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer.email).to.exist.and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"HiringDate is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Paul Gaudeaux\",\n    \"email\": \"paul@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/developers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDevelopersByTechnology",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})",
+									"",
+									"pm.test('Response has the required fields - technologyId and developers', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developers.technologyId).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.developers.developers).to.exist.and.to.be.an('array');",
+									"})",
+									"",
+									"pm.test('Validate the developers array is present', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developers.developers).to.exist.and.to.be.an('array');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/technologies/techid/developers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"technologies",
+								"techid",
+								"developers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResignDeveloper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})",
+									"",
+									"pm.test('Response has the required field - resignationDate', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.resignationDate).to.exist;",
+									"})",
+									"",
+									"pm.test('Resignation date is in a valid format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.resignationDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"})",
+									"",
+									"pm.test('Content-Type header is set to \\'application/json\\'', function () {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/bf6d630c-1e76-46bd-a4a5-e2b14d500a38",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"bf6d630c-1e76-46bd-a4a5-e2b14d500a38"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [

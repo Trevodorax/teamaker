@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.teamaker.technology.domain.Technology;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,4 +30,13 @@ public class TechnologyJPA {
 
     @OneToMany(mappedBy = "technology")
     private Set<SkillJPA> skills = new HashSet<>();
+
+    public TechnologyJPA(Technology technology) {
+        this.id = technology.getTechnologyId();
+        this.name = technology.getName();
+    }
+
+    public Technology toDomain() {
+        return new Technology(id, name);
+    }
 }
