@@ -16,7 +16,7 @@ class SaveDeveloperCommandTest {
 
     @BeforeAll
     public static void setUp() {
-        validDeveloper = new Developer("validDeveloperId", "John McClane", "john-mcclane@test.Com", LocalDate.now().minusDays(15));
+        validDeveloper = new Developer("validDeveloperId", "John McClane", "john-mcclane@test.Com", LocalDate.now().minusDays(15), null);
     }
 
     @Test

@@ -18,11 +18,12 @@ public class Developer {
     private List<Project> projectList;
     private List<Technology> skills;
 
-    public Developer(String developerId, String fullName, String email, LocalDate hiringDate) {
+    public Developer(String developerId, String fullName, String email, LocalDate hiringDate, LocalDate resignationDate) {
         this.developerId = developerId;
         this.fullName = fullName;
         this.email = email;
         this.hiringDate = hiringDate;
+        this.resignationDate = resignationDate;
     }
 
     public List<String> resign(List<Project> currentProjects){
@@ -124,7 +125,8 @@ public class Developer {
 
     public List<Project> getCurrentProjects() throws IllegalStateException{
         if (this.projectList == null) {
-            throw new IllegalStateException("projectList has not been set.");
+//            throw new IllegalStateException("projectList has not been set.");
+            return null;
         }
 
         return this.projectList

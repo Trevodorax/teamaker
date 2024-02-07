@@ -37,7 +37,7 @@ class GetDeveloperSkillsService implements GetDeveloperSkillsUseCase {
 
             return new GetDeveloperSkillsResponse.SuccessResponse(result);
         } catch (NoSuchElementException exception) {
-            return new GetDeveloperSkillsResponse.ErrorResponse("developer not found");
+            return new GetDeveloperSkillsResponse.ErrorResponse(exception.getMessage());
         }
     }
 }

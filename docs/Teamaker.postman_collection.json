@@ -1,0 +1,536 @@
+{
+	"info": {
+		"_postman_id": "0f2be42d-ef0f-47d5-b6e7-f7958bb4999d",
+		"name": "Teamaker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26308728"
+	},
+	"item": [
+		{
+			"name": "Developers",
+			"item": [
+				{
+					"name": "GetDevelopers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Email is in a valid format', function () {",
+									"    const responseData = pm.response.json();",
+									"    responseData.forEach(function (developer) {",
+									"        pm.expect(developer.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);",
+									"    });",
+									"})",
+									"",
+									"pm.test('Hiring date is in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach(function (developer) {",
+									"        pm.expect(developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"})",
+									"",
+									"pm.test('Verify that the \\'status\\' field is one of the allowed values', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('array');",
+									"    responseData.forEach(function (developer) {",
+									"        pm.expect(developer.status).to.be.oneOf([",
+									"            'ACTIVE',",
+									"            'RESIGNED'",
+									"        ]);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDeveloper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.developer.email).to.match(/^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Hiring date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Resignation date is null or in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.developer.resignationDate).to.satisfy(function(date) {",
+									"        return date === null || Date.parse(date);",
+									"    }, \"Resignation date should be null or in a valid date format\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/bf6d630c-1e76-46bd-a4a5-e2b14d500a38",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"bf6d630c-1e76-46bd-a4a5-e2b14d500a38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDeveloperInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer.email).to.match(/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Hiring date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.developer).to.exist;",
+									"  pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Resignation date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.developer.resignationDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\":\"Tom Bourlard\",\n    \"email\":\"tom@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HireDeveloper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {",
+									"  pm.expect(pm.response.code).to.equal(201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Name is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.developer.name).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Name should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid email format\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer.email).to.exist.and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"HiringDate is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\": \"Anaelle Ea\",\n    \"email\": \"anaelle@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/developers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDevelopersByTechnology",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})",
+									"",
+									"pm.test('Response has the required fields - technologyId and developers', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developers.technologyId).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.developers.developers).to.exist.and.to.be.an('array');",
+									"})",
+									"",
+									"pm.test('Validate the developers array is present', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developers.developers).to.exist.and.to.be.an('array');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/technologies/techid/developers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"technologies",
+								"techid",
+								"developers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResignDeveloper",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"})",
+									"",
+									"pm.test('Response has the required field - resignationDate', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.resignationDate).to.exist;",
+									"})",
+									"",
+									"pm.test('Resignation date is in a valid format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.resignationDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"})",
+									"",
+									"pm.test('Content-Type header is set to \\'application/json\\'', function () {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Learn Skill",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('Response has the required fields', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.response).to.exist;",
+									"    pm.expect(responseData.response).to.be.an('array');",
+									"    responseData.response.forEach(function (item) {",
+									"        pm.expect(item.technology).to.exist;",
+									"        pm.expect(item.learningDate).to.exist;",
+									"    })",
+									"})",
+									"",
+									"pm.test('Technology ID is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.response).to.exist.and.to.be.an('array');",
+									"    responseData.response.forEach(function (item) {",
+									"        pm.expect(item.technology).to.exist.and.to.be.an('object');",
+									"        pm.expect(item.technology.technologyId).to.exist.and.to.be.a('string').and.to.have.length.above(0);",
+									"    });",
+									"})",
+									"",
+									"pm.test('Learning date is in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.response).to.be.an('array');",
+									"    responseData.response.forEach(function (item) {",
+									"        pm.expect(item.learningDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f/skills/techid",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+								"skills",
+								"techid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDeveloperSkills",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate the technology object within each skill\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.skills).to.exist.and.to.be.an('array');",
+									"    ",
+									"    responseData.skills.forEach(function(skill) {",
+									"        pm.expect(skill.technology).to.exist.and.to.be.an('object');",
+									"        pm.expect(skill.technology.technologyId).to.exist.and.to.be.a('string');",
+									"        pm.expect(skill.technology.name).to.exist.and.to.be.a('string');",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Validate that the learningDate is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.skills).to.be.an('array');",
+									"    ",
+									"    responseData.skills.forEach(function(skill) {",
+									"        pm.expect(skill).to.be.an('object');",
+									"        pm.expect(skill.learningDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Verify that the skills array is present and contains at least one element\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.skills).to.exist.and.to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/b3c6b1c0-6779-4b13-baf4-b84e0803baee/skills",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"b3c6b1c0-6779-4b13-baf4-b84e0803baee",
+								"skills"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ForgetSkill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f/skills/techid",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+								"skills",
+								"techid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDeveloperProjects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/b3c6b1c0-6779-4b13-baf4-b84e0803baee/projects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"b3c6b1c0-6779-4b13-baf4-b84e0803baee",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "localhost:8080",
+			"type": "string"
+		}
+	]
+}

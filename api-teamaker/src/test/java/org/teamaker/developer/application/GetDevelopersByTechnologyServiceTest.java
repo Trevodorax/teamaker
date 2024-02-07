@@ -8,6 +8,9 @@ import org.teamaker.developer.application.port.out.findDevelopersByTechnology.Fi
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyDtoResponse;
+import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyCommand;
+import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyPort;
+import org.teamaker.technology.domain.Technology;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,10 +23,12 @@ import static org.mockito.Mockito.*;
 public class GetDevelopersByTechnologyServiceTest {
     private static FindDevelopersByTechnologyPort findDevelopersByTechnologyPortMock;
     private static GetDevelopersByTechnologyService getDevelopersByTechnologyService;
+    private static LoadTechnologyPort loadTechnologyPortMock;
 
     @BeforeEach
     public void setUp() {
         findDevelopersByTechnologyPortMock = mock(FindDevelopersByTechnologyPort.class);
+        loadTechnologyPortMock = mock(LoadTechnologyPort.class);
         getDevelopersByTechnologyService = new GetDevelopersByTechnologyService(findDevelopersByTechnologyPortMock);
     }
 
@@ -32,8 +37,8 @@ public class GetDevelopersByTechnologyServiceTest {
         String mockTechnologyId = "Technology Id";
         LocalDate mockDate = LocalDate.now();
         List<Developer> mockDevelopers = List.of(
-                new Developer("867GVC876a", "Developer fullName", "Developer email", mockDate),
-                new Developer("867GVC876b", "Developer fullName 2", "Developer email 2", mockDate)
+                new Developer("867GVC876a", "Developer fullName", "Developer email", mockDate, null),
+                new Developer("867GVC876b", "Developer fullName 2", "Developer email 2", mockDate, null)
         );
         GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyId);
 
@@ -52,7 +57,6 @@ public class GetDevelopersByTechnologyServiceTest {
     @Test
     public void testGetDevelopersByTechnology_Empty() {
         String mockTechnologyId = "Technology Id";
-        LocalDate mockDate = LocalDate.now();
         List<Developer> mockDevelopers = List.of();
         GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyId);
 
@@ -71,8 +75,6 @@ public class GetDevelopersByTechnologyServiceTest {
     @Test
     public void testGetDevelopersByTechnology_Error() {
         String mockTechnologyId = "Invalid Technology Id";
-        LocalDate mockDate = LocalDate.now();
-        List<Developer> mockDevelopers = List.of();
         GetDevelopersByTechnologyCommand command = new GetDevelopersByTechnologyCommand(mockTechnologyId);
 
         when(findDevelopersByTechnologyPortMock.findDevelopersByTechnology(any(FindDevelopersByTechnologyCommand.class))).thenThrow(new NoSuchElementException());
@@ -80,7 +82,7 @@ public class GetDevelopersByTechnologyServiceTest {
         GetDevelopersByTechnologyResponse.Response result = getDevelopersByTechnologyService.getDevelopersByTechnology(command);
 
         verify(findDevelopersByTechnologyPortMock).findDevelopersByTechnology(any(FindDevelopersByTechnologyCommand.class));
-
+        
         assertInstanceOf(GetDevelopersByTechnologyResponse.ErrorResponse.class, result);
         assertEquals("Technology not found", ((GetDevelopersByTechnologyResponse.ErrorResponse) result).message());
     }

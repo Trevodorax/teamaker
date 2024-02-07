@@ -6,7 +6,9 @@ import org.teamaker.developer.application.port.in.getDeveloperProjects.GetDevelo
 import org.teamaker.developer.application.port.in.getDeveloperProjects.GetDeveloperProjectsUseCase;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
+import org.teamaker.project.domain.Project;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
@@ -20,8 +22,11 @@ class GetDeveloperProjectsService implements GetDeveloperProjectsUseCase {
     @Override
     public GetDeveloperProjectsResponse.Response getDeveloperProjects(GetDeveloperProjectsCommand command) {
         try {
+            List<Project> projects = loadDeveloperProjectsPort.loadDeveloperProjects(new LoadDeveloperProjectsCommand(command.getDeveloperId()));
             return new GetDeveloperProjectsResponse.SuccessResponse(
-                    loadDeveloperProjectsPort.loadDeveloperProjects(new LoadDeveloperProjectsCommand(command.getDeveloperId()))
+                    projects.stream()
+                            .map(Project::toResponse)
+                            .toList()
             );
         } catch (NoSuchElementException exception) {
             return new GetDeveloperProjectsResponse.ErrorResponse("developer not found");

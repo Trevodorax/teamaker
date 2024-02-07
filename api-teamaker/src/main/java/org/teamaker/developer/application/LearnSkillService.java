@@ -27,7 +27,7 @@ class LearnSkillService implements LearnSkillUseCase {
     @Override
     public LearnSkillResponse.Response learnSkill(LearnSkillCommand command) {
         try {
-            acquireSkillPort.acquireSkill(new AcquireSkillCommand(command.getDeveloperId(), command.getSkillId()));
+            acquireSkillPort.acquireSkill(new AcquireSkillCommand(command.getDeveloperId(), command.getTechnologyId()));
             List<LoadDeveloperSkillsResponse> loadDeveloperSkillsResponse = loadDeveloperSkillsPort.loadDeveloperSkills(
                     new LoadDeveloperSkillsCommand(command.getDeveloperId())
             );
@@ -39,7 +39,9 @@ class LearnSkillService implements LearnSkillUseCase {
 
             return new LearnSkillResponse.SuccessResponse(result);
         } catch (NoSuchElementException exception) {
-            return new LearnSkillResponse.ErrorResponse(exception.getMessage());
+            return new LearnSkillResponse.ErrorResponseNotFound(exception.getMessage());
+        } catch (IllegalArgumentException exception) {
+            return new LearnSkillResponse.ErrorResponseConflict(exception.getMessage());
         }
     }
 }

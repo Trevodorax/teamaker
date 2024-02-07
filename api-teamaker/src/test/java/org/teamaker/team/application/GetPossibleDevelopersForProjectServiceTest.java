@@ -73,9 +73,9 @@ class GetPossibleDevelopersForProjectServiceTest {
     private List<Developer> getSampleDevelopers() {
         ArrayList<Developer> developers = new ArrayList<>();
 
-        developers.add(new Developer("dev1", "pol", "p@example.com", LocalDate.of(2018, 6, 6)));
-        developers.add(new Developer("dev2", "anl", "p@example.com", LocalDate.of(2018, 6, 6)));
-        developers.add(new Developer("dev3", "tom", "p@example.com", LocalDate.of(2018, 6, 6)));
+        developers.add(new Developer("dev1", "pol", "p@example.com", LocalDate.of(2018, 6, 6), null));
+        developers.add(new Developer("dev2", "anl", "p@example.com", LocalDate.of(2018, 6, 6), null));
+        developers.add(new Developer("dev3", "tom", "p@example.com", LocalDate.of(2018, 6, 6), null));
 
         return developers;
     }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.teamaker.project.adapter.out.persistence.ProjectJPA;
+import org.teamaker.project.adapter.out.entity.ProjectJPA;
 
 @Entity
 @Data

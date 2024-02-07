@@ -58,7 +58,7 @@ class AssignDeveloperToTeamServiceTest {
     @Test
     void testAssignDeveloperToTeam_Success() {
         // Mock developer, projects, project, and team data
-        Developer mockDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6));
+        Developer mockDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6), null);
         when(loadDeveloperPort.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
         List<Project> mockDeveloperProjects = new ArrayList<>();
@@ -87,7 +87,7 @@ class AssignDeveloperToTeamServiceTest {
     @Test
     void testAssignDeveloperToTeam_DeveloperNotAvailable() {
         // Mock developer, projects, project, and team data
-        Developer mockDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6));
+        Developer mockDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6), null);
         when(loadDeveloperPort.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
         List<Project> mockDeveloperProjects = new ArrayList<>();

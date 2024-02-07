@@ -1,5 +1,6 @@
 package org.teamaker.project.domain;
 
+import lombok.Getter;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.team.domain.Team;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+@Getter
 public class Project {
     private final String projectId;
     private String name;
@@ -33,48 +35,12 @@ public class Project {
         this.technologies = technologies;
     }
 
-    public String getProjectId() {
-        return this.projectId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProjectPriority getPriority() {
-        return priority;
-    }
-
-    public ProjectStatus getStatus() {
-        return status;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
     public List<String> removeDeveloperById(String developerId, boolean noRemove) throws IllegalStateException {
         return team.removeDeveloperById(developerId, this, noRemove);
     }
 
     public List<String> addDeveloper(Developer newDeveloper, boolean noAdd) throws IllegalStateException {
         return team.addDeveloper(newDeveloper, this, noAdd);
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public Map<Technology, Integer> getTechnologies() {
-        return technologies;
     }
 
     public void postpone(LocalDate startDate, LocalDate endDate) {

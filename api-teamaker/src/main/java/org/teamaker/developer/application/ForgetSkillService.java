@@ -19,7 +19,7 @@ class ForgetSkillService implements ForgetSkillUseCase {
 
     public ForgetSkillResponse.Response forgetSkill(ForgetSkillCommand command) {
         try {
-            removeSkillPort.removeSkill(new RemoveSkillCommand(command.getDeveloperId(), command.getSkillId()));
+            removeSkillPort.removeSkill(new RemoveSkillCommand(command.getDeveloperId(), command.getTechnologyId()));
             return new ForgetSkillResponse.SuccessResponse("Skill successfully forgotten");
         } catch (NoSuchElementException exception) {
             return new ForgetSkillResponse.ErrorResponse(exception.getMessage());

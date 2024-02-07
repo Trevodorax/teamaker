@@ -65,7 +65,7 @@ class RemoveDeveloperFromTeamServiceTest {
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
-        Developer mockDeveloper = new Developer("id", "name", "email", LocalDate.of(2023, 1, 1));
+        Developer mockDeveloper = new Developer("id", "name", "email", LocalDate.of(2023, 1, 1), null);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(new ArrayList<>());
@@ -93,7 +93,7 @@ class RemoveDeveloperFromTeamServiceTest {
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
-        Developer mockDeveloper = new Developer("id", "name", "email", LocalDate.of(2023, 1, 1));
+        Developer mockDeveloper = new Developer("id", "name", "email", LocalDate.of(2023, 1, 1), null);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
@@ -121,7 +121,7 @@ class RemoveDeveloperFromTeamServiceTest {
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
-        Developer mockDeveloper = new Developer("dev1", "name", "email", LocalDate.of(2023, 1, 1));
+        Developer mockDeveloper = new Developer("dev1", "name", "email", LocalDate.of(2023, 1, 1), null);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
@@ -149,7 +149,7 @@ class RemoveDeveloperFromTeamServiceTest {
         );
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
-        Developer mockDeveloper = new Developer("devX", "name", "email", LocalDate.of(2023, 1, 1));
+        Developer mockDeveloper = new Developer("devX", "name", "email", LocalDate.of(2023, 1, 1), null);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
 
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
@@ -179,9 +179,9 @@ class RemoveDeveloperFromTeamServiceTest {
     private List<Developer> getDevelopersForValidTeam() {
         ArrayList<Developer> developers = new ArrayList<>();
 
-        developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2019, 1, 1)));
-        developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2019, 1, 1)));
-        developers.add(new Developer("dev3", "Anaelle", "p@gmail.com", LocalDate.of(2019, 1, 1)));
+        developers.add(new Developer("dev1", "Paul", "p@gmail.com", LocalDate.of(2019, 1, 1), null));
+        developers.add(new Developer("dev2", "Tom", "p@gmail.com", LocalDate.of(2019, 1, 1), null));
+        developers.add(new Developer("dev3", "Anaelle", "p@gmail.com", LocalDate.of(2019, 1, 1), null));
 
         return developers;
     }

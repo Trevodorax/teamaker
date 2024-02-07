@@ -1,10 +1,7 @@
 package org.teamaker.developer.adapter.out.entity;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +27,7 @@ public class DeveloperJPA {
     private String name;
 
     @Nonnull
+    @Column(unique = true)
     private String email;
 
     @Nonnull
@@ -38,15 +36,15 @@ public class DeveloperJPA {
     private LocalDate resignationDate;
 
     @OneToMany(mappedBy = "developer")
-    private Set<TeamMembershipJPA> teamMemberships = new HashSet<>();
+    private Set<TeamMembershipJPA> teamMemberships;
 
     @OneToMany(mappedBy = "developer")
-    private Set<TeamChangeRequestJPA> teamChangeRequests = new HashSet<>();
+    private Set<TeamChangeRequestJPA> teamChangeRequests;
 
     @OneToMany(mappedBy = "developer")
-    private Set<SkillJPA> skills = new HashSet<>();
+    private Set<SkillJPA> skills;
 
     public Developer toDomain() {
-        return new Developer(id, name, email, hiringDate);
+        return new Developer(id, name, email, hiringDate, resignationDate);
     }
 }

@@ -9,5 +9,8 @@ public class LearnSkillResponse {
 
     public record SuccessResponse(List<LearnSkillDtoResponse> response) implements Response {}
 
-    public record ErrorResponse(String errorMessage) implements Response {}
+    public record ErrorResponseNotFound(String errorMessage) implements Response {}
+
+    public record ErrorResponseConflict(String errorMessage) implements Response {}
+
 }
