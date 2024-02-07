@@ -1,6 +1,7 @@
 package org.teamaker.developer.adapter.in.web;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperCommand;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperResponse;
@@ -37,17 +38,52 @@ public class DeveloperController {
 
     @PostMapping("/developers")
     @ResponseStatus(HttpStatus.CREATED)
-    public HireDeveloperResponse.Response hireDeveloper(@RequestBody HireDeveloperCommand command) {
-        return hireDeveloperUseCase.hireDeveloper(command);
+    public ResponseEntity<HireDeveloperResponse.Response> hireDeveloper(@RequestBody HireDeveloperCommand command) {
+        HireDeveloperResponse.Response response = hireDeveloperUseCase.hireDeveloper(command);
+
+        if (response instanceof HireDeveloperResponse.SuccessResponse) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new HireDeveloperResponse.SuccessResponse(
+                            ((HireDeveloperResponse.SuccessResponse) response).developer()));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(new HireDeveloperResponse.ErrorResponse(
+                            ((HireDeveloperResponse.ErrorResponse) response).errorMessage()));
+        }
     }
 
     @GetMapping("/developers/{id}")
-    public GetDeveloperResponse.Response getDeveloper(@PathVariable String id) {
-        return getDeveloperUseCase.getDeveloper(new GetDeveloperCommand(id));
+    public ResponseEntity<GetDeveloperResponse.Response> getDeveloper(@PathVariable String id) {
+        GetDeveloperResponse.Response response = getDeveloperUseCase.getDeveloper(new GetDeveloperCommand(id));
+
+        if (response instanceof GetDeveloperResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok(new GetDeveloperResponse.SuccessResponse(
+                            ((GetDeveloperResponse.SuccessResponse) response).developer()));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new GetDeveloperResponse.ErrorResponse(
+                            ((GetDeveloperResponse.ErrorResponse) response).errorMessage()));
+        }
     }
 
     @DeleteMapping("/developers/{id}")
-    public ResignDeveloperResponse.Response resignDeveloper(@PathVariable String id) {
-        return resignDeveloperUseCase.resignDeveloper(new ResignDeveloperCommand(id));
+    public ResponseEntity<ResignDeveloperResponse.Response> resignDeveloper(@PathVariable String id) {
+        ResignDeveloperResponse.Response response = resignDeveloperUseCase.resignDeveloper(new ResignDeveloperCommand(id));
+
+        if (response instanceof ResignDeveloperResponse.SuccessResponse) {
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body(new ResignDeveloperResponse.SuccessResponse(
+                            ((ResignDeveloperResponse.SuccessResponse) response).resignationDate()));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ResignDeveloperResponse.ErrorResponse(
+                            ((ResignDeveloperResponse.ErrorResponse) response).errorMessage()));
+        }
     }
 }

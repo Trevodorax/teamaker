@@ -23,11 +23,14 @@ public class TechnologyController {
                 .getDevelopersByTechnology(new GetDevelopersByTechnologyCommand(id));
 
         if (response instanceof GetDevelopersByTechnologyResponse.SuccessResponse) {
-            return ResponseEntity.ok(new GetDevelopersByTechnologyResponse.SuccessResponse(
-                    ((GetDevelopersByTechnologyResponse.SuccessResponse) response).developers()));
+            return ResponseEntity
+                    .ok(new GetDevelopersByTechnologyResponse.SuccessResponse(
+                            ((GetDevelopersByTechnologyResponse.SuccessResponse) response).developers()));
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new GetDevelopersByTechnologyResponse.ErrorResponse(
-                    ((GetDevelopersByTechnologyResponse.ErrorResponse) response).message()));
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new GetDevelopersByTechnologyResponse.ErrorResponse(
+                            ((GetDevelopersByTechnologyResponse.ErrorResponse) response).message()));
         }
     }
 }
