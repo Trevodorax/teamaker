@@ -13,6 +13,10 @@ import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperUse
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperResponse;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperUseCase;
+import org.teamaker.developer.application.port.in.updateDeveloperInfo.UpdateDeveloperInfoCommand;
+import org.teamaker.developer.application.port.in.updateDeveloperInfo.UpdateDeveloperInfoRequest;
+import org.teamaker.developer.application.port.in.updateDeveloperInfo.UpdateDeveloperInfoResponse;
+import org.teamaker.developer.application.port.in.updateDeveloperInfo.UpdateDeveloperInfoUseCase;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 import java.util.List;
@@ -23,12 +27,14 @@ public class DeveloperController {
     private final ResignDeveloperUseCase resignDeveloperUseCase;
     private final GetDevelopersUseCase getDevelopersUseCase;
     private final HireDeveloperUseCase hireDeveloperUseCase;
+    private final UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase;
 
-    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase) {
+    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase) {
         this.getDeveloperUseCase = getDeveloperUseCase;
         this.resignDeveloperUseCase = resignDeveloperUseCase;
         this.getDevelopersUseCase = getDevelopersUseCase;
         this.hireDeveloperUseCase = hireDeveloperUseCase;
+        this.updateDeveloperInfoUseCase = updateDeveloperInfoUseCase;
     }
 
     @GetMapping("/developers")
@@ -84,6 +90,22 @@ public class DeveloperController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new ResignDeveloperResponse.ErrorResponse(
                             ((ResignDeveloperResponse.ErrorResponse) response).errorMessage()));
+        }
+    }
+
+    @PatchMapping("/developers/{id}")
+    public ResponseEntity<UpdateDeveloperInfoResponse.Response> updateDeveloperInfo(@PathVariable String id, @RequestBody UpdateDeveloperInfoRequest developer) {
+        UpdateDeveloperInfoResponse.Response response = updateDeveloperInfoUseCase.updateDeveloperInfo(new UpdateDeveloperInfoCommand(id, developer.getFullName(), developer.getEmail()));
+
+        if (response instanceof UpdateDeveloperInfoResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok(new UpdateDeveloperInfoResponse.SuccessResponse(
+                            ((UpdateDeveloperInfoResponse.SuccessResponse) response).developer()));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new UpdateDeveloperInfoResponse.ErrorResponse(
+                            ((UpdateDeveloperInfoResponse.ErrorResponse) response).message()));
         }
     }
 }

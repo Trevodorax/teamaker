@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 public class UpdateDeveloperInfoCommand extends SelfValidating<UpdateDeveloperInfoCommand> {
     @NotNull
-    private final String developerId;
+    private String developerId;
     private final String fullName;
     @Email
     private final String email;
@@ -21,6 +21,10 @@ public class UpdateDeveloperInfoCommand extends SelfValidating<UpdateDeveloperIn
 
     public String getDeveloperId() {
         return developerId;
+    }
+
+    public void setDeveloperId(String developerId) {
+        this.developerId = developerId;
     }
 
     public String getFullName() {

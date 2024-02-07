@@ -108,13 +108,78 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/68de5de9-dad3-40c6-9b7d-1a72c7c6bd81",
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"68de5de9-dad3-40c6-9b7d-1a72c7c6bd81"
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateDeveloperInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer.email).to.match(/^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Hiring date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.developer).to.exist;",
+									"  pm.expect(responseData.developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Resignation date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.developer.resignationDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fullName\":\"Tom Bourlard\",\n    \"email\":\"tom@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f"
 							]
 						}
 					},
