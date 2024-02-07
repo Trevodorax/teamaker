@@ -2,6 +2,7 @@ package org.teamaker.developer.application;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsResponse;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillResponse;
@@ -55,13 +56,35 @@ public class LearnSkillServiceTest {
     }
 
     @Test
-    public void testLearnSkillError() {
+    public void testLearnSkillError_DeveloperNotFound() {
         when(acquireSkillPortMock.acquireSkill(any(AcquireSkillCommand.class))).thenThrow(new NoSuchElementException("developer not found"));
 
         LearnSkillResponse.Response result = learnSkillService.learnSkill(new LearnSkillCommand("developerId", "skillId"));
 
         verify(acquireSkillPortMock).acquireSkill(any(AcquireSkillCommand.class));
         assertInstanceOf(LearnSkillResponse.ErrorResponse.class, result);
-        assertEquals(new LearnSkillResponse.ErrorResponse("developer not found"), result);
+        assertEquals(new LearnSkillResponse.ErrorResponse("developer not found", HttpStatus.NOT_FOUND), result);
     }
-}
+
+    @Test
+    public void testLearnSkillError_TechnologyNotFound() {
+        when(acquireSkillPortMock.acquireSkill(any(AcquireSkillCommand.class))).thenThrow(new NoSuchElementException("technology not found"));
+
+        LearnSkillResponse.Response result = learnSkillService.learnSkill(new LearnSkillCommand("developerId", "skillId"));
+
+        verify(acquireSkillPortMock).acquireSkill(any(AcquireSkillCommand.class));
+        assertInstanceOf(LearnSkillResponse.ErrorResponse.class, result);
+        assertEquals(new LearnSkillResponse.ErrorResponse("technology not found", HttpStatus.NOT_FOUND), result);
+    }
+
+        @Test
+        public void testLearnSkillError_DeveloperAlreadyHasSkill () {
+            when(acquireSkillPortMock.acquireSkill(any(AcquireSkillCommand.class))).thenThrow(new IllegalArgumentException("developer already has the skill"));
+
+            LearnSkillResponse.Response result = learnSkillService.learnSkill(new LearnSkillCommand("developerId", "skillId"));
+
+            verify(acquireSkillPortMock).acquireSkill(any(AcquireSkillCommand.class));
+            assertInstanceOf(LearnSkillResponse.ErrorResponse.class, result);
+            assertEquals(new LearnSkillResponse.ErrorResponse("developer already has the skill", HttpStatus.CONFLICT), result);
+        }
+    }

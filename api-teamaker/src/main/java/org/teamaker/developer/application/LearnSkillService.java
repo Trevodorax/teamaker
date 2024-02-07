@@ -1,5 +1,6 @@
 package org.teamaker.developer.application;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillResponse;
@@ -27,7 +28,7 @@ class LearnSkillService implements LearnSkillUseCase {
     @Override
     public LearnSkillResponse.Response learnSkill(LearnSkillCommand command) {
         try {
-            acquireSkillPort.acquireSkill(new AcquireSkillCommand(command.getDeveloperId(), command.getSkillId()));
+            acquireSkillPort.acquireSkill(new AcquireSkillCommand(command.getDeveloperId(), command.getTechnologyId()));
             List<LoadDeveloperSkillsResponse> loadDeveloperSkillsResponse = loadDeveloperSkillsPort.loadDeveloperSkills(
                     new LoadDeveloperSkillsCommand(command.getDeveloperId())
             );
@@ -39,7 +40,9 @@ class LearnSkillService implements LearnSkillUseCase {
 
             return new LearnSkillResponse.SuccessResponse(result);
         } catch (NoSuchElementException exception) {
-            return new LearnSkillResponse.ErrorResponse(exception.getMessage());
+            return new LearnSkillResponse.ErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (IllegalArgumentException exception) {
+            return new LearnSkillResponse.ErrorResponse(exception.getMessage(), HttpStatus.CONFLICT);
         }
     }
 }

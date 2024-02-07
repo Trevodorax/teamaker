@@ -12,6 +12,6 @@ import java.util.NoSuchElementException;
 public class LoadDeveloperSkillsAdapter implements LoadDeveloperSkillsPort {
     @Override
     public List<LoadDeveloperSkillsResponse> loadDeveloperSkills(LoadDeveloperSkillsCommand command) throws NoSuchElementException {
-        return null;
+        return List.of();
     }
 }

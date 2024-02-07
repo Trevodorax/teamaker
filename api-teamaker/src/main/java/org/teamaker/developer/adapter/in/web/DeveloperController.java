@@ -10,6 +10,9 @@ import org.teamaker.developer.application.port.in.getDevelopers.GetDevelopersUse
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperResponse;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperUseCase;
+import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
+import org.teamaker.developer.application.port.in.learnSkill.LearnSkillResponse;
+import org.teamaker.developer.application.port.in.learnSkill.LearnSkillUseCase;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperCommand;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperResponse;
 import org.teamaker.developer.application.port.in.resignDeveloper.ResignDeveloperUseCase;
@@ -28,13 +31,15 @@ public class DeveloperController {
     private final GetDevelopersUseCase getDevelopersUseCase;
     private final HireDeveloperUseCase hireDeveloperUseCase;
     private final UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase;
+    private final LearnSkillUseCase learnSkillUseCase;
 
-    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase) {
+    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase, LearnSkillUseCase learnSkillUseCase) {
         this.getDeveloperUseCase = getDeveloperUseCase;
         this.resignDeveloperUseCase = resignDeveloperUseCase;
         this.getDevelopersUseCase = getDevelopersUseCase;
         this.hireDeveloperUseCase = hireDeveloperUseCase;
         this.updateDeveloperInfoUseCase = updateDeveloperInfoUseCase;
+        this.learnSkillUseCase = learnSkillUseCase;
     }
 
     @GetMapping("/developers")
@@ -108,4 +113,21 @@ public class DeveloperController {
                             ((UpdateDeveloperInfoResponse.ErrorResponse) response).message()));
         }
     }
+
+    @PostMapping("/developers/{developerId}/skills/{technologyId}")
+    public ResponseEntity<LearnSkillResponse.Response> learnSkill(@PathVariable String developerId, @PathVariable String technologyId) {
+        LearnSkillResponse.Response response = learnSkillUseCase.learnSkill(new LearnSkillCommand(developerId, technologyId));
+
+        if (response instanceof LearnSkillResponse.SuccessResponse successResponse) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(successResponse);
+        } else {
+            LearnSkillResponse.ErrorResponse errorResponse = (LearnSkillResponse.ErrorResponse) response;
+            return ResponseEntity
+                    .status(errorResponse.httpStatus())
+                    .body(errorResponse);
+        }
+    }
+
 }
