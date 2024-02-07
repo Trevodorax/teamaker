@@ -483,6 +483,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetDeveloperProjects",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/b3c6b1c0-6779-4b13-baf4-b84e0803baee/projects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"b3c6b1c0-6779-4b13-baf4-b84e0803baee",
+								"projects"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

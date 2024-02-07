@@ -1,5 +1,6 @@
 package org.teamaker.team.domain;
 
+import lombok.Getter;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.ExperienceLevel;
 import org.teamaker.project.domain.Project;
@@ -17,7 +18,9 @@ public class Team {
     private static final int MAX_NB_JUNIORS = 3;
     private static final int MIN_NB_DEVS_FOR_EXPERT = 5;
     private static final Duration LONG_PROJECT_DURATION = Duration.ofDays(Period.ofMonths(6).plusDays(1).toTotalMonths() * 30);
+    @Getter
     private final String projectId;
+    @Getter
     private final List<Developer> developers;
     private boolean isLocked; // a locked team is a valid team for which the rules can't change anymore
 
@@ -25,14 +28,6 @@ public class Team {
         this.projectId = projectId;
         this.developers = developers;
         this.isLocked = isLocked;
-    }
-
-    public List<Developer> getDevelopers() {
-        return developers;
-    }
-
-    public String getProjectId() {
-        return projectId;
     }
 
     /**

@@ -54,7 +54,7 @@ public class GetDeveloperProjectsServiceTest {
 
         assertEquals(mockId, capturedCommand.getDeveloperId());
         assertInstanceOf(GetDeveloperProjectsResponse.SuccessResponse.class, result);
-        assertEquals(new GetDeveloperProjectsResponse.SuccessResponse(expectedProjectsList), result);
+        assertEquals(new GetDeveloperProjectsResponse.SuccessResponse(expectedProjectsList.stream().map(Project::toResponse).toList()), result);
     }
 
     @Test
