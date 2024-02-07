@@ -64,7 +64,6 @@ public class DeveloperController {
     }
 
     @PostMapping("/developers")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<HireDeveloperResponse.Response> hireDeveloper(@RequestBody HireDeveloperCommand command) {
         HireDeveloperResponse.Response response = hireDeveloperUseCase.hireDeveloper(command);
 

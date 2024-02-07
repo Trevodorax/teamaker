@@ -18,21 +18,6 @@ public interface TechnologyRepository extends JpaRepository<TechnologyJPA, Strin
         CreateTechnologyPort,
         LoadTechnologiesPort,
         LoadTechnologyPort {
-//    @Override
-//    default Technology createTechnology(CreateTechnologyCommand command) {
-//        TechnologyJPA technologyJPA = new TechnologyJPA();
-//        technologyJPA.setName(command.getName());
-//        return save(technologyJPA).toTechnology();
-//    }
-//
-//    @Override
-//    default List<Technology> loadTechnologies() {
-//        return findAll()
-//                .stream()
-//                .map(TechnologyJPA::toTechnology)
-//                .toList();
-//    }
-
     @Override
     default Technology createTechnology(CreateTechnologyCommand command) {
         return null;
