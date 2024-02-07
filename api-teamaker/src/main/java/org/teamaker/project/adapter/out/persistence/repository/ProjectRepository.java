@@ -1,7 +1,8 @@
-package org.teamaker.project.adapter.out.persistence;
+package org.teamaker.project.adapter.out.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.teamaker.project.adapter.out.entity.entity.ProjectJPA;
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;

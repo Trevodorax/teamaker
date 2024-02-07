@@ -1,4 +1,4 @@
-package org.teamaker.project.adapter.out.persistence;
+package org.teamaker.project.adapter.out.entity;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;

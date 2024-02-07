@@ -6,7 +6,6 @@ import org.teamaker.developer.adapter.out.persistence.repository.DeveloperReposi
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyPort;
 import org.teamaker.developer.domain.Developer;
-import org.teamaker.technology.adapter.out.persistence.SkillRepository;
 
 import java.util.List;
 

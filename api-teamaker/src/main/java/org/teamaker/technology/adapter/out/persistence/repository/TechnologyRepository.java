@@ -1,4 +1,4 @@
-package org.teamaker.technology.adapter.out.persistence;
+package org.teamaker.technology.adapter.out.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;

@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.teamaker.developer.adapter.out.entity.DeveloperJPA;
-import org.teamaker.project.adapter.out.persistence.ProjectJPA;
+import org.teamaker.project.adapter.out.entity.entity.ProjectJPA;
 
 import java.time.LocalDate;
 
