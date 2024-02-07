@@ -26,15 +26,7 @@ public class TechnologyJPA {
     private String name;
 
     @OneToMany(mappedBy = "technology")
-    private Set<TechnologyRequirementJPA> technologyRequirements = new HashSet<>();
-
-    @OneToMany(mappedBy = "technology")
-    private Set<SkillJPA> skills = new HashSet<>();
-
-    public TechnologyJPA(Technology technology) {
-        this.id = technology.getTechnologyId();
-        this.name = technology.getName();
-    }
+    private Set<TechnologyRequirementJPA> technologyRequirements;
 
     public Technology toDomain() {
         return new Technology(id, name);

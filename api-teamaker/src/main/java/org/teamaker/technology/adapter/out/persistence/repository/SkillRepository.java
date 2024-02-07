@@ -13,4 +13,6 @@ public interface SkillRepository extends JpaRepository<SkillJPA, SkillPK> {
     Optional<SkillJPA> findByDeveloperAndTechnology(DeveloperJPA developer, TechnologyJPA technology);
 
     Set<SkillJPA> findByDeveloper(DeveloperJPA developer);
+
+    void deleteByDeveloperAndTechnology(DeveloperJPA developer, TechnologyJPA technology);
 }

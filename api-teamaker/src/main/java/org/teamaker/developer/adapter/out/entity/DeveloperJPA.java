@@ -36,19 +36,15 @@ public class DeveloperJPA {
     private LocalDate resignationDate;
 
     @OneToMany(mappedBy = "developer")
-    private Set<TeamMembershipJPA> teamMemberships = new HashSet<>();
+    private Set<TeamMembershipJPA> teamMemberships;
 
     @OneToMany(mappedBy = "developer")
-    private Set<TeamChangeRequestJPA> teamChangeRequests = new HashSet<>();
+    private Set<TeamChangeRequestJPA> teamChangeRequests;
 
     @OneToMany(mappedBy = "developer")
-    private Set<SkillJPA> skills = new HashSet<>();
+    private Set<SkillJPA> skills;
 
     public Developer toDomain() {
         return new Developer(id, name, email, hiringDate, resignationDate);
-    }
-
-    public DeveloperJPA fromDomain(Developer developer) {
-        return new DeveloperJPA(developer.getDeveloperId(), developer.getFullName(), developer.getEmail(), developer.getHiringDate(), developer.getHiringDate(), null, null, null);
     }
 }

@@ -42,14 +42,14 @@ public class ProjectJPA {
     private LocalDate endDate;
 
     @OneToMany(mappedBy = "project")
-    private Set<TeamMembershipJPA> teamMemberships = new HashSet<>();
+    private Set<TeamMembershipJPA> teamMemberships;
 
     @OneToMany(mappedBy = "requestedProject")
-    private Set<TeamChangeRequestJPA> requestedTeamChangeRequests = new HashSet<>();
+    private Set<TeamChangeRequestJPA> requestedTeamChangeRequests;
 
     @OneToMany(mappedBy = "currentProject")
-    private Set<TeamChangeRequestJPA> currentTeamChangeRequests = new HashSet<>();
+    private Set<TeamChangeRequestJPA> currentTeamChangeRequests;
 
     @OneToMany(mappedBy = "project")
-    private Set<TechnologyRequirementJPA> technologyRequirements = new HashSet<>();
+    private Set<TechnologyRequirementJPA> technologyRequirements;
 }

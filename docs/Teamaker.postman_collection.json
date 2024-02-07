@@ -463,6 +463,26 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "ForgetSkill",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f/skills/techid",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"developers",
+								"6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+								"skills",
+								"techid"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

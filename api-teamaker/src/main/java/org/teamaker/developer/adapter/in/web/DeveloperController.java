@@ -3,6 +3,9 @@ package org.teamaker.developer.adapter.in.web;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.teamaker.developer.application.port.in.forgetSkill.ForgetSkillCommand;
+import org.teamaker.developer.application.port.in.forgetSkill.ForgetSkillResponse;
+import org.teamaker.developer.application.port.in.forgetSkill.ForgetSkillUseCase;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperCommand;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperResponse;
 import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperUseCase;
@@ -37,8 +40,9 @@ public class DeveloperController {
     private final UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase;
     private final LearnSkillUseCase learnSkillUseCase;
     private final GetDeveloperSkillsUseCase getDeveloperSkillsUseCase;
+    private final ForgetSkillUseCase forgetSkillUseCase;
 
-    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase, LearnSkillUseCase learnSkillUseCase, GetDeveloperSkillsUseCase getDeveloperSkillsUseCase) {
+    public DeveloperController(GetDeveloperUseCase getDeveloperUseCase, ResignDeveloperUseCase resignDeveloperUseCase, GetDevelopersUseCase getDevelopersUseCase, HireDeveloperUseCase hireDeveloperUseCase, UpdateDeveloperInfoUseCase updateDeveloperInfoUseCase, LearnSkillUseCase learnSkillUseCase, GetDeveloperSkillsUseCase getDeveloperSkillsUseCase, ForgetSkillUseCase forgetSkillUseCase) {
         this.getDeveloperUseCase = getDeveloperUseCase;
         this.resignDeveloperUseCase = resignDeveloperUseCase;
         this.getDevelopersUseCase = getDevelopersUseCase;
@@ -46,6 +50,7 @@ public class DeveloperController {
         this.updateDeveloperInfoUseCase = updateDeveloperInfoUseCase;
         this.learnSkillUseCase = learnSkillUseCase;
         this.getDeveloperSkillsUseCase = getDeveloperSkillsUseCase;
+        this.forgetSkillUseCase = forgetSkillUseCase;
     }
 
     @GetMapping("/developers")
@@ -149,6 +154,22 @@ public class DeveloperController {
                     .ok(successResponse);
         } else {
             GetDeveloperSkillsResponse.ErrorResponse errorResponse = (GetDeveloperSkillsResponse.ErrorResponse) response;
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(errorResponse);
+        }
+    }
+
+    @DeleteMapping("/developers/{developerId}/skills/{technologyId}")
+    public ResponseEntity<ForgetSkillResponse.Response> forgetSkill(@PathVariable String developerId, @PathVariable String technologyId) {
+        ForgetSkillResponse.Response response = forgetSkillUseCase.forgetSkill(new ForgetSkillCommand(developerId, technologyId));
+
+        if (response instanceof ForgetSkillResponse.SuccessResponse successResponse) {
+            return ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body(successResponse);
+        } else {
+            ForgetSkillResponse.ErrorResponse errorResponse = (ForgetSkillResponse.ErrorResponse) response;
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(errorResponse);
