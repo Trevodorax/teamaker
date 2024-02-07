@@ -20,18 +20,15 @@ import java.util.NoSuchElementException;
 class GetDevelopersByTechnologyService implements GetDevelopersByTechnologyUseCase {
 
     private final FindDevelopersByTechnologyPort findDevelopersByTechnologyPort;
-    private final LoadTechnologyPort loadTechnologyPort;
 
-    public GetDevelopersByTechnologyService(FindDevelopersByTechnologyPort findDevelopersByTechnologyPort, LoadTechnologyPort loadTechnologyPort) {
+    public GetDevelopersByTechnologyService(FindDevelopersByTechnologyPort findDevelopersByTechnologyPort) {
         this.findDevelopersByTechnologyPort = findDevelopersByTechnologyPort;
-        this.loadTechnologyPort = loadTechnologyPort;
     }
 
     @Override
     public GetDevelopersByTechnologyResponse.Response getDevelopersByTechnology(GetDevelopersByTechnologyCommand command) {
         try {
-            Technology technology = loadTechnologyPort.loadTechnology(new LoadTechnologyCommand(command.getTechnologyId()));
-            List<Developer> developers = findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(technology));
+            List<Developer> developers = findDevelopersByTechnologyPort.findDevelopersByTechnology(new FindDevelopersByTechnologyCommand(command.getTechnologyId()));
 
             return new GetDevelopersByTechnologyResponse.SuccessResponse(
                     new GetDevelopersByTechnologyDtoResponse(
