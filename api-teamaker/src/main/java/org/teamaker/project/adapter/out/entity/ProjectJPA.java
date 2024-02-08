@@ -11,11 +11,9 @@ import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
-import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.team.adapter.out.entity.TeamChangeRequestJPA;
 import org.teamaker.team.adapter.out.entity.TeamMembershipJPA;
 import org.teamaker.team.domain.Team;
-import org.teamaker.technology.adapter.out.entity.TechnologyJPA;
 import org.teamaker.technology.adapter.out.entity.TechnologyRequirementJPA;
 import org.teamaker.technology.domain.Technology;
 
@@ -99,7 +97,7 @@ public class ProjectJPA {
         );
     }
 
-    public ProjectJPA updateFromDomain(Project project) {
+    public void updateFromDomain(Project project) {
         this.name = project.getName();
         this.description = project.getDescription();
         this.status = project.getStatus();
@@ -107,6 +105,5 @@ public class ProjectJPA {
         this.startDate = project.getStartDate();
         this.endDate = project.getEndDate();
         this.isLocked = project.getTeam().isLocked();
-        return this;
     }
 }

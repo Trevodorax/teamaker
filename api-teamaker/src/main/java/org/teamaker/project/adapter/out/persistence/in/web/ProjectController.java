@@ -13,6 +13,10 @@ import org.teamaker.project.application.port.in.getProjects.GetProjectsUseCase;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;
+import org.teamaker.project.application.port.in.treatProject.TreatProjectCommand;
+import org.teamaker.project.application.port.in.treatProject.TreatProjectRequest;
+import org.teamaker.project.application.port.in.treatProject.TreatProjectResponse;
+import org.teamaker.project.application.port.in.treatProject.TreatProjectUseCase;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoCommand;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoRequest;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoResponse;
@@ -25,13 +29,15 @@ public class ProjectController {
     private final GetProjectUseCase getProjectUseCase;
     private final GetProjectsUseCase getProjectsUseCase;
     private final UpdateProjectInfoUseCase updateProjectInfoUseCase;
+    private final TreatProjectUseCase treatProjectUseCase;
 
-    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase, UpdateProjectInfoUseCase updateProjectInfoUseCase) {
+    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase, UpdateProjectInfoUseCase updateProjectInfoUseCase, TreatProjectUseCase treatProjectUseCase) {
         this.submitProjectUseCase = submitProjectUseCase;
         this.getNextProjectUseCase = getNextProjectUseCase;
         this.getProjectUseCase = getProjectUseCase;
         this.getProjectsUseCase = getProjectsUseCase;
         this.updateProjectInfoUseCase = updateProjectInfoUseCase;
+        this.treatProjectUseCase = treatProjectUseCase;
     }
 
     @PostMapping("/projects")
@@ -111,6 +117,22 @@ public class ProjectController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new GetProjectsResponse.ErrorResponse(
                             ((GetProjectsResponse.ErrorResponse) response).errorMessage()));
+        }
+    }
+
+    @PatchMapping("/projects/{projectId}/treat")
+    public ResponseEntity<TreatProjectResponse.Response> treatProject(@PathVariable String projectId, @RequestBody TreatProjectRequest command) {
+        TreatProjectResponse.Response response = treatProjectUseCase.treatProject(new TreatProjectCommand(projectId, command.getStatus()));
+
+        if (response instanceof TreatProjectResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new TreatProjectResponse.ErrorResponse(
+                            ((TreatProjectResponse.ErrorResponse) response).message()));
         }
     }
 }
