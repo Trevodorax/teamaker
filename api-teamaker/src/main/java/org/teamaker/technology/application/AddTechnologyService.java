@@ -18,10 +18,13 @@ class AddTechnologyService implements AddTechnologyUseCase {
 
     @Override
     public AddTechnologyResponse.Response addTechnology(AddTechnologyCommand command) {
-        Technology createdTechnology = createTechnologyPort.createTechnology(
-                new CreateTechnologyCommand(command.getName())
-        );
-
-        return new AddTechnologyResponse.SuccessResponse(createdTechnology.toResponse());
+        try {
+            Technology technology = createTechnologyPort.createTechnology(
+                    new CreateTechnologyCommand(command.getName())
+            );
+            return new AddTechnologyResponse.SuccessResponse(technology.toResponse());
+        } catch (IllegalArgumentException exception) {
+            return new AddTechnologyResponse.ErrorResponse(exception.getMessage());
+        }
     }
 }

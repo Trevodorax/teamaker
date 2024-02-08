@@ -9,15 +9,20 @@ import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetD
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyResponse;
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyUseCase;
+import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyCommand;
+import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyResponse;
+import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyUseCase;
 
 @RestController
 public class TechnologyController {
     private final GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase;
     private final AddTechnologyUseCase addTechnologyUseCase;
+    private final GetTechnologyUseCase getTechnologyUseCase;
 
-    public TechnologyController(GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase, AddTechnologyUseCase addTechnologyUseCase) {
+    public TechnologyController(GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase, AddTechnologyUseCase addTechnologyUseCase, GetTechnologyUseCase getTechnologyUseCase) {
         this.getDevelopersByTechnologyUseCase = getDevelopersByTechnologyUseCase;
         this.addTechnologyUseCase = addTechnologyUseCase;
+        this.getTechnologyUseCase = getTechnologyUseCase;
     }
 
     @PostMapping("/technologies")
@@ -34,6 +39,22 @@ public class TechnologyController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new AddTechnologyResponse.ErrorResponse(
                             ((AddTechnologyResponse.ErrorResponse) response).message()));
+        }
+    }
+
+    @GetMapping("/technologies/{id}")
+    public ResponseEntity<GetTechnologyResponse.Response> getTechnology(@PathVariable String id) {
+        GetTechnologyResponse.Response response = getTechnologyUseCase.getTechnology(new GetTechnologyCommand(id));
+
+        if (response instanceof GetTechnologyResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok(new GetTechnologyResponse.SuccessResponse(
+                            ((GetTechnologyResponse.SuccessResponse) response).technology()));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new GetTechnologyResponse.ErrorResponse(
+                            ((GetTechnologyResponse.ErrorResponse) response).message()));
         }
     }
 

@@ -16,19 +16,11 @@ import java.util.Optional;
 
 @Component
 public interface TechnologyRepository extends JpaRepository<TechnologyJPA, String>,
-        LoadTechnologiesPort,
-        LoadTechnologyPort {
+        LoadTechnologiesPort {
 
     @Override
     default List<Technology> loadTechnologies() {
         return null;
-    }
-
-    @Override
-    default Technology loadTechnology(LoadTechnologyCommand command) {
-        return findById(command.getTechnologyId())
-                .map(TechnologyJPA::toDomain)
-                .orElseThrow(NoSuchElementException::new);
     }
 
     Optional<TechnologyJPA> findByName(String name);
