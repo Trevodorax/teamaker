@@ -19,6 +19,7 @@ import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCase {
@@ -37,42 +38,46 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
     }
 
     @Override
-    public AssignDeveloperToTeamResponse.Response assignDeveloperToTeam(AssignDeveloperToTeamCommand command) throws IllegalArgumentException {
-        // load developer and project infos
-        Developer developer = loadDeveloperPort.loadDeveloper(
-                new LoadDeveloperCommand(command.getDeveloperId())
-        );
+    public AssignDeveloperToTeamResponse.Response assignDeveloperToTeam(AssignDeveloperToTeamCommand command) throws NoSuchElementException {
+        try {
+            // load developer and project infos
+            Developer developer = loadDeveloperPort.loadDeveloper(
+                    new LoadDeveloperCommand(command.getDeveloperId())
+            );
 
-        List<Project> developerProjects = loadDeveloperProjectsPort.loadDeveloperProjects(
-                new LoadDeveloperProjectsCommand(command.getDeveloperId())
-        );
+            List<Project> developerProjects = loadDeveloperProjectsPort.loadDeveloperProjects(
+                    new LoadDeveloperProjectsCommand(command.getDeveloperId())
+            );
 
-        developer.setProjectList(developerProjects);
+            developer.setProjectList(developerProjects);
 
-        Project project = loadProjectPort.loadProject(
-                new LoadProjectCommand(command.getProjectId())
-        );
+            Project project = loadProjectPort.loadProject(
+                    new LoadProjectCommand(command.getProjectId())
+            );
 
-        // check if the dev is available
-        boolean isAvailable = developer.checkAvailability(project);
+            // check if the dev is available
+            boolean isAvailable = developer.checkAvailability(project);
 
-        if (!isAvailable) {
-            return new AssignDeveloperToTeamResponse.SingleErrorResponse("Developer is not available for this project.");
+            if (!isAvailable) {
+                return new AssignDeveloperToTeamResponse.SingleErrorResponse("Developer is not available for this project.");
+            }
+
+            // add the dev to the team and save team
+            Team team = loadTeamPort.loadTeam(
+                    new LoadTeamCommand(command.getProjectId())
+            );
+
+            List<String> addDeveloperErrors = project.addDeveloper(developer, false);
+
+            if (addDeveloperErrors != null) {
+                return new AssignDeveloperToTeamResponse.MultipleErrorsResponse(addDeveloperErrors);
+            }
+
+            saveTeamPort.saveTeam(new SaveTeamCommand(team));
+
+            return new AssignDeveloperToTeamResponse.SuccessResponse(developer.toResponse());
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Developer or project not found");
         }
-
-        // add the dev to the team and save team
-        Team team = loadTeamPort.loadTeam(
-                new LoadTeamCommand(command.getProjectId())
-        );
-
-        List<String> addDeveloperErrors = project.addDeveloper(developer, false);
-
-        if (addDeveloperErrors != null) {
-            return new AssignDeveloperToTeamResponse.MultipleErrorsResponse(addDeveloperErrors);
-        }
-
-        saveTeamPort.saveTeam(new SaveTeamCommand(team));
-
-        return new AssignDeveloperToTeamResponse.SuccessResponse(developer.toResponse());
     }
 }

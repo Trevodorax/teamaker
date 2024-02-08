@@ -945,6 +945,71 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetPossibleDevelopersForProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"DeveloperId is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.developers).to.be.an('array');",
+									"    responseData.developers.forEach(function(developer) {",
+									"        pm.expect(developer.developerId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid email format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.developers).to.be.an('array').and.to.have.lengthOf.at.least(1, \"Developers array should not be empty\");",
+									"    ",
+									"    responseData.developers.forEach(function (developer) {",
+									"        pm.expect(developer.email).to.exist.and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid email format\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"HiringDate is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  const developers = responseData.developers;",
+									"",
+									"  pm.expect(developers).to.be.an('array').that.is.not.empty;",
+									"",
+									"  developers.forEach(function (developer) {",
+									"    pm.expect(developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/projects/054eec16-babf-49fe-b8a0-dbe823a8593a/developersAvailable",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"054eec16-babf-49fe-b8a0-dbe823a8593a",
+								"developersAvailable"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

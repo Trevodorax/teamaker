@@ -12,6 +12,7 @@ import org.teamaker.team.application.port.out.loadPossibleDevelopersForProject.L
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -39,7 +40,7 @@ class GetPossibleDevelopersForProjectServiceTest {
         when(loadPossibleDevelopersForProjectPortMock.loadPossibleDevelopersForProject(any(LoadPossibleDevelopersForProjectCommand.class))).thenReturn(developers);
 
         // call
-        GetPossibleDevelopersForTeamResponse.Response response = getPossibleDevelopersForProjectService.getPossibleDevelopersForProjectUseCase(
+        GetPossibleDevelopersForTeamResponse.Response response = getPossibleDevelopersForProjectService.getPossibleDevelopersForProject(
                 new GetPossibleDevelopersForProjectCommand("projectId")
         );
 
@@ -58,10 +59,10 @@ class GetPossibleDevelopersForProjectServiceTest {
     @Test
     public void testGetPossibleDevelopersForProject_Error() {
         // mock out ports to throw an exception
-        when(loadPossibleDevelopersForProjectPortMock.loadPossibleDevelopersForProject(any(LoadPossibleDevelopersForProjectCommand.class))).thenThrow(new IllegalArgumentException("Invalid project ID"));
+        when(loadPossibleDevelopersForProjectPortMock.loadPossibleDevelopersForProject(any(LoadPossibleDevelopersForProjectCommand.class))).thenThrow(new NoSuchElementException("Invalid project ID"));
 
         // call
-        GetPossibleDevelopersForTeamResponse.Response response = getPossibleDevelopersForProjectService.getPossibleDevelopersForProjectUseCase(
+        GetPossibleDevelopersForTeamResponse.Response response = getPossibleDevelopersForProjectService.getPossibleDevelopersForProject(
                 new GetPossibleDevelopersForProjectCommand("invalidProjectId")
         );
 
