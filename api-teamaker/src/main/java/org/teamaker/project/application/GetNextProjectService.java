@@ -2,13 +2,13 @@ package org.teamaker.project.application;
 
 import org.springframework.stereotype.Component;
 import org.teamaker.project.application.port.in.getNextProject.GetNextProjectResponse;
-import org.teamaker.project.application.port.in.getNextProject.GetNextProject;
+import org.teamaker.project.application.port.in.getNextProject.GetNextProjectUseCase;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
 
 import java.util.NoSuchElementException;
 
 @Component
-public class GetNextProjectService implements GetNextProject {
+public class GetNextProjectService implements GetNextProjectUseCase {
     private final FindNextProjectPort findNextProjectPort;
 
     public GetNextProjectService(FindNextProjectPort findNextProjectPort) {

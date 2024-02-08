@@ -1,15 +1,15 @@
 package org.teamaker.project.application.port.in.submitProject;
 
+import lombok.Getter;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.UUID;
 
+@Getter
 public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     @NotNull
     private final String name;
@@ -20,7 +20,7 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     private final LocalDate startDate;
     private final LocalDate endDate;
     @NotNull
-    private final Map<String, Integer> technologies;
+    private final Map<String, Integer> technologies; // format json :
 
     public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<String, Integer> technologies) {
         this.name = name;
@@ -37,27 +37,4 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
         this.validateSelf();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProjectPriority getPriority() {
-        return priority;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public Map<String, Integer> getTechnologies() {
-        return technologies;
-    }
 }

@@ -1,11 +1,12 @@
 package org.teamaker.developer.application.port.out.findDevelopersByTechnology;
 
+import lombok.Getter;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.NotNull;
 
+@Getter
 public class FindDevelopersByTechnologyCommand extends SelfValidating<FindDevelopersByTechnologyCommand> {
-
         @NotNull
         private final String technologyId;
 
@@ -13,9 +14,5 @@ public class FindDevelopersByTechnologyCommand extends SelfValidating<FindDevelo
             this.technologyId = technologyId;
 
             this.validateSelf();
-        }
-
-        public String getTechnologyId() {
-            return technologyId;
         }
 }

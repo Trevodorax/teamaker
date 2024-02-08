@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.teamaker.project.application.port.in.getNextProject.GetNextProjectResponse;
-import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.out.findNextProject.FindNextProjectPort;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
@@ -20,7 +19,7 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class GetNextProjectServiceTest {
+class GetNextProjectUseCaseServiceTest {
     private static FindNextProjectPort findNextProjectMock;
     private static GetNextProjectService getNextProjectService;
 

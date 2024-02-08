@@ -1,10 +1,12 @@
 package org.teamaker.project.application.port.in.updateProjectInfo;
 
+import lombok.Getter;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.NotNull;
 
+@Getter
 public class UpdateProjectInfoCommand extends SelfValidating<UpdateProjectInfoCommand> {
     @NotNull
     private final String projectId;
@@ -20,19 +22,4 @@ public class UpdateProjectInfoCommand extends SelfValidating<UpdateProjectInfoCo
         this.validateSelf();
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProjectPriority getPriority() {
-        return priority;
-    }
 }

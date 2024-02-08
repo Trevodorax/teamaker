@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.teamaker.developer.adapter.out.entity.DeveloperJPA;
-import org.teamaker.technology.adapter.out.entity.SkillJPA;
 
 import java.util.List;
 import java.util.Optional;

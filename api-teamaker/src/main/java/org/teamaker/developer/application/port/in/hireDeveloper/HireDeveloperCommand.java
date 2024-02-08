@@ -1,10 +1,12 @@
 package org.teamaker.developer.application.port.in.hireDeveloper;
 
+import lombok.Getter;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+@Getter
 public class HireDeveloperCommand extends SelfValidating<HireDeveloperCommand> {
     @NotNull
     private  final String fullName;
@@ -17,13 +19,5 @@ public class HireDeveloperCommand extends SelfValidating<HireDeveloperCommand> {
         this.email = email;
 
         this.validateSelf();
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }

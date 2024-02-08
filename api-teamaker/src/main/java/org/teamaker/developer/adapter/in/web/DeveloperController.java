@@ -32,7 +32,6 @@ import org.teamaker.developer.application.port.in.updateDeveloperInfo.UpdateDeve
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class DeveloperController {

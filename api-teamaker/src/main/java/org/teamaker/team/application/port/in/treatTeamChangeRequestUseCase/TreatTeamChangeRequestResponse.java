@@ -1,6 +1,5 @@
 package org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase;
 
-import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.team.domain.TeamChangeRequest;
 
 import java.util.List;

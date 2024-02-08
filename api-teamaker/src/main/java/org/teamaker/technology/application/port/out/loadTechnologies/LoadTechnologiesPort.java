@@ -1,8 +1,8 @@
 package org.teamaker.technology.application.port.out.loadTechnologies;
 
-import java.util.List;
-
 import org.teamaker.technology.domain.Technology;
+
+import java.util.List;
 
 public interface LoadTechnologiesPort {
     /**

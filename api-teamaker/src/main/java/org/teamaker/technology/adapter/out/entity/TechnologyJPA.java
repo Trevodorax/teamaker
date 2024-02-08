@@ -7,19 +7,21 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.teamaker.technology.domain.Technology;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "TECHNOLOGY")
 public class TechnologyJPA {
     @Id
+    @EqualsAndHashCode.Include
     private String id;
 
     @Nonnull
