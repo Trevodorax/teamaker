@@ -17,35 +17,5 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Component
-public interface ProjectRepository extends JpaRepository<ProjectJPA, String>,
-        CreateProjectPort,
-        FindNextProjectPort,
-        LoadProjectPort,
-        LoadProjectsPort,
-        SaveProjectPort {
-    @Override
-    default Project createProject(CreateProjectCommand command) {
-        return null;
-    }
-
-    @Override
-    default Project findNextProject() throws NoSuchElementException {
-        return null;
-    }
-
-    @Override
-    default Project loadProject(LoadProjectCommand command) throws IllegalArgumentException {
-        return null;
-    }
-
-    @Override
-    default List<Project> loadProjects() {
-        return null;
-    }
-
-    @Override
-    default Project saveProject(SaveProjectCommand command) {
-        return null;
-    }
-
+public interface ProjectRepository extends JpaRepository<ProjectJPA, String> {
 }

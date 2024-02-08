@@ -20,7 +20,7 @@ public class SubmitProjectCommand extends SelfValidating<SubmitProjectCommand> {
     private final LocalDate startDate;
     private final LocalDate endDate;
     @NotNull
-    private final Map<String, Integer> technologies;
+    private final Map<String, Integer> technologies; // format json :
 
     public SubmitProjectCommand(String name, String description, ProjectPriority priority, LocalDate startDate, LocalDate endDate, Map<String, Integer> technologies) {
         this.name = name;

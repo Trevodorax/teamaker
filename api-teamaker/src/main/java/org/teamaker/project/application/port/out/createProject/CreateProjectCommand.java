@@ -1,5 +1,6 @@
 package org.teamaker.project.application.port.out.createProject;
 
+import lombok.Getter;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.shared.validation.SelfValidating;
 
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.UUID;
 
+@Getter
 public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
     @NotNull
     private final String name;
@@ -36,27 +38,4 @@ public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {
         this.validateSelf();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public ProjectPriority getPriority() {
-        return priority;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public Map<String, Integer> getTechnologies() {
-        return technologies;
-    }
 }

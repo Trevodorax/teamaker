@@ -504,6 +504,66 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "SubmitProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('ProjectId is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.projectId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"})",
+									"",
+									"pm.test('Status is PENDING', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.project.status).to.exist.and.to.equals('PENDING');",
+									"})",
+									"",
+									"pm.test('StartDate is in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.startDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"My first project\",\n    \"description\": \"The description of the project\",\n    \"priority\": \"NORMAL\",\n    \"startDate\":\"2024-03-12\",\n    \"technologies\": {\n        \"firstTech\":3\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/projects",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
