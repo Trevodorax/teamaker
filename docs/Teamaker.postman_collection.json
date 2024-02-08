@@ -544,7 +544,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"My first project\",\n    \"description\": \"The description of the project\",\n    \"priority\": \"NORMAL\",\n    \"startDate\":\"2024-03-12\",\n    \"technologies\": {\n        \"firstTech\":3\n    }\n}",
+							"raw": "{\n    \"name\": \"My first project\",\n    \"description\": \"The description of the project\",\n    \"priority\": \"NORMAL\",\n    \"startDate\":\"2024-03-16\",\n    \"technologies\": {\n        \"firstTech\":3\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -558,6 +558,103 @@
 							],
 							"path": [
 								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetNextProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test(\"Project progress should exist and be 'NOT_STARTED'\", function () {",
+									"    var responseData = pm.response.json();",
+									"    pm.expect(responseData.project.progress).to.exist;",
+									"    pm.expect(responseData.project.progress).to.equal(\"NOT_STARTED\");",
+									"});",
+									"",
+									"",
+									"pm.test('StartDate is in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.startDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"})",
+									"",
+									"pm.test('EndDate is either null or in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project).to.exist;",
+									"    pm.expect(responseData.project.endDate).to.satisfy(function (endDate) {",
+									"        return endDate === null || !isNaN(Date.parse(endDate));",
+									"    }, 'EndDate should be either null or in a valid date format');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/projects/next",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"next"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"StartDate is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.project.startDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});",
+									"",
+									"pm.test(\"Progress should be one of the specified options\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.project.progress).to.be.a('string');",
+									"    pm.expect(responseData.project.progress).to.be.oneOf(['NOT_STARTED', 'ABORTED', 'IN_PROGRESS', 'DONE']);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/projects/fd90d439-3131-4b57-ade6-3fad8c9e99fc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"fd90d439-3131-4b57-ade6-3fad8c9e99fc"
 							]
 						}
 					},
