@@ -12,16 +12,12 @@ import org.teamaker.technology.domain.Technology;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Component
 public interface TechnologyRepository extends JpaRepository<TechnologyJPA, String>,
-        CreateTechnologyPort,
         LoadTechnologiesPort,
         LoadTechnologyPort {
-    @Override
-    default Technology createTechnology(CreateTechnologyCommand command) {
-        return null;
-    }
 
     @Override
     default List<Technology> loadTechnologies() {
@@ -34,4 +30,6 @@ public interface TechnologyRepository extends JpaRepository<TechnologyJPA, Strin
                 .map(TechnologyJPA::toDomain)
                 .orElseThrow(NoSuchElementException::new);
     }
+
+    Optional<TechnologyJPA> findByName(String name);
 }

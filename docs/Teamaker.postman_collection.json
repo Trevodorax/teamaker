@@ -887,6 +887,55 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Technologies",
+			"item": [
+				{
+					"name": "AddTechnology",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('TechnologyId is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.technology.technologyId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Java\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/technologies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"technologies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

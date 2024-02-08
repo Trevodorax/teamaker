@@ -2,19 +2,39 @@ package org.teamaker.technology.adapter.in.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyCommand;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyResponse;
 import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetDevelopersByTechnologyUseCase;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyResponse;
+import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyUseCase;
 
 @RestController
 public class TechnologyController {
     private final GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase;
+    private final AddTechnologyUseCase addTechnologyUseCase;
 
-    public TechnologyController(GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase) {
+    public TechnologyController(GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase, AddTechnologyUseCase addTechnologyUseCase) {
         this.getDevelopersByTechnologyUseCase = getDevelopersByTechnologyUseCase;
+        this.addTechnologyUseCase = addTechnologyUseCase;
+    }
+
+    @PostMapping("/technologies")
+    public ResponseEntity<AddTechnologyResponse.Response> createTechnology(@RequestBody AddTechnologyCommand command) {
+        AddTechnologyResponse.Response response = addTechnologyUseCase.addTechnology(command);
+
+        if (response instanceof AddTechnologyResponse.SuccessResponse) {
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(new AddTechnologyResponse.SuccessResponse(
+                            ((AddTechnologyResponse.SuccessResponse) response).technology()));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new AddTechnologyResponse.ErrorResponse(
+                            ((AddTechnologyResponse.ErrorResponse) response).message()));
+        }
     }
 
     @GetMapping("/technologies/{id}/developers")
