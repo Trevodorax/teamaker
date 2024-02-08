@@ -11,7 +11,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.teamaker.technology.domain.Technology;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity

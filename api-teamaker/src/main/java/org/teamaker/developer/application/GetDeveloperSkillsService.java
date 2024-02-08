@@ -4,17 +4,13 @@ import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsCommand;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsResponse;
 import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsUseCase;
-import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCommand;
-import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsPort;
 import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsResponse;
-import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.dto.SkillResponse;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @Component
 class GetDeveloperSkillsService implements GetDeveloperSkillsUseCase {

@@ -2,7 +2,7 @@ package org.teamaker.developer.application.port.in;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.developer.application.port.in.getDeveloperInfo.GetDeveloperInfoCommand;
+import org.teamaker.developer.application.port.in.getDeveloper.GetDeveloperCommand;
 
 import javax.validation.ConstraintViolationException;
 
@@ -19,13 +19,13 @@ public class GetDeveloperCommandTest {
 
     @Test
     public void testConstructorValidData() {
-        GetDeveloperInfoCommand command = new GetDeveloperInfoCommand(validDeveloperId);
+        GetDeveloperCommand command = new GetDeveloperCommand(validDeveloperId);
         assertEquals(validDeveloperId, command.getDeveloperId());
     }
 
     @Test
     public void testConstructorEmptyDeveloperId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new GetDeveloperInfoCommand(null));
+                () -> new GetDeveloperCommand(null));
     }
 }

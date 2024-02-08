@@ -1,11 +1,15 @@
 package org.teamaker.developer.application.port.in.updateDeveloperInfo;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+@Getter
 public class UpdateDeveloperInfoCommand extends SelfValidating<UpdateDeveloperInfoCommand> {
+    @Setter
     @NotNull
     private String developerId;
     private final String fullName;
@@ -17,21 +21,5 @@ public class UpdateDeveloperInfoCommand extends SelfValidating<UpdateDeveloperIn
         this.fullName = fullName;
         this.email = email;
         this.validateSelf();
-    }
-
-    public String getDeveloperId() {
-        return developerId;
-    }
-
-    public void setDeveloperId(String developerId) {
-        this.developerId = developerId;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }

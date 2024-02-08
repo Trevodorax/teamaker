@@ -1,11 +1,13 @@
 package org.teamaker.project.application.port.in.postponeProject;
 
+import lombok.Getter;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Getter
 public class PostponeProjectCommand extends SelfValidating<PostponeProjectCommand> {
     @NotNull
     private final String projectId;
@@ -29,15 +31,4 @@ public class PostponeProjectCommand extends SelfValidating<PostponeProjectComman
         }
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public LocalDate getNewStartDate() {
-        return newStartDate;
-    }
-
-    public LocalDate getNewEndDate() {
-        return newEndDate;
-    }
 }

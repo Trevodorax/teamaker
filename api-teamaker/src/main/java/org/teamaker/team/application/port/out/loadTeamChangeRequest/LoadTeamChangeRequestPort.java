@@ -1,6 +1,5 @@
 package org.teamaker.team.application.port.out.loadTeamChangeRequest;
 
-import org.teamaker.team.application.port.out.loadDeveloperTeamChangeRequests.LoadDeveloperTeamChangeRequestsCommand;
 import org.teamaker.team.domain.TeamChangeRequest;
 
 public interface LoadTeamChangeRequestPort {

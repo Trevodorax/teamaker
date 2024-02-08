@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.teamaker.shared.validation.SelfValidating;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Getter
 public class AcquireSkillCommand extends SelfValidating<AcquireSkillCommand> {

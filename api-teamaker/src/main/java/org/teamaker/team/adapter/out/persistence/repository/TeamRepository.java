@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.team.adapter.out.entity.TeamChangeRequestJPA;
-import org.teamaker.team.adapter.out.entity.TeamMembershipJPA;
 import org.teamaker.team.application.port.out.createTeamChangeRequest.CreateTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.createTeamChangeRequest.CreateTeamChangeRequestPort;
 import org.teamaker.team.application.port.out.loadDeveloperTeamChangeRequests.LoadDeveloperTeamChangeRequestsCommand;

@@ -8,7 +8,6 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.Map;
-import java.util.UUID;
 
 @Getter
 public class CreateProjectCommand extends SelfValidating<CreateProjectCommand> {

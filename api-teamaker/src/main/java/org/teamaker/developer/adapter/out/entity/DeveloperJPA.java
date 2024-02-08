@@ -12,7 +12,6 @@ import org.teamaker.team.adapter.out.entity.TeamMembershipJPA;
 import org.teamaker.technology.adapter.out.entity.SkillJPA;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
