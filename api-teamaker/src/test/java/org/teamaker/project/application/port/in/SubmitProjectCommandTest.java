@@ -27,7 +27,7 @@ class SubmitProjectCommandTest {
         validDescription = "Project Description";
         validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
-        validEndDate = validStartDate.plusDays(5);
+        validEndDate = validStartDate.plusDays(40);
         validTechnologies = Map.of(UUID.randomUUID().toString(), 1);
     }
 

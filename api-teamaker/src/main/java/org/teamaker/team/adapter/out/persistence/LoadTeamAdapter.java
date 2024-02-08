@@ -13,11 +13,9 @@ import java.util.NoSuchElementException;
 @Component
 public class LoadTeamAdapter implements LoadTeamPort {
     private final ProjectRepository projectRepository;
-    private final TeamMembershipRepository teamMembershipRepository;
 
-    public LoadTeamAdapter(ProjectRepository projectRepository, TeamMembershipRepository teamMembershipRepository) {
+    public LoadTeamAdapter(ProjectRepository projectRepository) {
         this.projectRepository = projectRepository;
-        this.teamMembershipRepository = teamMembershipRepository;
     }
 
     @Override
@@ -26,14 +24,7 @@ public class LoadTeamAdapter implements LoadTeamPort {
                 findById(command.getProjectId())
                 .orElseThrow(() -> new NoSuchElementException("Project not found"));
 
-        return new Team(
-                project.getId(),
-                teamMembershipRepository
-                        .findAllByProject(project)
-                        .stream()
-                        .map(teamMembershipJPA -> teamMembershipJPA.getDeveloper().toDomain())
-                        .toList(),
-                project.getIsLocked()
-        );
+        return project.toDomain().getTeam();
+
     }
 }

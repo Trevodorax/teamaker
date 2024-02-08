@@ -26,7 +26,7 @@ public class Team {
 
     public Team(String projectId, List<Developer> developers, boolean isLocked) {
         this.projectId = projectId;
-        this.developers = developers;
+        this.developers = new ArrayList<>(developers);
         this.isLocked = isLocked;
     }
 

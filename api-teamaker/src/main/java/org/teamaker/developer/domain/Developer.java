@@ -7,6 +7,7 @@ import org.teamaker.technology.domain.Technology;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Developer {
@@ -63,7 +64,7 @@ public class Developer {
     }
 
     public void setProjectList(List<Project> projectList) {
-        this.projectList = projectList;
+        this.projectList = new ArrayList<>(projectList);
     }
 
     public void addProject(Project addedProject) {

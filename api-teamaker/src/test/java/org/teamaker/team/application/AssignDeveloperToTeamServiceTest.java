@@ -71,13 +71,15 @@ class AssignDeveloperToTeamServiceTest {
         Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam, Map.of());
         when(loadProjectPort.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
+        when(saveTeamPort.saveTeam(any(SaveTeamCommand.class))).thenReturn(mockTeam);
+
         // Assign developer to the team
         AssignDeveloperToTeamCommand command = new AssignDeveloperToTeamCommand("developerId", "projectId");
         AssignDeveloperToTeamResponse.Response response = assignDeveloperToTeamService.assignDeveloperToTeam(command);
 
         // Verify the response and that saveTeam was called
         assertTrue(response instanceof AssignDeveloperToTeamResponse.SuccessResponse);
-        assertEquals(mockDeveloper.toResponse(), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
+        assertEquals(List.of(mockDeveloper.toResponse()), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
 
         ArgumentCaptor<SaveTeamCommand> captor = ArgumentCaptor.forClass(SaveTeamCommand.class);
         verify(saveTeamPort).saveTeam(captor.capture());

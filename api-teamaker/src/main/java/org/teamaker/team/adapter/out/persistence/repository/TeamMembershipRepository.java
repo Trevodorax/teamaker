@@ -13,4 +13,6 @@ public interface TeamMembershipRepository extends JpaRepository<TeamMembershipJP
     List<TeamMembershipJPA> findByDeveloper(DeveloperJPA developer);
 
     Set<TeamMembershipJPA> findAllByProject(ProjectJPA projectJPA);
+
+    Set<TeamMembershipJPA> findByProjectId(String projectId);
 }

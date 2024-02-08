@@ -67,17 +67,20 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
                     new LoadTeamCommand(command.getProjectId())
             );
 
-            List<String> addDeveloperErrors = project.addDeveloper(developer, false);
-
+            List<String> addDeveloperErrors = team.addDeveloper(developer, project, false);
             if (addDeveloperErrors != null) {
                 return new AssignDeveloperToTeamResponse.MultipleErrorsResponse(addDeveloperErrors);
             }
 
-            saveTeamPort.saveTeam(new SaveTeamCommand(team));
+            Team updatedTeam = saveTeamPort.saveTeam(new SaveTeamCommand(team));
 
-            return new AssignDeveloperToTeamResponse.SuccessResponse(developer.toResponse());
+            return new AssignDeveloperToTeamResponse.SuccessResponse(
+                    updatedTeam.getDevelopers()
+                            .stream()
+                            .map(Developer::toResponse)
+                            .toList());
         } catch (NoSuchElementException e) {
-            throw new NoSuchElementException("Developer or project not found");
+            return new AssignDeveloperToTeamResponse.SingleErrorResponse("Developer or project not found.");
         }
     }
 }

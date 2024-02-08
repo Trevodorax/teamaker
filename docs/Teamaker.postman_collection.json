@@ -228,7 +228,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Anaelle Ea\",\n    \"email\": \"anaelle@gmail.com\"\n}",
+							"raw": "{\n    \"fullName\": \"Paulux Gaudux\",\n    \"email\": \"paul@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,15 +385,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f/skills/techid",
+							"raw": "{{base_url}}/developers/e24868c3-fcee-4c75-81df-f98488e14213/skills/secondTech",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+								"e24868c3-fcee-4c75-81df-f98488e14213",
 								"skills",
-								"techid"
+								"secondTech"
 							]
 						}
 					},
@@ -544,7 +544,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"My first project\",\n    \"description\": \"The description of the project\",\n    \"priority\": \"NORMAL\",\n    \"startDate\":\"2024-03-16\",\n    \"technologies\": {\n        \"firstTech\":3,\n        \"secondTech\":2\n    }\n}",
+							"raw": "{\n    \"name\": \"My first project\",\n    \"description\": \"The description of the project\",\n    \"priority\": \"NORMAL\",\n    \"startDate\":\"2024-03-16\",\n    \"endDate\":\"2024-04-19\",\n    \"technologies\": {\n        \"firstTech\":3,\n        \"secondTech\":2\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -933,13 +933,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/076c90be-fa27-4057-acf9-70c9074cd586/developers",
+							"raw": "{{base_url}}/projects/a78cf67e-a841-4572-8533-6aa3b268545e/developers",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"076c90be-fa27-4057-acf9-70c9074cd586",
+								"a78cf67e-a841-4572-8533-6aa3b268545e",
 								"developers"
 							]
 						}
@@ -998,14 +998,83 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/054eec16-babf-49fe-b8a0-dbe823a8593a/developersAvailable",
+							"raw": "{{base_url}}/projects/a78cf67e-a841-4572-8533-6aa3b268545e/developersAvailable",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"054eec16-babf-49fe-b8a0-dbe823a8593a",
+								"a78cf67e-a841-4572-8533-6aa3b268545e",
 								"developersAvailable"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AssignDeveloperToTeam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {",
+									"  pm.expect(pm.response.code).to.equal(201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"DeveloperId is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer).to.be.an('array').and.to.have.lengthOf(1);",
+									"    ",
+									"    responseData.developer.forEach(function (developer) {",
+									"        pm.expect(developer.developerId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"    });",
+									"});",
+									"",
+									"",
+									"pm.test(\"Email is in a valid format\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.developer).to.exist.and.to.be.an('array');",
+									"  ",
+									"  responseData.developer.forEach(function(developer) {",
+									"    pm.expect(developer.email).to.exist.and.to.match(/^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$/);",
+									"  });",
+									"});",
+									"",
+									"",
+									"pm.test(\"HiringDate is in a valid date format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.developer).to.be.an('array').and.to.have.lengthOf.at.least(1);",
+									"    ",
+									"    responseData.developer.forEach(function(developer) {",
+									"        pm.expect(developer.hiringDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    });",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/projects/a78cf67e-a841-4572-8533-6aa3b268545e/developers/e24868c3-fcee-4c75-81df-f98488e14213",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"a78cf67e-a841-4572-8533-6aa3b268545e",
+								"developers",
+								"e24868c3-fcee-4c75-81df-f98488e14213"
 							]
 						}
 					},

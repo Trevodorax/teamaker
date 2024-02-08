@@ -40,7 +40,7 @@ class SubmitProjectServiceTest {
         ProjectPriority mockPriority = ProjectPriority.CRITICAL;
         ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
-        LocalDate mockEndDate = mockStartDate.plusDays(5);
+        LocalDate mockEndDate = mockStartDate.plusDays(40);
         Map<String, Integer> mockTechnologies = Map.of(UUID.randomUUID().toString(), 1);
         SubmitProjectCommand command = new SubmitProjectCommand(mockName, mockDescription, mockPriority, mockStartDate, mockEndDate, mockTechnologies);
 

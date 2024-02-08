@@ -2,9 +2,11 @@ package org.teamaker.team.adapter.in.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.teamaker.team.application.AssignDeveloperToTeamService;
+import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamCommand;
+import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamResponse;
+import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamUseCase;
 import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.GetPossibleDevelopersForProjectCommand;
 import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.GetPossibleDevelopersForProjectUseCase;
 import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.GetPossibleDevelopersForTeamResponse;
@@ -16,10 +18,12 @@ import org.teamaker.team.application.port.in.getTeam.GetTeamUseCase;
 public class TeamController {
     private final GetTeamUseCase getTeamUseCase;
     private final GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase;
+    private final AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase;
 
-    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase) {
+    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase) {
         this.getTeamUseCase = getTeamUseCase;
         this.getPossibleDevelopersForProjectUseCase = getPossibleDevelopersForProjectUseCase;
+        this.assignDeveloperToTeamUseCase = assignDeveloperToTeamUseCase;
     }
 
     @GetMapping("/projects/{projectId}/developers")
@@ -36,6 +40,28 @@ public class TeamController {
                     .body(new GetTeamResponse.ErrorResponse(
                             ((GetTeamResponse.ErrorResponse) response).message()));
         }
+    }
+
+    @PostMapping("/projects/{projectId}/developers/{developerId}")
+    public ResponseEntity<AssignDeveloperToTeamResponse.Response> assignDeveloperToTeam(@PathVariable String projectId, @PathVariable String developerId) {
+        AssignDeveloperToTeamResponse.Response response = assignDeveloperToTeamUseCase.assignDeveloperToTeam(new AssignDeveloperToTeamCommand(developerId, projectId));
+
+        return switch (response) {
+            case AssignDeveloperToTeamResponse.SuccessResponse successResponse -> ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(successResponse);
+            case AssignDeveloperToTeamResponse.SingleErrorResponse singleErrorResponse -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new AssignDeveloperToTeamResponse.SingleErrorResponse(
+                            singleErrorResponse.errorMessage()));
+            case AssignDeveloperToTeamResponse.MultipleErrorsResponse multipleErrorsResponse -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new AssignDeveloperToTeamResponse.MultipleErrorsResponse(
+                            multipleErrorsResponse.errorMessage()));
+            case null, default -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new AssignDeveloperToTeamResponse.SingleErrorResponse("Unknown error"));
+        };
     }
 
     @GetMapping("/projects/{projectId}/developersAvailable")

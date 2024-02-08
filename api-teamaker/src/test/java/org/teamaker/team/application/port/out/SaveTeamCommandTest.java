@@ -7,6 +7,8 @@ import org.teamaker.team.domain.Team;
 
 import javax.validation.ConstraintViolationException;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -15,7 +17,7 @@ class SaveTeamCommandTest {
 
     @BeforeAll
     public static void setUp() {
-        validTeam = new Team("projectId", null, false);
+        validTeam = new Team("projectId", List.of(), false);
     }
 
     @Test
