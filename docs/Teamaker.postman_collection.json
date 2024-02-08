@@ -701,6 +701,190 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "UpdateProjectInfo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('ProjectId is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.projectId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"pm.test('Verify that the \\'name\\' is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.name).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, 'Value should not be empty');",
+									"})",
+									"",
+									"pm.test('Verify that the \\'status\\' is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.project).to.exist.and.to.be.an('object');",
+									"    pm.expect(responseData.project.status).to.be.a('string').and.to.have.lengthOf.at.least(1, 'Value should not be empty');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Modified Name\",\n    \"description\":\"A new description\",\n    \"priority\":\"NORMAL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/projects/fd90d439-3131-4b57-ade6-3fad8c9e99fc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"fd90d439-3131-4b57-ade6-3fad8c9e99fc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TreatProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Response has the required fields - projectId and status', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.project.projectId).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.project.status).to.exist.and.to.be.a('string');",
+									"})",
+									"",
+									"pm.test('ProjectId is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.projectId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"pm.test('Status is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.status).to.be.a('string').and.to.have.lengthOf.at.least(1, 'Value should not be empty');",
+									"})",
+									"",
+									"pm.test('Content-Type is application/json', function () {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equal('application/json');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\":\"ACCEPTED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/projects/8e87dd47-96c5-47d1-81c5-86c6eb6ffe62/treat",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"8e87dd47-96c5-47d1-81c5-86c6eb6ffe62",
+								"treat"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostponeProject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('Response has the required fields', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.project.projectId).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.project.newStartDate).to.exist.and.to.be.a('string');",
+									"    pm.expect(responseData.project.newEndDate).to.exist.and.to.be.a('string');",
+									"})",
+									"",
+									"pm.test('ProjectId is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.project.projectId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"pm.test('newStartDate and newEndDate are in a valid date format', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.project.newStartDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"    pm.expect(responseData.project.newEndDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"})",
+									"",
+									"pm.test('Response time is less than 500ms', function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newStartDate\":\"2024-03-19\",\n    \"newEndDate\":\"2024-07-28\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/projects/0fc6f9ca-66e0-4495-ac56-14addecbd6bf/postpone",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"0fc6f9ca-66e0-4495-ac56-14addecbd6bf",
+								"postpone"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

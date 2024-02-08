@@ -10,6 +10,10 @@ import org.teamaker.project.application.port.in.getProject.GetProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectUseCase;
 import org.teamaker.project.application.port.in.getProjects.GetProjectsResponse;
 import org.teamaker.project.application.port.in.getProjects.GetProjectsUseCase;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectCommand;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectRequest;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectResponse;
+import org.teamaker.project.application.port.in.postponeProject.PostponeProjectUseCase;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;
@@ -30,14 +34,16 @@ public class ProjectController {
     private final GetProjectsUseCase getProjectsUseCase;
     private final UpdateProjectInfoUseCase updateProjectInfoUseCase;
     private final TreatProjectUseCase treatProjectUseCase;
+    private final PostponeProjectUseCase postponeProjectUseCase;
 
-    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase, UpdateProjectInfoUseCase updateProjectInfoUseCase, TreatProjectUseCase treatProjectUseCase) {
+    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase, UpdateProjectInfoUseCase updateProjectInfoUseCase, TreatProjectUseCase treatProjectUseCase, PostponeProjectUseCase postponeProjectUseCase) {
         this.submitProjectUseCase = submitProjectUseCase;
         this.getNextProjectUseCase = getNextProjectUseCase;
         this.getProjectUseCase = getProjectUseCase;
         this.getProjectsUseCase = getProjectsUseCase;
         this.updateProjectInfoUseCase = updateProjectInfoUseCase;
         this.treatProjectUseCase = treatProjectUseCase;
+        this.postponeProjectUseCase = postponeProjectUseCase;
     }
 
     @PostMapping("/projects")
@@ -133,6 +139,22 @@ public class ProjectController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new TreatProjectResponse.ErrorResponse(
                             ((TreatProjectResponse.ErrorResponse) response).message()));
+        }
+    }
+
+    @PatchMapping("/projects/{projectId}/postpone")
+    public ResponseEntity<PostponeProjectResponse.Response> postponeProject(@PathVariable String projectId, @RequestBody PostponeProjectRequest command) {
+        PostponeProjectResponse.Response response = postponeProjectUseCase.postponeProject(new PostponeProjectCommand(projectId, command.getNewStartDate(), command.getNewEndDate()));
+
+        if (response instanceof PostponeProjectResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new PostponeProjectResponse.ErrorResponse(
+                            ((PostponeProjectResponse.ErrorResponse) response).errorMessage()));
         }
     }
 }
