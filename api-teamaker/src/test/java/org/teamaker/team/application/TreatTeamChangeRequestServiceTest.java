@@ -29,8 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class TreatTeamChangeRequestServiceTest {
@@ -86,13 +85,13 @@ class TreatTeamChangeRequestServiceTest {
         TreatTeamChangeRequestResponse.Response response = treatTeamChangeRequestService.treatTeamChangeRequest(command);
 
         // Verify the response and that save methods were called
-        assertTrue(response instanceof TreatTeamChangeRequestResponse.SuccessResponse);
+        assertInstanceOf(TreatTeamChangeRequestResponse.SuccessResponse.class, response);
 
         // Verify that saveTeamChangeRequest and saveTeam were called with the expected arguments
         ArgumentCaptor<SaveTeamChangeRequestCommand> saveTeamChangeRequestCommandArgumentCaptor = ArgumentCaptor.forClass(SaveTeamChangeRequestCommand.class);
         verify(saveTeamChangeRequestPortMock).saveTeamChangeRequest(saveTeamChangeRequestCommandArgumentCaptor.capture());
         assertEquals(teamChangeRequest, saveTeamChangeRequestCommandArgumentCaptor.getValue().getTeamChangeRequest());
-        verify(saveTeamPortMock).saveTeam(any(SaveTeamCommand.class));
+        verify(saveTeamPortMock, times(2)).saveTeam(any(SaveTeamCommand.class));
     }
 
     @Test

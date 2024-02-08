@@ -90,6 +90,13 @@ public class Developer {
             }
         }
 
+        // check that dev know at least one technology of the project
+        for (Technology technology : checkedProject.getTechnologies().keySet()) {
+            if (!this.skills.contains(technology)) {
+                return false;
+            }
+        }
+
         return true;
     }
 

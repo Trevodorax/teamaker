@@ -5,6 +5,9 @@ import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCo
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsCommand;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsResponse;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -17,6 +20,8 @@ import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
+import org.teamaker.technology.domain.Technology;
+import org.teamaker.technology.domain.dto.TechnologyResponse;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,13 +33,15 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
     private final LoadDeveloperProjectsPort loadDeveloperProjectsPort;
     private final LoadTeamPort loadTeamPort;
     private final SaveTeamPort saveTeamPort;
+    private final LoadDeveloperSkillsPort loadDeveloperSkillsPort;
 
-    public AssignDeveloperToTeamService(LoadDeveloperPort loadDeveloperPort, LoadProjectPort loadProjectPort, LoadDeveloperProjectsPort loadDeveloperProjectsPort, LoadTeamPort loadTeamPort, SaveTeamPort saveTeamPort) {
+    public AssignDeveloperToTeamService(LoadDeveloperPort loadDeveloperPort, LoadProjectPort loadProjectPort, LoadDeveloperProjectsPort loadDeveloperProjectsPort, LoadTeamPort loadTeamPort, SaveTeamPort saveTeamPort, LoadDeveloperSkillsPort loadDeveloperSkillsPort) {
         this.loadDeveloperPort = loadDeveloperPort;
         this.loadProjectPort = loadProjectPort;
         this.loadDeveloperProjectsPort = loadDeveloperProjectsPort;
         this.loadTeamPort = loadTeamPort;
         this.saveTeamPort = saveTeamPort;
+        this.loadDeveloperSkillsPort = loadDeveloperSkillsPort;
     }
 
     @Override
@@ -50,6 +57,17 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
             );
 
             developer.setProjectList(developerProjects);
+
+            List<LoadDeveloperSkillsResponse> developerSkillsResponse = loadDeveloperSkillsPort.loadDeveloperSkills(
+                    new LoadDeveloperSkillsCommand(command.getDeveloperId())
+            );
+            List<Technology> developerSkills = developerSkillsResponse.stream().map(skill -> {
+                        TechnologyResponse technology = skill.technology();
+                        return new Technology(technology.technologyId(), technology.name());
+                    }
+            ).toList();
+
+            developer.setSkills(developerSkills);
 
             Project project = loadProjectPort.loadProject(
                     new LoadProjectCommand(command.getProjectId())
@@ -81,6 +99,8 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
                             .toList());
         } catch (NoSuchElementException e) {
             return new AssignDeveloperToTeamResponse.SingleErrorResponse("Developer or project not found.");
+        } catch (IllegalArgumentException e) {
+            return new AssignDeveloperToTeamResponse.SingleErrorResponse(e.getMessage());
         }
     }
 }

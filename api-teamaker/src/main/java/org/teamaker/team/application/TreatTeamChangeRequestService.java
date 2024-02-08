@@ -64,6 +64,7 @@ public class TreatTeamChangeRequestService implements TreatTeamChangeRequestUseC
         // save modified stuff
         saveTeamChangeRequestPort.saveTeamChangeRequest(new SaveTeamChangeRequestCommand(teamChangeRequest));
         saveTeamPort.saveTeam(new SaveTeamCommand(fromProject.getTeam()));
+        saveTeamPort.saveTeam(new SaveTeamCommand(toProject.getTeam()));
 
         return new TreatTeamChangeRequestResponse.SuccessResponse(teamChangeRequest);
     }
