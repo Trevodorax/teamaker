@@ -73,13 +73,22 @@ public class SaveTeamAdapter implements SaveTeamPort {
         projectJPA.setTeamMemberships(updatedTeamMemberships);
         projectRepository.save(projectJPA);
 
-/*        existingTeamMemberships
-                .stream()
-                .filter(tm -> currentDeveloperIds.contains(tm.getDeveloper().getId()))
-                .forEach(tm -> {
-                    tm.setEndDate(LocalDate.now());
-                    teamMembershipRepository.save(tm);
-                });*/
+        // change the endDate of the team memberships of the developers that are not in the team anymore
+//        existingTeamMemberships
+//                .stream()
+//                .filter(tm -> currentDeveloperIds.contains(tm.getDeveloper().getId()))
+//                .forEach(tm -> {
+//                    tm.setEndDate(LocalDate.now());
+//                    teamMembershipRepository.save(tm);
+//                });
+
+        // remove the developers that are not in the team anymore
+        teamMembershipRepository.deleteAll(
+                existingTeamMemberships
+                        .stream()
+                        .filter(tm -> currentDeveloperIds.contains(tm.getDeveloper().getId()))
+                        .collect(Collectors.toSet())
+        );
 
         return projectJPA.toDomain().getTeam();
     }

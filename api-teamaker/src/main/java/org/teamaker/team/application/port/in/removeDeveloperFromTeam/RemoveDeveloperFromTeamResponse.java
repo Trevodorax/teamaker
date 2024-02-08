@@ -7,7 +7,7 @@ import java.util.List;
 public class RemoveDeveloperFromTeamResponse {
     public interface Response {}
 
-    public record SuccessResponse(DeveloperResponse developer) implements Response {}
+    public record SuccessResponse(List<DeveloperResponse> developer) implements Response {}
 
     public record SingleErrorResponse(String errorMessage) implements Response {}
 

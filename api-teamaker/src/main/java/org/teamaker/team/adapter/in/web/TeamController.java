@@ -13,17 +13,21 @@ import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.Get
 import org.teamaker.team.application.port.in.getTeam.GetTeamCommand;
 import org.teamaker.team.application.port.in.getTeam.GetTeamResponse;
 import org.teamaker.team.application.port.in.getTeam.GetTeamUseCase;
+import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamResponse;
+import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamUseCase;
 
 @RestController
 public class TeamController {
     private final GetTeamUseCase getTeamUseCase;
     private final GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase;
     private final AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase;
+    private final RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase;
 
-    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase) {
+    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase, RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase) {
         this.getTeamUseCase = getTeamUseCase;
         this.getPossibleDevelopersForProjectUseCase = getPossibleDevelopersForProjectUseCase;
         this.assignDeveloperToTeamUseCase = assignDeveloperToTeamUseCase;
+        this.removeDeveloperFromTeamUseCase = removeDeveloperFromTeamUseCase;
     }
 
     @GetMapping("/projects/{projectId}/developers")
@@ -63,6 +67,29 @@ public class TeamController {
                     .body(new AssignDeveloperToTeamResponse.SingleErrorResponse("Unknown error"));
         };
     }
+
+    @DeleteMapping("/projects/{projectId}/developers/{developerId}")
+    public ResponseEntity<RemoveDeveloperFromTeamResponse.Response> removeDeveloperFromTeam(@PathVariable String projectId, @PathVariable String developerId) {
+        RemoveDeveloperFromTeamResponse.Response response = removeDeveloperFromTeamUseCase.removeDeveloperFromTeam(new org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamCommand(developerId, projectId));
+
+        return switch (response) {
+            case RemoveDeveloperFromTeamResponse.SuccessResponse successResponse -> ResponseEntity
+                    .status(HttpStatus.NO_CONTENT)
+                    .body(successResponse);
+            case RemoveDeveloperFromTeamResponse.SingleErrorResponse singleErrorResponse -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new RemoveDeveloperFromTeamResponse.SingleErrorResponse(
+                            singleErrorResponse.errorMessage()));
+            case RemoveDeveloperFromTeamResponse.MultipleErrorsResponse multipleErrorsResponse -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new RemoveDeveloperFromTeamResponse.MultipleErrorsResponse(
+                            multipleErrorsResponse.errorMessages()));
+            case null, default -> ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new RemoveDeveloperFromTeamResponse.SingleErrorResponse("Unknown error"));
+        };
+    }
+
 
     @GetMapping("/projects/{projectId}/developersAvailable")
     public ResponseEntity<GetPossibleDevelopersForTeamResponse.Response> getPossibleDevelopersForProject(@PathVariable String projectId) {

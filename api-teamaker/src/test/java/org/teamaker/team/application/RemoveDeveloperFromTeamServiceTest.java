@@ -169,7 +169,7 @@ class RemoveDeveloperFromTeamServiceTest {
 
         // checks
         assertTrue(response instanceof RemoveDeveloperFromTeamResponse.SuccessResponse);
-        assertEquals(((RemoveDeveloperFromTeamResponse.SuccessResponse) response).developer(), mockDeveloper.toResponse());
+        assertEquals(((RemoveDeveloperFromTeamResponse.SuccessResponse) response).developer(), mockTeam.getDevelopers().stream().map(Developer::toResponse).toList());
 
         ArgumentCaptor<SaveTeamCommand> captor = ArgumentCaptor.forClass(SaveTeamCommand.class);
         verify(saveTeamPortMock).saveTeam(captor.capture());
