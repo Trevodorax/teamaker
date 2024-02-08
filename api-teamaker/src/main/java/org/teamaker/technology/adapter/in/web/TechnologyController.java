@@ -9,20 +9,31 @@ import org.teamaker.developer.application.port.in.getDevelopersByTechnology.GetD
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyCommand;
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyResponse;
 import org.teamaker.technology.application.port.in.addTechnology.AddTechnologyUseCase;
+import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesUseCase;
 import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyCommand;
 import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyResponse;
 import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyUseCase;
+import org.teamaker.technology.domain.dto.TechnologyResponse;
+
+import java.util.List;
 
 @RestController
 public class TechnologyController {
     private final GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase;
     private final AddTechnologyUseCase addTechnologyUseCase;
     private final GetTechnologyUseCase getTechnologyUseCase;
+    private final GetTechnologiesUseCase getTechnologiesUseCase;
 
-    public TechnologyController(GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase, AddTechnologyUseCase addTechnologyUseCase, GetTechnologyUseCase getTechnologyUseCase) {
+    public TechnologyController(GetDevelopersByTechnologyUseCase getDevelopersByTechnologyUseCase, AddTechnologyUseCase addTechnologyUseCase, GetTechnologyUseCase getTechnologyUseCase, GetTechnologiesUseCase getTechnologiesUseCase) {
         this.getDevelopersByTechnologyUseCase = getDevelopersByTechnologyUseCase;
         this.addTechnologyUseCase = addTechnologyUseCase;
         this.getTechnologyUseCase = getTechnologyUseCase;
+        this.getTechnologiesUseCase = getTechnologiesUseCase;
+    }
+
+    @GetMapping("/technologies")
+    public List<TechnologyResponse> getTechnologies() {
+        return getTechnologiesUseCase.getTechnologies();
     }
 
     @PostMapping("/technologies")

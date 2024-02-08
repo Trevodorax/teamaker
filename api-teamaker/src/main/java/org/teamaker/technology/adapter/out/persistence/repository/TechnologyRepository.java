@@ -15,13 +15,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
-public interface TechnologyRepository extends JpaRepository<TechnologyJPA, String>,
-        LoadTechnologiesPort {
-
-    @Override
-    default List<Technology> loadTechnologies() {
-        return null;
-    }
-
+public interface TechnologyRepository extends JpaRepository<TechnologyJPA, String> {
     Optional<TechnologyJPA> findByName(String name);
 }

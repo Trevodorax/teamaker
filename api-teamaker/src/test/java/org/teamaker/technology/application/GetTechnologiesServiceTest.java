@@ -2,9 +2,9 @@ package org.teamaker.technology.application;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesResponse;
 import org.teamaker.technology.application.port.out.loadTechnologies.LoadTechnologiesPort;
 import org.teamaker.technology.domain.Technology;
+import org.teamaker.technology.domain.dto.TechnologyResponse;
 
 import java.util.List;
 
@@ -32,13 +32,10 @@ public class GetTechnologiesServiceTest {
 
         when(loadTechnologiesPortMock.loadTechnologies()).thenReturn(expectedTechnologies);
 
-        GetTechnologiesResponse.Response result = getTechnologiesService.getTechnologies();
+        List<TechnologyResponse> result = getTechnologiesService.getTechnologies();
 
         verify(loadTechnologiesPortMock).loadTechnologies();
-        assertInstanceOf(GetTechnologiesResponse.SuccessResponse.class, result);
-        assertEquals(expectedTechnologies.stream().map(Technology::toResponse).toList(), ((GetTechnologiesResponse.SuccessResponse) result).technologies());
-
-        assertEquals(expectedTechnologies.size(), ((GetTechnologiesResponse.SuccessResponse) result).technologies().size());
+        assertEquals(expectedTechnologies.stream().map(Technology::toResponse).toList(), result);
     }
 
     @Test
@@ -47,12 +44,11 @@ public class GetTechnologiesServiceTest {
 
         when(loadTechnologiesPortMock.loadTechnologies()).thenReturn(expectedTechnologies);
 
-        GetTechnologiesResponse.Response result = getTechnologiesService.getTechnologies();
+        List<TechnologyResponse> result = getTechnologiesService.getTechnologies();
 
         verify(loadTechnologiesPortMock).loadTechnologies();
-        assertInstanceOf(GetTechnologiesResponse.SuccessResponse.class, result);
-        assertEquals(List.of(), ((GetTechnologiesResponse.SuccessResponse) result).technologies());
+        assertEquals(List.of(), result);
 
-        assertEquals(0, ((GetTechnologiesResponse.SuccessResponse) result).technologies().size());
+        assertEquals(0, result.size());
     }
 }

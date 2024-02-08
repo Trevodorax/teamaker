@@ -1,10 +1,12 @@
 package org.teamaker.technology.application;
 
 import org.springframework.stereotype.Component;
-import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesResponse;
 import org.teamaker.technology.application.port.in.getTechnologies.GetTechnologiesUseCase;
 import org.teamaker.technology.application.port.out.loadTechnologies.LoadTechnologiesPort;
 import org.teamaker.technology.domain.Technology;
+import org.teamaker.technology.domain.dto.TechnologyResponse;
+
+import java.util.List;
 
 @Component
 class GetTechnologiesService implements GetTechnologiesUseCase{
@@ -15,10 +17,10 @@ class GetTechnologiesService implements GetTechnologiesUseCase{
     }
 
     @Override
-    public GetTechnologiesResponse.Response getTechnologies() {
-        return new GetTechnologiesResponse.SuccessResponse(loadTechnologiesPort.loadTechnologies()
+    public List<TechnologyResponse> getTechnologies() {
+        return loadTechnologiesPort.loadTechnologies()
                 .stream()
                 .map(Technology::toResponse)
-                .toList());
+                .toList();
     }
 }
