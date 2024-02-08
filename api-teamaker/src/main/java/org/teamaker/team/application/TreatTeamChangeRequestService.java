@@ -12,7 +12,9 @@ import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.Treat
 import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.TreatTeamChangeRequestUseCase;
 import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChangeRequestPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
+import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestPort;
 import org.teamaker.team.domain.TeamChangeRequest;
 
@@ -60,9 +62,8 @@ public class TreatTeamChangeRequestService implements TreatTeamChangeRequestUseC
         }
 
         // save modified stuff
-        saveTeamChangeRequestPort.saveTeamChangeRequest(teamChangeRequest);
-        saveTeamPort.saveTeam(fromProject.getTeam());
-        saveTeamPort.saveTeam(toProject.getTeam());
+        saveTeamChangeRequestPort.saveTeamChangeRequest(new SaveTeamChangeRequestCommand(teamChangeRequest));
+        saveTeamPort.saveTeam(new SaveTeamCommand(fromProject.getTeam()));
 
         return new TreatTeamChangeRequestResponse.SuccessResponse(teamChangeRequest);
     }

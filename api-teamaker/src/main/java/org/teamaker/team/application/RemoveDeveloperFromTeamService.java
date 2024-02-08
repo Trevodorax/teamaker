@@ -15,6 +15,7 @@ import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDevel
 import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamUseCase;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -72,7 +73,7 @@ public class RemoveDeveloperFromTeamService implements RemoveDeveloperFromTeamUs
         }
 
         // save the new team
-        saveTeamPort.saveTeam(team);
+        saveTeamPort.saveTeam(new SaveTeamCommand(team));
 
         return new RemoveDeveloperFromTeamResponse.SuccessResponse(developer.toResponse());
     }

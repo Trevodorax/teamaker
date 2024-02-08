@@ -15,7 +15,9 @@ import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.Treat
 import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.TreatTeamChangeRequestResponse;
 import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChangeRequestPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
+import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestPort;
 import org.teamaker.team.domain.Team;
 import org.teamaker.team.domain.TeamChangeRequest;
@@ -75,8 +77,8 @@ class TreatTeamChangeRequestServiceTest {
 
         when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenReturn(exampleProject);
 
-        when(saveTeamChangeRequestPortMock.saveTeamChangeRequest(any(TeamChangeRequest.class))).thenReturn(teamChangeRequest); // Mock saveTeamChangeRequest to return the same instance
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(new Team("projectId", new ArrayList<>(), false));
+        when(saveTeamChangeRequestPortMock.saveTeamChangeRequest(any(SaveTeamChangeRequestCommand.class))).thenReturn(teamChangeRequest); // Mock saveTeamChangeRequest to return the same instance
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(new Team("projectId", new ArrayList<>(), false));
 
         // Treat the team change request
         TreatTeamChangeRequestCommand command = new TreatTeamChangeRequestCommand("requestId", TreatTeamStatus.APPROVED);
@@ -86,8 +88,10 @@ class TreatTeamChangeRequestServiceTest {
         assertTrue(response instanceof TreatTeamChangeRequestResponse.SuccessResponse);
 
         // Verify that saveTeamChangeRequest and saveTeam were called with the expected arguments
-        verify(saveTeamChangeRequestPortMock).saveTeamChangeRequest(teamChangeRequest);
-        verify(saveTeamPortMock, times(2)).saveTeam(exampleProject.getTeam());
+        ArgumentCaptor<SaveTeamChangeRequestCommand> saveTeamChangeRequestCommandArgumentCaptor = ArgumentCaptor.forClass(SaveTeamChangeRequestCommand.class);
+        verify(saveTeamChangeRequestPortMock).saveTeamChangeRequest(saveTeamChangeRequestCommandArgumentCaptor.capture());
+        assertEquals(teamChangeRequest, saveTeamChangeRequestCommandArgumentCaptor.getValue().getTeamChangeRequest());
+        verify(saveTeamPortMock).saveTeam(any(SaveTeamCommand.class));
     }
 
     @Test
@@ -105,8 +109,8 @@ class TreatTeamChangeRequestServiceTest {
         // Mock save operations to return errors
         List<String> errors = new ArrayList<>();
         errors.add("Error 1");
-        when(saveTeamChangeRequestPortMock.saveTeamChangeRequest(any(TeamChangeRequest.class))).thenReturn(null);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(new Team("projectId", new ArrayList<>(), false));
+        when(saveTeamChangeRequestPortMock.saveTeamChangeRequest(any(SaveTeamChangeRequestCommand.class))).thenReturn(null);
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(new Team("projectId", new ArrayList<>(), false));
 
         // Treat the team change request
         TreatTeamChangeRequestCommand command = new TreatTeamChangeRequestCommand("requestId", TreatTeamStatus.APPROVED);

@@ -14,6 +14,7 @@ import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -61,7 +62,7 @@ public class ResignDeveloperServiceTest {
 
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(new Team("test project", getDevelopersForInValidTeam(), true));
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(new Team("test project", getDevelopersForInValidTeam(), true));
 
         ResignDeveloperResponse.Response result = resignDeveloperService.resignDeveloper(command);
 

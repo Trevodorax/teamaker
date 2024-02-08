@@ -14,6 +14,7 @@ import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDevelop
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamUseCase;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -55,7 +56,7 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
         // check if the dev is available
         boolean isAvailable = developer.checkAvailability(project);
 
-        if(!isAvailable) {
+        if (!isAvailable) {
             return new AssignDeveloperToTeamResponse.SingleErrorResponse("Developer is not available for this project.");
         }
 
@@ -66,11 +67,11 @@ public class AssignDeveloperToTeamService implements AssignDeveloperToTeamUseCas
 
         List<String> addDeveloperErrors = project.addDeveloper(developer, false);
 
-        if(addDeveloperErrors != null) {
+        if (addDeveloperErrors != null) {
             return new AssignDeveloperToTeamResponse.MultipleErrorsResponse(addDeveloperErrors);
         }
 
-        saveTeamPort.saveTeam(team);
+        saveTeamPort.saveTeam(new SaveTeamCommand(team));
 
         return new AssignDeveloperToTeamResponse.SuccessResponse(developer.toResponse());
     }

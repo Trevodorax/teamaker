@@ -19,6 +19,7 @@ import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDevelop
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamResponse;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -78,10 +79,9 @@ class AssignDeveloperToTeamServiceTest {
         assertTrue(response instanceof AssignDeveloperToTeamResponse.SuccessResponse);
         assertEquals(mockDeveloper.toResponse(), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
 
-        ArgumentCaptor<Team> captor = ArgumentCaptor.forClass(Team.class);
+        ArgumentCaptor<SaveTeamCommand> captor = ArgumentCaptor.forClass(SaveTeamCommand.class);
         verify(saveTeamPort).saveTeam(captor.capture());
-        Team savedTeam = captor.getValue();
-        assertEquals(savedTeam, mockTeam);
+        assertEquals(mockTeam, captor.getValue().getTeam());
     }
 
     @Test
@@ -111,6 +111,6 @@ class AssignDeveloperToTeamServiceTest {
         assertEquals("Developer is not available for this project.", ((AssignDeveloperToTeamResponse.SingleErrorResponse) response).errorMessage());
 
         // Verify that saveTeam was not called
-        verify(saveTeamPort, never()).saveTeam(any(Team.class));
+        verify(saveTeamPort, never()).saveTeam(any(SaveTeamCommand.class));
     }
 }

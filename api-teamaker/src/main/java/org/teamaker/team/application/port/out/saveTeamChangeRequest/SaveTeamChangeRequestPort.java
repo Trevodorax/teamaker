@@ -3,5 +3,5 @@ package org.teamaker.team.application.port.out.saveTeamChangeRequest;
 import org.teamaker.team.domain.TeamChangeRequest;
 
 public interface SaveTeamChangeRequestPort {
-    TeamChangeRequest saveTeamChangeRequest(TeamChangeRequest teamChangeRequest);
+    TeamChangeRequest saveTeamChangeRequest(SaveTeamChangeRequestCommand command);
 }
