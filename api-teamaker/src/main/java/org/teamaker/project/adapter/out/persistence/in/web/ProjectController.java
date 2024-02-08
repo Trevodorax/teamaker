@@ -8,6 +8,8 @@ import org.teamaker.project.application.port.in.getNextProject.GetNextProjectUse
 import org.teamaker.project.application.port.in.getProject.GetProjectCommand;
 import org.teamaker.project.application.port.in.getProject.GetProjectResponse;
 import org.teamaker.project.application.port.in.getProject.GetProjectUseCase;
+import org.teamaker.project.application.port.in.getProjects.GetProjectsResponse;
+import org.teamaker.project.application.port.in.getProjects.GetProjectsUseCase;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;
@@ -19,11 +21,13 @@ public class ProjectController {
     private final SubmitProjectUseCase submitProjectUseCase;
     private final GetNextProjectUseCase getNextProjectUseCase;
     private final GetProjectUseCase getProjectUseCase;
+    private final GetProjectsUseCase getProjectsUseCase;
 
-    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase) {
+    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase) {
         this.submitProjectUseCase = submitProjectUseCase;
         this.getNextProjectUseCase = getNextProjectUseCase;
         this.getProjectUseCase = getProjectUseCase;
+        this.getProjectsUseCase = getProjectsUseCase;
     }
 
     @PostMapping("/projects")
@@ -71,6 +75,22 @@ public class ProjectController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new GetProjectResponse.ErrorResponse(
                             ((GetProjectResponse.ErrorResponse) response).errorMessage()));
+        }
+    }
+
+    @GetMapping("/projects")
+    public ResponseEntity<GetProjectsResponse.Response> getProjects() {
+        GetProjectsResponse.Response response = getProjectsUseCase.getProjects();
+
+        if (response instanceof GetProjectsResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new GetProjectsResponse.ErrorResponse(
+                            ((GetProjectsResponse.ErrorResponse) response).errorMessage()));
         }
     }
 }
