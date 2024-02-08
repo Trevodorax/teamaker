@@ -13,8 +13,10 @@ import org.teamaker.project.application.port.in.getProjects.GetProjectsUseCase;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectUseCase;
-import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
-import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
+import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoCommand;
+import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoRequest;
+import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoResponse;
+import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoUseCase;
 
 @RestController
 public class ProjectController {
@@ -22,12 +24,14 @@ public class ProjectController {
     private final GetNextProjectUseCase getNextProjectUseCase;
     private final GetProjectUseCase getProjectUseCase;
     private final GetProjectsUseCase getProjectsUseCase;
+    private final UpdateProjectInfoUseCase updateProjectInfoUseCase;
 
-    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase) {
+    public ProjectController(SubmitProjectUseCase submitProjectUseCase, GetNextProjectUseCase getNextProjectUseCase, GetProjectUseCase getProjectUseCase, GetProjectsUseCase getProjectsUseCase, UpdateProjectInfoUseCase updateProjectInfoUseCase) {
         this.submitProjectUseCase = submitProjectUseCase;
         this.getNextProjectUseCase = getNextProjectUseCase;
         this.getProjectUseCase = getProjectUseCase;
         this.getProjectsUseCase = getProjectsUseCase;
+        this.updateProjectInfoUseCase = updateProjectInfoUseCase;
     }
 
     @PostMapping("/projects")
@@ -75,6 +79,22 @@ public class ProjectController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new GetProjectResponse.ErrorResponse(
                             ((GetProjectResponse.ErrorResponse) response).errorMessage()));
+        }
+    }
+
+    @PatchMapping("/projects/{projectId}")
+    public ResponseEntity<UpdateProjectInfoResponse.Response> updateProjectInfo(@PathVariable String projectId, @RequestBody UpdateProjectInfoRequest command) {
+        UpdateProjectInfoResponse.Response response = updateProjectInfoUseCase.updateProjectInfo(new UpdateProjectInfoCommand(projectId, command.getName(), command.getDescription(), command.getPriority()));
+
+        if (response instanceof UpdateProjectInfoResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(new UpdateProjectInfoResponse.ErrorResponse(
+                            ((UpdateProjectInfoResponse.ErrorResponse) response).errorMessage()));
         }
     }
 

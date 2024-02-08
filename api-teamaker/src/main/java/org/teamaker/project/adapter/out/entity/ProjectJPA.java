@@ -98,4 +98,15 @@ public class ProjectJPA {
                 getTechnologies()
         );
     }
+
+    public ProjectJPA updateFromDomain(Project project) {
+        this.name = project.getName();
+        this.description = project.getDescription();
+        this.status = project.getStatus();
+        this.priority = project.getPriority();
+        this.startDate = project.getStartDate();
+        this.endDate = project.getEndDate();
+        this.isLocked = project.getTeam().isLocked();
+        return this;
+    }
 }
