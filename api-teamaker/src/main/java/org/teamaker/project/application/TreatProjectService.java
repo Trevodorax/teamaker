@@ -12,6 +12,8 @@ import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 import org.teamaker.project.domain.dto.TreatProjectDtoResponse;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class TreatProjectService implements TreatProjectUseCase {
     private final LoadProjectPort loadProjectPort;
@@ -24,19 +26,23 @@ public class TreatProjectService implements TreatProjectUseCase {
 
     @Override
     public TreatProjectResponse.Response treatProject(TreatProjectCommand command) {
-        Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
-        if (project.getStatus() != ProjectStatus.PENDING) {
-            return new TreatProjectResponse.ErrorResponse("Project cannot be treated if it is not pending");
+        try {
+            Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
+            if (project.getStatus() != ProjectStatus.PENDING) {
+                return new TreatProjectResponse.ErrorResponse("Project cannot be treated if it is not pending");
+            }
+            project.treat(command.getStatus());
+
+            Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
+
+            return new TreatProjectResponse.SuccessResponse(
+                    new TreatProjectDtoResponse(
+                            modifiedProject.getProjectId(),
+                            modifiedProject.getStatus()
+                    )
+            );
+        } catch (NoSuchElementException e) {
+            return new TreatProjectResponse.ErrorResponse(e.getMessage());
         }
-        project.treat(command.getStatus());
-
-        Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
-
-        return new TreatProjectResponse.SuccessResponse(
-                new TreatProjectDtoResponse(
-                        modifiedProject.getProjectId(),
-                        modifiedProject.getStatus()
-                )
-        );
     }
 }

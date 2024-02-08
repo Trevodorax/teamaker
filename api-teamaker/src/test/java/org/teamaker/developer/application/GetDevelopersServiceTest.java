@@ -2,7 +2,6 @@ package org.teamaker.developer.application;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperCommand;
 import org.teamaker.developer.application.port.out.loadDevelopers.LoadDevelopersPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
@@ -11,7 +10,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class GetDevelopersServiceTest {

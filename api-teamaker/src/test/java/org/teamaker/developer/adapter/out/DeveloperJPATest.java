@@ -5,7 +5,7 @@ import org.teamaker.developer.adapter.out.entity.DeveloperJPA;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DeveloperJPATest {
 

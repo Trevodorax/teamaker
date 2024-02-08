@@ -5,8 +5,6 @@ import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChan
 import org.teamaker.team.application.port.out.loadTeamChangeRequest.LoadTeamChangeRequestPort;
 import org.teamaker.team.domain.TeamChangeRequest;
 
-import java.util.List;
-
 @Component
 public class LoadTeamChangeRequestAdapter implements LoadTeamChangeRequestPort {
     @Override

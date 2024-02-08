@@ -2,8 +2,6 @@ package org.teamaker.developer.application;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpStatus;
-import org.teamaker.developer.application.port.in.getDeveloperSkills.GetDeveloperSkillsResponse;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillCommand;
 import org.teamaker.developer.application.port.in.learnSkill.LearnSkillResponse;
 import org.teamaker.developer.application.port.out.acquireSkill.AcquireSkillCommand;

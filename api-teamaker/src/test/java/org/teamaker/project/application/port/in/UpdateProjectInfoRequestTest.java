@@ -5,7 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.teamaker.project.application.port.in.updateProjectInfo.UpdateProjectInfoRequest;
 import org.teamaker.project.domain.ProjectPriority;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class UpdateProjectInfoRequestTest {
     private static String validName;

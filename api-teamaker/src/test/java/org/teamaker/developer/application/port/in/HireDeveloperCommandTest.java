@@ -4,9 +4,10 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.teamaker.developer.application.port.in.hireDeveloper.HireDeveloperCommand;
 
+import javax.validation.ConstraintViolationException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import javax.validation.ConstraintViolationException;
 
 
 public class HireDeveloperCommandTest {

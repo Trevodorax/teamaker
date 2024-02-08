@@ -7,7 +7,6 @@ import org.teamaker.project.domain.ProjectPriority;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 

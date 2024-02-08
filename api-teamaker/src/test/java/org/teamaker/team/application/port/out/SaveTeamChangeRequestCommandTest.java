@@ -7,10 +7,10 @@ import org.teamaker.team.domain.TeamChangeRequest;
 import org.teamaker.team.domain.TeamRequestStatus;
 
 import javax.validation.ConstraintViolationException;
-
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SaveTeamChangeRequestCommandTest {
     private static TeamChangeRequest validTeamChangeRequest;

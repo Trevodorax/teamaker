@@ -1,8 +1,8 @@
 package org.teamaker.shared.validation.date;
 
-import java.time.LocalDate;
-
 import org.teamaker.shared.validation.SelfValidating;
+
+import java.time.LocalDate;
 
 class MockValidatedClass extends SelfValidating<MockValidatedClass> {
     @IsAfter(current = "1900-01-01")

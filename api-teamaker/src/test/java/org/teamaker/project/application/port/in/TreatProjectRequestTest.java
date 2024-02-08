@@ -7,7 +7,8 @@ import org.teamaker.project.domain.ProjectStatus;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TreatProjectRequestTest {
     private static ProjectStatus validStatus;

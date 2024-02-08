@@ -2,11 +2,11 @@ package org.teamaker.team.application.port.out.createTeamChangeRequest;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.teamaker.team.application.port.out.createTeamChangeRequest.CreateTeamChangeRequestCommand;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CreateTeamChangeRequestCommandTest {
     private static String developerId;

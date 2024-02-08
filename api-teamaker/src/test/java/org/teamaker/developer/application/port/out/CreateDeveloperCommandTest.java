@@ -4,10 +4,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.teamaker.developer.application.port.out.createDeveloper.CreateDeveloperCommand;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CreateDeveloperCommandTest {
     private static String validFullName;

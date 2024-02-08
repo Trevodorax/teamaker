@@ -16,7 +16,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.*;
 
 class GetNextProjectUseCaseServiceTest {

@@ -12,6 +12,8 @@ import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectStatus;
 import org.teamaker.project.domain.dto.PostponeProjectDtoResponse;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class PostponeProjectService implements PostponeProjectUseCase {
     private final SaveProjectPort saveProjectPort;
@@ -24,19 +26,23 @@ public class PostponeProjectService implements PostponeProjectUseCase {
 
     @Override
     public PostponeProjectResponse.Response postponeProject(PostponeProjectCommand command) {
-        Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
-        if (project.getStatus() != ProjectStatus.PENDING) {
-            return new PostponeProjectResponse.ErrorResponse("Project cannot be postponed if it is not pending");
+        try {
+            Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
+            if (project.getStatus() != ProjectStatus.PENDING) {
+                return new PostponeProjectResponse.ErrorResponse("Project cannot be postponed if it is not pending");
+            }
+
+            if (command.getNewEndDate() == null) {
+                project.postpone(command.getNewStartDate());
+            } else {
+                project.postpone(command.getNewStartDate(), command.getNewEndDate());
+            }
+
+            Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
+
+            return new PostponeProjectResponse.SuccessResponse(new PostponeProjectDtoResponse(modifiedProject.getProjectId(), modifiedProject.getStartDate(), modifiedProject.getEndDate()));
+        } catch (NoSuchElementException e) {
+            return new PostponeProjectResponse.ErrorResponse(e.getMessage());
         }
-
-        if (command.getNewEndDate() == null) {
-            project.postpone(command.getNewStartDate());
-        } else {
-            project.postpone(command.getNewStartDate(), command.getNewEndDate());
-        }
-
-        Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
-
-        return new PostponeProjectResponse.SuccessResponse(new PostponeProjectDtoResponse(modifiedProject.getProjectId(), modifiedProject.getStartDate(), modifiedProject.getEndDate()));
     }
 }

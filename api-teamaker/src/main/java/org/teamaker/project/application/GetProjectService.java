@@ -7,6 +7,8 @@ import org.teamaker.project.application.port.in.getProject.GetProjectUseCase;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class GetProjectService implements GetProjectUseCase {
     private final LoadProjectPort loadProjectPort;
@@ -19,7 +21,7 @@ public class GetProjectService implements GetProjectUseCase {
     public GetProjectResponse.Response getProject(GetProjectCommand command) {
         try {
             return new GetProjectResponse.SuccessResponse(loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId())).toResponse());
-        } catch(IllegalArgumentException exception) {
+        } catch(NoSuchElementException exception) {
             return new GetProjectResponse.ErrorResponse(exception.getMessage());
         }
     }

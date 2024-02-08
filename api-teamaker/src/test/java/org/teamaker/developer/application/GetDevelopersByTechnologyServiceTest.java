@@ -8,9 +8,7 @@ import org.teamaker.developer.application.port.out.findDevelopersByTechnology.Fi
 import org.teamaker.developer.application.port.out.findDevelopersByTechnology.FindDevelopersByTechnologyPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.developer.domain.dto.GetDevelopersByTechnologyDtoResponse;
-import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyCommand;
 import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyPort;
-import org.teamaker.technology.domain.Technology;
 
 import java.time.LocalDate;
 import java.util.List;

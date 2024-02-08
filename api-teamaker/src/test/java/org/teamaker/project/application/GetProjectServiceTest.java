@@ -15,6 +15,7 @@ import org.teamaker.team.domain.Team;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
@@ -60,7 +61,7 @@ class GetProjectServiceTest {
         String mockId = "577c2860-b584-4d27-94d8-21b10c095aac";
         GetProjectCommand command = new GetProjectCommand(mockId);
 
-        when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenThrow(new IllegalArgumentException("Invalid project ID"));
+        when(loadProjectPortMock.loadProject(any(LoadProjectCommand.class))).thenThrow(new NoSuchElementException("Invalid project ID"));
 
         GetProjectResponse.Response result = getProjectService.getProject(command);
 

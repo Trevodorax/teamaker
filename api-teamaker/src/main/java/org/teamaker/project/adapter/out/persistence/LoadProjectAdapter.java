@@ -6,6 +6,8 @@ import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
 import org.teamaker.project.domain.Project;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class LoadProjectAdapter implements LoadProjectPort {
     private final ProjectRepository projectRepository;
@@ -15,9 +17,9 @@ public LoadProjectAdapter(ProjectRepository projectRepository) {
     }
 
     @Override
-    public Project loadProject(LoadProjectCommand command) throws IllegalArgumentException {
+    public Project loadProject(LoadProjectCommand command) throws NoSuchElementException {
         return projectRepository.findById(command.getProjectId())
-                .orElseThrow(() -> new IllegalArgumentException("Project not found"))
+                .orElseThrow(() -> new NoSuchElementException("Project not found"))
                 .toDomain();
     }
 }
