@@ -112,16 +112,19 @@ public class Team {
     }
 
     private List<String> validateTeamAfterModification(Project teamProject, List<Developer> originalDevelopers) {
-        if (!isLocked()) {
-            return null;
-        }
-
         List<String> problems = this.getTeamProblems(teamProject);
-        if (!problems.isEmpty()) {
+        if(isLocked() && !problems.isEmpty()) {
+            // cancel everything
             this.getDevelopers().clear();
             this.getDevelopers().addAll(originalDevelopers);
+            return problems;
         }
-        return problems;
+
+        if(problems.isEmpty()) {
+            this.lock(teamProject);
+        }
+
+        return null;
     }
 
 
