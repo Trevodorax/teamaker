@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0f2be42d-ef0f-47d5-b6e7-f7958bb4999d",
+		"_postman_id": "05cfb83a-91ea-4b45-a8fc-23f073ec4114",
 		"name": "Teamaker",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26308728"
+		"_exporter_id": "31287344"
 	},
 	"item": [
 		{
@@ -881,6 +881,135 @@
 								"projects",
 								"0fc6f9ca-66e0-4495-ac56-14addecbd6bf",
 								"postpone"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Technologies",
+			"item": [
+				{
+					"name": "AddTechnology",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Response status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"})",
+									"",
+									"pm.test('TechnologyId is a non-empty string', function () {",
+									"    const responseData = pm.response.json();",
+									"    pm.expect(responseData.technology.technologyId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Java\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/technologies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"technologies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTechnology",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Name is in a string format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.technology.name).to.be.a('string');",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/technologies/9d37e126-1167-4cbd-9501-4a48e8949c37",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"technologies",
+								"9d37e126-1167-4cbd-9501-4a48e8949c37"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTechnologies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the correct Content-Type header\", function () {",
+									"  pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response if an array\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/technologies",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"technologies"
 							]
 						}
 					},
