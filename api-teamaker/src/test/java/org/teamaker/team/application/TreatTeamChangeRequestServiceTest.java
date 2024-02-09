@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCommand;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -39,6 +40,7 @@ class TreatTeamChangeRequestServiceTest {
     private LoadDeveloperPort loadDeveloperPortMock;
     private SaveTeamChangeRequestPort saveTeamChangeRequestPortMock;
     private SaveTeamPort saveTeamPortMock;
+    private LoadDeveloperSkillsPort loadDeveloperSkillsPortMock;
 
     private static Team exampleTeam;
     private static Project exampleProject;
@@ -55,13 +57,15 @@ class TreatTeamChangeRequestServiceTest {
         loadDeveloperPortMock = mock(LoadDeveloperPort.class);
         saveTeamChangeRequestPortMock = mock(SaveTeamChangeRequestPort.class);
         saveTeamPortMock = mock(SaveTeamPort.class);
+        loadDeveloperSkillsPortMock = mock(LoadDeveloperSkillsPort.class);
 
         treatTeamChangeRequestService = new TreatTeamChangeRequestService(
                 loadTeamChangeRequestPortMock,
                 loadProjectPortMock,
                 loadDeveloperPortMock,
                 saveTeamChangeRequestPortMock,
-                saveTeamPortMock
+                saveTeamPortMock,
+                loadDeveloperSkillsPortMock
         );
     }
 

@@ -78,7 +78,7 @@ public class TeamController {
                     .body(new AssignDeveloperToTeamResponse.MultipleErrorsResponse(
                             multipleErrorsResponse.errorMessage()));
             case null, default -> ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
+                    .status(HttpStatus.BAD_REQUEST)
                     .body(new AssignDeveloperToTeamResponse.SingleErrorResponse("Unknown error"));
         };
     }

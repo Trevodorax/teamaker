@@ -6,7 +6,6 @@ import org.teamaker.developer.adapter.out.persistence.repository.DeveloperReposi
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.adapter.out.entity.ProjectJPA;
 import org.teamaker.project.adapter.out.persistence.repository.ProjectRepository;
-import org.teamaker.team.adapter.out.persistence.repository.TeamMembershipRepository;
 import org.teamaker.team.application.port.out.loadPossibleDevelopersForProject.LoadPossibleDevelopersForProjectCommand;
 import org.teamaker.team.application.port.out.loadPossibleDevelopersForProject.LoadPossibleDevelopersForProjectPort;
 

@@ -1,6 +1,5 @@
 package org.teamaker.developer.domain;
 
-import lombok.EqualsAndHashCode;
 import lombok.Setter;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.domain.Project;

@@ -15,7 +15,9 @@ import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -72,15 +74,6 @@ public class SaveTeamAdapter implements SaveTeamPort {
         }
         projectJPA.setTeamMemberships(updatedTeamMemberships);
         projectRepository.save(projectJPA);
-
-        // change the endDate of the team memberships of the developers that are not in the team anymore
-//        existingTeamMemberships
-//                .stream()
-//                .filter(tm -> currentDeveloperIds.contains(tm.getDeveloper().getId()))
-//                .forEach(tm -> {
-//                    tm.setEndDate(LocalDate.now());
-//                    teamMembershipRepository.save(tm);
-//                });
 
         // remove the developers that are not in the team anymore
         teamMembershipRepository.deleteAll(
