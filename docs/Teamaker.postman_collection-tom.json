@@ -385,13 +385,13 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/774617b2-4370-4abb-98c2-986cd31f56a7/skills/firstTech",
+							"raw": "{{base_url}}/developers/7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c/skills/firstTech",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"774617b2-4370-4abb-98c2-986cd31f56a7",
+								"7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c",
 								"skills",
 								"firstTech"
 							]
@@ -451,13 +451,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/b3c6b1c0-6779-4b13-baf4-b84e0803baee/skills",
+							"raw": "{{base_url}}/developers/7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c/skills",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"b3c6b1c0-6779-4b13-baf4-b84e0803baee",
+								"7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c",
 								"skills"
 							]
 						}
@@ -470,15 +470,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/6b32c0cd-007f-4794-8d6c-883ceec5be3f/skills/techid",
+							"raw": "{{base_url}}/developers/7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c/skills/firstTech",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"6b32c0cd-007f-4794-8d6c-883ceec5be3f",
+								"7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c",
 								"skills",
-								"techid"
+								"firstTech"
 							]
 						}
 					},
@@ -933,13 +933,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developers",
+							"raw": "{{base_url}}/projects/6097da25-4fc6-4b7d-b758-73743d491a3a/developers",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
+								"6097da25-4fc6-4b7d-b758-73743d491a3a",
 								"developers"
 							]
 						}
@@ -998,13 +998,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/813edb5f-d5a1-4e89-9be8-4202257b9622/developersAvailable",
+							"raw": "{{base_url}}/projects/ae4c0ff3-15b9-4efa-84d2-9fdf174272fb/developersAvailable",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"813edb5f-d5a1-4e89-9be8-4202257b9622",
+								"ae4c0ff3-15b9-4efa-84d2-9fdf174272fb",
 								"developersAvailable"
 							]
 						}
@@ -1066,15 +1066,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/813edb5f-d5a1-4e89-9be8-4202257b9622/developers/774617b2-4370-4abb-98c2-986cd31f56a7",
+							"raw": "{{base_url}}/projects/ae4c0ff3-15b9-4efa-84d2-9fdf174272fb/developers/7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"813edb5f-d5a1-4e89-9be8-4202257b9622",
+								"ae4c0ff3-15b9-4efa-84d2-9fdf174272fb",
 								"developers",
-								"774617b2-4370-4abb-98c2-986cd31f56a7"
+								"7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c"
 							]
 						}
 					},
@@ -1142,7 +1142,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"developerId\": \"774617b2-4370-4abb-98c2-986cd31f56a7\",\n    \"requestedProjectId\": \"9501ac55-afd0-4ac8-ab07-f7374f382bfb\",\n    \"fromProjectId\": \"813edb5f-d5a1-4e89-9be8-4202257b9622\"\n}",
+							"raw": "{\n    \"developerId\": \"7b3ac8fc-a3ef-4d6a-bc1b-ad65669a351c\",\n    \"requestedProjectId\": \"6097da25-4fc6-4b7d-b758-73743d491a3a\",\n    \"fromProjectId\": \"ae4c0ff3-15b9-4efa-84d2-9fdf174272fb\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
