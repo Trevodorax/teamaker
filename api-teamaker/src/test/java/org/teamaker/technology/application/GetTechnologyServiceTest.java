@@ -35,7 +35,7 @@ public class GetTechnologyServiceTest {
         GetTechnologyResponse.Response result = getTechnologyService.getTechnology(command);
 
         ArgumentCaptor<LoadTechnologyCommand> captor = ArgumentCaptor.forClass(LoadTechnologyCommand.class);
-        verify(loadTechnologyPortMock).loadTechnology(captor.capture());
+        verify(loadTechnologyPortMock, times(2)).loadTechnology(captor.capture());
         LoadTechnologyCommand capturedCommand = captor.getValue();
         assertInstanceOf(GetTechnologyResponse.SuccessResponse.class, result);
         assertEquals(validId, capturedCommand.getTechnologyId());
