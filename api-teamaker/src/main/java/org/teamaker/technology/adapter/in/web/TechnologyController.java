@@ -47,7 +47,7 @@ public class TechnologyController {
                             ((AddTechnologyResponse.SuccessResponse) response).technology()));
         } else {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.CONFLICT)
                     .body(new AddTechnologyResponse.ErrorResponse(
                             ((AddTechnologyResponse.ErrorResponse) response).message()));
         }

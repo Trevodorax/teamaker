@@ -22,6 +22,6 @@ public class LoadTechnologyAdapter implements LoadTechnologyPort {
         return technologyRepository
                 .findById(command.getTechnologyId())
                 .map(TechnologyJPA::toDomain)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new NoSuchElementException("Technology not found with id : " + command.getTechnologyId()));
     }
 }
