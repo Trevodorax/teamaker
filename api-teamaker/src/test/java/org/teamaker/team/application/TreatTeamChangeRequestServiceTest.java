@@ -47,7 +47,7 @@ class TreatTeamChangeRequestServiceTest {
     @BeforeEach
     void setUp() {
         exampleTeam = new Team("projectId", new ArrayList<>(), false);
-        exampleProject = new Project("projectId", "projectName", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 6, 6), LocalDate.of(2023, 6, 12), exampleTeam, Map.of());
+        exampleProject = new Project("projectId", "projectName", "description", ProjectPriority.NORMAL, ProjectStatus.PENDING, LocalDate.of(2023, 6, 6), LocalDate.of(2023, 9, 12), exampleTeam, Map.of());
         exampleDeveloper = new Developer("developerId", "John Doe", "john@example.com", LocalDate.of(2018, 6, 6), null);
 
         loadTeamChangeRequestPortMock = mock(LoadTeamChangeRequestPort.class);
@@ -70,7 +70,7 @@ class TreatTeamChangeRequestServiceTest {
         // Mock load operations
         TeamChangeRequest realChangeRequest = new TeamChangeRequest("id", "developerId", "fromProjectId", "toProjectId", TeamRequestStatus.PENDING, LocalDate.of(2023, 6, 6));
         TeamChangeRequest teamChangeRequest = spy(realChangeRequest);
-        when(teamChangeRequest.treat(TreatTeamStatus.APPROVED, exampleProject, exampleProject, exampleDeveloper)).thenReturn(null);
+        doReturn(null).when(teamChangeRequest).treat(eq(TreatTeamStatus.APPROVED), any(Project.class), any(Project.class), any(Developer.class));
         when(loadTeamChangeRequestPortMock.loadTeamChangeRequest(any(LoadTeamChangeRequestCommand.class))).thenReturn(teamChangeRequest);
 
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(exampleDeveloper);
@@ -99,7 +99,7 @@ class TreatTeamChangeRequestServiceTest {
         // Mock load operations
         TeamChangeRequest realChangeRequest = new TeamChangeRequest("id", "developerId", "fromProjectId", "toProjectId", TeamRequestStatus.PENDING, LocalDate.of(2023, 6, 6));
         TeamChangeRequest teamChangeRequest = spy(realChangeRequest);
-        when(teamChangeRequest.treat(TreatTeamStatus.APPROVED, exampleProject, exampleProject, exampleDeveloper)).thenReturn(List.of("Error 1"));
+        doReturn(List.of("Error 1")).when(teamChangeRequest).treat(eq(TreatTeamStatus.APPROVED), any(Project.class), any(Project.class), any(Developer.class));
         when(loadTeamChangeRequestPortMock.loadTeamChangeRequest(any(LoadTeamChangeRequestCommand.class))).thenReturn(teamChangeRequest);
 
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(exampleDeveloper);
@@ -117,7 +117,7 @@ class TreatTeamChangeRequestServiceTest {
         TreatTeamChangeRequestResponse.Response response = treatTeamChangeRequestService.treatTeamChangeRequest(command);
 
         // Verify the response
-        assertTrue(response instanceof TreatTeamChangeRequestResponse.MultipleErrorsResponse);
+        assertInstanceOf(TreatTeamChangeRequestResponse.MultipleErrorsResponse.class, response);
         assertEquals(((TreatTeamChangeRequestResponse.MultipleErrorsResponse) response).errorMessages(), errors);
     }
 }

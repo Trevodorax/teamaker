@@ -111,6 +111,20 @@ public class Team {
         return isLocked;
     }
 
+    private List<String> validateTeamAfterModification(Project teamProject, List<Developer> originalDevelopers) {
+        if (!isLocked()) {
+            return null;
+        }
+
+        List<String> problems = this.getTeamProblems(teamProject);
+        if (!problems.isEmpty()) {
+            this.getDevelopers().clear();
+            this.getDevelopers().addAll(originalDevelopers);
+        }
+        return problems;
+    }
+
+
     /**
      * @param developerId id of the developer we are trying to remove
      * @param noRemove true if we don't want to remove the dev, but just see if we could
@@ -127,22 +141,15 @@ public class Team {
 
         this.getDevelopers().removeIf(developer -> developer.getDeveloperId().equals(developerId));
 
-        if (!isLocked()) {
-            return null;
-        }
-
-        // check that the removal didn't break any rules
-        List<String> problems = this.getTeamProblems(teamProject);
-        if (!problems.isEmpty()) {
-            this.getDevelopers().clear();
-            this.getDevelopers().addAll(originalDevelopers);
-            return problems;
-        }
-
         // cancel removal if noRemove
         if (noRemove) {
             this.getDevelopers().clear();
             this.getDevelopers().addAll(originalDevelopers);
+        }
+
+        List<String> problems = validateTeamAfterModification(teamProject, originalDevelopers);
+        if (problems != null && !problems.isEmpty()) {
+            return problems;
         }
 
         return null;
@@ -165,23 +172,18 @@ public class Team {
 
         this.getDevelopers().add(newDeveloper);
 
-        if (!isLocked()) {
-            return null;
-        }
-
-        // check that the addition didn't break any rules
-        List<String> problems = this.getTeamProblems(teamProject);
-        if (!problems.isEmpty()) {
-            this.getDevelopers().clear();
-            this.getDevelopers().addAll(originalDevelopers);
-            return problems;
-        }
-
         // cancel addition if noAdd
         if (noAdd) {
             this.getDevelopers().clear();
             this.getDevelopers().addAll(originalDevelopers);
         }
+
+        List<String> problems = validateTeamAfterModification(teamProject, originalDevelopers);
+        if (problems != null && !problems.isEmpty()) {
+            return problems;
+        }
+
+
 
         return null;
     }

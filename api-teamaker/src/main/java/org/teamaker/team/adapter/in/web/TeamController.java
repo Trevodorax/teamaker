@@ -3,7 +3,6 @@ package org.teamaker.team.adapter.in.web;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.teamaker.team.application.AssignDeveloperToTeamService;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamCommand;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamResponse;
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamUseCase;
@@ -21,6 +20,10 @@ import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDevel
 import org.teamaker.team.application.port.in.submitTeamChangeRequest.SubmitTeamChangeRequestCommand;
 import org.teamaker.team.application.port.in.submitTeamChangeRequest.SubmitTeamChangeRequestResponse;
 import org.teamaker.team.application.port.in.submitTeamChangeRequest.SubmitTeamChangeRequestUseCase;
+import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.TreatTeamChangeRequestCommand;
+import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.TreatTeamChangeRequestRequest;
+import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.TreatTeamChangeRequestResponse;
+import org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase.TreatTeamChangeRequestUseCase;
 
 @RestController
 public class TeamController {
@@ -30,14 +33,16 @@ public class TeamController {
     private final RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase;
     private final SubmitTeamChangeRequestUseCase submitTeamChangeRequestUseCase;
     private final GetTeamChangeRequestUseCase getTeamChangeRequestUseCase;
+    private final TreatTeamChangeRequestUseCase treatTeamChangeRequestUseCase;
 
-    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase, RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase, SubmitTeamChangeRequestUseCase submitTeamChangeRequestUseCase, GetTeamChangeRequestUseCase getTeamChangeRequestUseCase) {
+    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase, RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase, SubmitTeamChangeRequestUseCase submitTeamChangeRequestUseCase, GetTeamChangeRequestUseCase getTeamChangeRequestUseCase, TreatTeamChangeRequestUseCase treatTeamChangeRequestUseCase) {
         this.getTeamUseCase = getTeamUseCase;
         this.getPossibleDevelopersForProjectUseCase = getPossibleDevelopersForProjectUseCase;
         this.assignDeveloperToTeamUseCase = assignDeveloperToTeamUseCase;
         this.removeDeveloperFromTeamUseCase = removeDeveloperFromTeamUseCase;
         this.submitTeamChangeRequestUseCase = submitTeamChangeRequestUseCase;
         this.getTeamChangeRequestUseCase = getTeamChangeRequestUseCase;
+        this.treatTeamChangeRequestUseCase = treatTeamChangeRequestUseCase;
     }
 
     @GetMapping("/projects/{projectId}/developers")
@@ -146,6 +151,26 @@ public class TeamController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new GetTeamChangeRequestResponse.ErrorResponse(
                             ((GetTeamChangeRequestResponse.ErrorResponse) response).errorMessage()));
+        }
+    }
+
+    @PatchMapping("/teamChangeRequest/{teamChangeRequestId}")
+    public ResponseEntity<TreatTeamChangeRequestResponse.Response> treatTeamChangeRequest(@PathVariable String teamChangeRequestId, @RequestBody TreatTeamChangeRequestRequest command) {
+        TreatTeamChangeRequestResponse.Response response = treatTeamChangeRequestUseCase.treatTeamChangeRequest(new TreatTeamChangeRequestCommand(teamChangeRequestId, command.getStatus()));
+
+        if (response instanceof TreatTeamChangeRequestResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        } else if (response instanceof TreatTeamChangeRequestResponse.MultipleErrorsResponse) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new TreatTeamChangeRequestResponse.SingleErrorResponse(
+                            ((TreatTeamChangeRequestResponse.SingleErrorResponse) response).errorMessage()));
         }
     }
 }

@@ -17,6 +17,8 @@ import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestCommand;
 import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestPort;
 import org.teamaker.team.domain.TeamChangeRequest;
+import org.teamaker.team.domain.TeamRequestStatus;
+import org.teamaker.team.domain.TreatTeamStatus;
 
 import java.util.List;
 
@@ -43,6 +45,10 @@ public class TreatTeamChangeRequestService implements TreatTeamChangeRequestUseC
         TeamChangeRequest teamChangeRequest = loadTeamChangeRequestPort.loadTeamChangeRequest(
                 new LoadTeamChangeRequestCommand(command.getTeamChangeRequestId())
         );
+        if (teamChangeRequest.getStatus() != TeamRequestStatus.PENDING) {
+            return new TreatTeamChangeRequestResponse
+                    .SingleErrorResponse("Team change request is not pending");
+        }
 
         Developer developer = loadDeveloperPort.loadDeveloper(
                 new LoadDeveloperCommand(teamChangeRequest.getDeveloperId())

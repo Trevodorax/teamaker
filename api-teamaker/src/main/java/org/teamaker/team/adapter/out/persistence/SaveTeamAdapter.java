@@ -32,7 +32,7 @@ public class SaveTeamAdapter implements SaveTeamPort {
 
     @Override
     @Transactional
-    public Team saveTeam(SaveTeamCommand command) {
+    public Team saveTeam(SaveTeamCommand command) throws NoSuchElementException {
         ProjectJPA projectJPA = projectRepository
                 .findById(command.getTeam().getProjectId())
                 .orElseThrow(() ->

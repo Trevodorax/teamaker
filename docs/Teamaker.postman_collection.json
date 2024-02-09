@@ -1204,13 +1204,77 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/teamChangeRequest/beca59ae-4125-4b92-8cd4-9600accc24be",
+							"raw": "{{base_url}}/teamChangeRequest/ec63d43f-9b83-4acc-a1ea-7af32892cf12",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"teamChangeRequest",
-								"beca59ae-4125-4b92-8cd4-9600accc24be"
+								"ec63d43f-9b83-4acc-a1ea-7af32892cf12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TreatTeamChangeRequest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Id is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.teamChangeRequest.id).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"DeveloperId should be a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"",
+									"  pm.expect(responseData.teamChangeRequest).to.exist;",
+									"  pm.expect(responseData.teamChangeRequest.developerId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"FromProjectId is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.teamChangeRequest).to.exist.and.to.be.an('object');",
+									"  pm.expect(responseData.teamChangeRequest.fromProjectId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\":\"APPROVED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/teamChangeRequest/c8dd2728-6a94-426a-a1dc-d194dce00b07",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"teamChangeRequest",
+								"c8dd2728-6a94-426a-a1dc-d194dce00b07"
 							]
 						}
 					},
