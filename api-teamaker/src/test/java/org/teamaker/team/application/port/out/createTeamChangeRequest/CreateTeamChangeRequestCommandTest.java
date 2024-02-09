@@ -11,16 +11,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CreateTeamChangeRequestCommandTest {
     private static String developerId;
     private static String requestedProjectId;
+    private static String toProjectId;
 
     @BeforeAll
     public static void setUp() {
         developerId = "developerId";
         requestedProjectId = "requestedProjectId";
+        toProjectId = "toProjectId";
     }
 
     @Test
     public void testConstructorValidData() {
-        CreateTeamChangeRequestCommand command = new CreateTeamChangeRequestCommand(developerId, requestedProjectId);
+        CreateTeamChangeRequestCommand command = new CreateTeamChangeRequestCommand(developerId, requestedProjectId, toProjectId);
         assertEquals(developerId, command.getDeveloperId());
         assertEquals(requestedProjectId, command.getRequestedProjectId());
     }
@@ -28,12 +30,12 @@ class CreateTeamChangeRequestCommandTest {
     @Test
     public void testConstructorEmptyDeveloperId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new CreateTeamChangeRequestCommand(null, requestedProjectId));
+                () -> new CreateTeamChangeRequestCommand(null, requestedProjectId, toProjectId));
     }
 
     @Test
     public void testConstructorEmptyProjectId() {
         assertThrows(ConstraintViolationException.class,
-                () -> new CreateTeamChangeRequestCommand(developerId, null));
+                () -> new CreateTeamChangeRequestCommand(developerId, null, toProjectId));
     }
 }

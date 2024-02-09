@@ -228,7 +228,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Paulux Gaudux\",\n    \"email\": \"paul@gmail.com\"\n}",
+							"raw": "{\n    \"fullName\": \"Paulux Gaudux\",\n    \"email\": \"paul2@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -933,13 +933,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/a78cf67e-a841-4572-8533-6aa3b268545e/developers",
+							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developers",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"a78cf67e-a841-4572-8533-6aa3b268545e",
+								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
 								"developers"
 							]
 						}
@@ -998,13 +998,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/a78cf67e-a841-4572-8533-6aa3b268545e/developersAvailable",
+							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developersAvailable",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"a78cf67e-a841-4572-8533-6aa3b268545e",
+								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
 								"developersAvailable"
 							]
 						}
@@ -1030,7 +1030,7 @@
 									"    pm.expect(responseData.developer).to.be.an('array').and.to.have.lengthOf(1);",
 									"    ",
 									"    responseData.developer.forEach(function (developer) {",
-									"        pm.expect(developer.developerId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"        pm.expect(responseData.developer.developerId).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1);",
 									"    });",
 									"});",
 									"",
@@ -1066,15 +1066,96 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/a78cf67e-a841-4572-8533-6aa3b268545e/developers/e24868c3-fcee-4c75-81df-f98488e14213",
+							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developers/4ce68b00-73c6-4a2f-8383-7ad9cf305495",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"a78cf67e-a841-4572-8533-6aa3b268545e",
+								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
 								"developers",
-								"e24868c3-fcee-4c75-81df-f98488e14213"
+								"4ce68b00-73c6-4a2f-8383-7ad9cf305495"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveDeveloperFromTeam",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developers/4ce68b00-73c6-4a2f-8383-7ad9cf305495",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"projects",
+								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
+								"developers",
+								"4ce68b00-73c6-4a2f-8383-7ad9cf305495"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SubmitTeamChangeRequest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 201\", function () {",
+									"  pm.expect(pm.response.code).to.equal(201);",
+									"});",
+									"",
+									"",
+									"pm.test(\"DeveloperId is a non-empty string\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData.teamChangeRequest.developerId).to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"FromProjectId is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.teamChangeRequest.fromProjectId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"ToProjectId is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"",
+									"    pm.expect(responseData.teamChangeRequest).to.exist;",
+									"    pm.expect(responseData.teamChangeRequest.toProjectId).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"developerId\": \"ed5d292f-5e13-4c12-acde-43286aa980f1\",\n    \"requestedProjectId\": \"2221d2aa-2290-4704-941b-4c6914395090\",\n    \"fromProjectId\": \"574bd3fe-73f8-463b-a4d4-75cc9df00552\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/teamChangeRequest",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"teamChangeRequest"
 							]
 						}
 					},

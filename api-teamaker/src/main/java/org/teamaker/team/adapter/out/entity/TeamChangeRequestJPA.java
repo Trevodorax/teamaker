@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.teamaker.developer.adapter.out.entity.DeveloperJPA;
 import org.teamaker.project.adapter.out.entity.ProjectJPA;
+import org.teamaker.team.domain.TeamChangeRequest;
 import org.teamaker.team.domain.TeamRequestStatus;
 
 import java.time.LocalDate;
@@ -43,4 +44,15 @@ public class TeamChangeRequestJPA {
     @Nonnull
     @Enumerated(EnumType.STRING)
     private TeamRequestStatus status;
+
+    public TeamChangeRequest toDomain() {
+        return new TeamChangeRequest(
+                id.toString(),
+                developer.getId(),
+                currentProject.getId(),
+                requestedProject.getId(),
+                status,
+                date
+        );
+    }
 }

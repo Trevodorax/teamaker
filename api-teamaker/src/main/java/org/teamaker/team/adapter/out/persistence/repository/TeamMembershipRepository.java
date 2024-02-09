@@ -15,4 +15,6 @@ public interface TeamMembershipRepository extends JpaRepository<TeamMembershipJP
     Set<TeamMembershipJPA> findAllByProject(ProjectJPA projectJPA);
 
     Set<TeamMembershipJPA> findByProjectId(String projectId);
+
+    boolean existsByDeveloperAndProject(DeveloperJPA developerJPA, ProjectJPA requestedProjectJPA);
 }

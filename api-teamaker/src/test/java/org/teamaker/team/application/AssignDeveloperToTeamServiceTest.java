@@ -9,6 +9,7 @@ import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCo
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -28,8 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AssignDeveloperToTeamServiceTest {
@@ -49,11 +49,13 @@ class AssignDeveloperToTeamServiceTest {
 
     @Mock
     private SaveTeamPort saveTeamPort;
+    @Mock
+    private LoadDeveloperSkillsPort loadDeveloperSkillsPort;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        assignDeveloperToTeamService = new AssignDeveloperToTeamService(loadDeveloperPort, loadProjectPort, loadDeveloperProjectsPort, loadTeamPort, saveTeamPort);
+        assignDeveloperToTeamService = new AssignDeveloperToTeamService(loadDeveloperPort, loadProjectPort, loadDeveloperProjectsPort, loadTeamPort, saveTeamPort, loadDeveloperSkillsPort);
     }
 
     @Test
@@ -78,7 +80,7 @@ class AssignDeveloperToTeamServiceTest {
         AssignDeveloperToTeamResponse.Response response = assignDeveloperToTeamService.assignDeveloperToTeam(command);
 
         // Verify the response and that saveTeam was called
-        assertTrue(response instanceof AssignDeveloperToTeamResponse.SuccessResponse);
+        assertInstanceOf(AssignDeveloperToTeamResponse.SuccessResponse.class, response);
         assertEquals(List.of(mockDeveloper.toResponse()), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
 
         ArgumentCaptor<SaveTeamCommand> captor = ArgumentCaptor.forClass(SaveTeamCommand.class);
