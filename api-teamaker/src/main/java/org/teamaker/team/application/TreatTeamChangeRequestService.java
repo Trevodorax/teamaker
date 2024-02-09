@@ -3,6 +3,9 @@ package org.teamaker.team.application;
 import org.springframework.stereotype.Component;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCommand;
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsCommand;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsResponse;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -18,7 +21,7 @@ import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChan
 import org.teamaker.team.application.port.out.saveTeamChangeRequest.SaveTeamChangeRequestPort;
 import org.teamaker.team.domain.TeamChangeRequest;
 import org.teamaker.team.domain.TeamRequestStatus;
-import org.teamaker.team.domain.TreatTeamStatus;
+import org.teamaker.technology.domain.Technology;
 
 import java.util.List;
 
@@ -29,13 +32,15 @@ public class TreatTeamChangeRequestService implements TreatTeamChangeRequestUseC
     private final LoadDeveloperPort loadDeveloperPort;
     private final SaveTeamChangeRequestPort saveTeamChangeRequestPort;
     private final SaveTeamPort saveTeamPort;
+    private final LoadDeveloperSkillsPort loadDeveloperSkillsPort;
 
-    public TreatTeamChangeRequestService(LoadTeamChangeRequestPort loadTeamChangeRequestPort, LoadProjectPort loadProjectPort, LoadDeveloperPort loadDeveloperPort, SaveTeamChangeRequestPort saveTeamChangeRequestPort, SaveTeamPort saveTeamPort) {
+    public TreatTeamChangeRequestService(LoadTeamChangeRequestPort loadTeamChangeRequestPort, LoadProjectPort loadProjectPort, LoadDeveloperPort loadDeveloperPort, SaveTeamChangeRequestPort saveTeamChangeRequestPort, SaveTeamPort saveTeamPort, LoadDeveloperSkillsPort loadDeveloperSkillsPort) {
         this.loadTeamChangeRequestPort = loadTeamChangeRequestPort;
         this.loadProjectPort = loadProjectPort;
         this.loadDeveloperPort = loadDeveloperPort;
         this.saveTeamChangeRequestPort = saveTeamChangeRequestPort;
         this.saveTeamPort = saveTeamPort;
+        this.loadDeveloperSkillsPort = loadDeveloperSkillsPort;
     }
 
     @Override
@@ -54,16 +59,52 @@ public class TreatTeamChangeRequestService implements TreatTeamChangeRequestUseC
                 new LoadDeveloperCommand(teamChangeRequest.getDeveloperId())
         );
 
+        List<LoadDeveloperSkillsResponse> skills = loadDeveloperSkillsPort
+                .loadDeveloperSkills(
+                        new LoadDeveloperSkillsCommand(developer.getDeveloperId())
+                );
+
+        List<Technology> technologyList = skills.stream()
+                .map(skillResponse -> new Technology(skillResponse.technology().technologyId(), skillResponse.technology().name()))
+                .toList();
+        developer.setSkills(technologyList);
+
+
         Project fromProject = loadProjectPort.loadProject(
                 new LoadProjectCommand(teamChangeRequest.getFromProjectId())
         );
+
+        for (Developer dev : fromProject.getTeam().getDevelopers()) {
+            List<LoadDeveloperSkillsResponse> skillsDevFromProject = loadDeveloperSkillsPort
+                    .loadDeveloperSkills(
+                            new LoadDeveloperSkillsCommand(dev.getDeveloperId())
+                    );
+
+            List<Technology> technologyListDevFromProject = skills.stream()
+                    .map(skillResponse -> new Technology(skillResponse.technology().technologyId(), skillResponse.technology().name()))
+                    .toList();
+            dev.setSkills(technologyList);
+        }
+
         Project toProject = loadProjectPort.loadProject(
                 new LoadProjectCommand(teamChangeRequest.getToProjectId())
         );
 
+        for (Developer dev : toProject.getTeam().getDevelopers()) {
+            List<LoadDeveloperSkillsResponse> skillsDevtoProjectt = loadDeveloperSkillsPort
+                    .loadDeveloperSkills(
+                            new LoadDeveloperSkillsCommand(dev.getDeveloperId())
+                    );
+
+            List<Technology> technologyListDevtoProject = skills.stream()
+                    .map(skillResponse -> new Technology(skillResponse.technology().technologyId(), skillResponse.technology().name()))
+                    .toList();
+            dev.setSkills(technologyList);
+        }
+
         // try to modify
         List<String> errors = teamChangeRequest.treat(command.getStatus(), fromProject, toProject, developer);
-        if(errors != null) {
+        if (errors != null) {
             return new TreatTeamChangeRequestResponse.MultipleErrorsResponse(errors);
         }
 
