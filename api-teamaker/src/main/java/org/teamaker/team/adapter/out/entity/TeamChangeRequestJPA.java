@@ -24,6 +24,9 @@ public class TeamChangeRequestJPA {
     @EqualsAndHashCode.Include
     private TeamChangeRequestPK id;
 
+    @Nonnull
+    private String requestId;
+
     @ManyToOne
     @MapsId("currentProjectId")
     @JoinColumn(name = "current_project_id", referencedColumnName = "id")
@@ -47,7 +50,7 @@ public class TeamChangeRequestJPA {
 
     public TeamChangeRequest toDomain() {
         return new TeamChangeRequest(
-                id.toString(),
+                requestId,
                 developer.getId(),
                 currentProject.getId(),
                 requestedProject.getId(),

@@ -1,11 +1,14 @@
 package org.teamaker.team.domain;
 
+import lombok.Getter;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
+import org.teamaker.team.domain.dto.TeamChangeRequestResponse;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
 public class TeamChangeRequest {
     private final String id;
     private final String developerId;
@@ -23,8 +26,8 @@ public class TeamChangeRequest {
         this.submitDate = submitDate;
     }
 
-    public LocalDate getSubmitDate() {
-        return submitDate;
+    public TeamChangeRequestResponse toResonse() {
+        return new TeamChangeRequestResponse(id, developerId, fromProjectId, toProjectId, status, submitDate);
     }
 
     /**
@@ -61,21 +64,5 @@ public class TeamChangeRequest {
         }
 
         return null;
-    }
-
-    public TeamRequestStatus getStatus() {
-        return status;
-    }
-
-    public String getFromProjectId() {
-        return fromProjectId;
-    }
-
-    public String getToProjectId() {
-        return toProjectId;
-    }
-
-    public String getDeveloperId() {
-        return developerId;
     }
 }

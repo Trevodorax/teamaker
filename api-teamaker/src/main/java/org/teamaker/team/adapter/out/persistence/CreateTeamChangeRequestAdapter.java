@@ -16,6 +16,7 @@ import org.teamaker.team.domain.TeamChangeRequest;
 import org.teamaker.team.domain.TeamRequestStatus;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Component
 public class CreateTeamChangeRequestAdapter implements CreateTeamChangeRequestPort {
@@ -59,6 +60,12 @@ public class CreateTeamChangeRequestAdapter implements CreateTeamChangeRequestPo
         }
 
         teamChangeRequestJPA.setId(new TeamChangeRequestPK(fromProjectJPA.getId(), developerJPA.getId()));
+
+        String requestId = UUID.randomUUID().toString();
+        while (teamChangeRequestRepository.existsByRequestId(requestId)) {
+            requestId = UUID.randomUUID().toString();
+        }
+        teamChangeRequestJPA.setRequestId(requestId);
         teamChangeRequestJPA.setDeveloper(developerJPA);
         teamChangeRequestJPA.setRequestedProject(requestedProjectJPA);
         teamChangeRequestJPA.setCurrentProject(fromProjectJPA);

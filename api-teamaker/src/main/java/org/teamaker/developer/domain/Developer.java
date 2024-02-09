@@ -1,5 +1,7 @@
 package org.teamaker.developer.domain;
 
+import lombok.EqualsAndHashCode;
+import lombok.Setter;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectProgress;
@@ -17,6 +19,7 @@ public class Developer {
     private final LocalDate hiringDate;
     private LocalDate resignationDate;
     private List<Project> projectList;
+    @Setter
     private List<Technology> skills;
 
     public Developer(String developerId, String fullName, String email, LocalDate hiringDate, LocalDate resignationDate) {
@@ -92,7 +95,7 @@ public class Developer {
 
         // check that dev know at least one technology of the project
         for (Technology technology : checkedProject.getTechnologies().keySet()) {
-            if (!this.skills.contains(technology)) {
+            if (this.skills.stream().noneMatch(skill -> skill.getTechnologyId().equals(technology.getTechnologyId()))) {
                 return false;
             }
         }
@@ -147,7 +150,4 @@ public class Developer {
         return skills;
     }
 
-    public void setSkills(List<Technology> skills) {
-        this.skills = skills;
-    }
 }

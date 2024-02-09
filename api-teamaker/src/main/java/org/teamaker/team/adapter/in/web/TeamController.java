@@ -13,6 +13,9 @@ import org.teamaker.team.application.port.in.getPossibleDevelopersForProject.Get
 import org.teamaker.team.application.port.in.getTeam.GetTeamCommand;
 import org.teamaker.team.application.port.in.getTeam.GetTeamResponse;
 import org.teamaker.team.application.port.in.getTeam.GetTeamUseCase;
+import org.teamaker.team.application.port.in.getTeamChangeRequest.GetTeamChangeRequestCommand;
+import org.teamaker.team.application.port.in.getTeamChangeRequest.GetTeamChangeRequestResponse;
+import org.teamaker.team.application.port.in.getTeamChangeRequest.GetTeamChangeRequestUseCase;
 import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamResponse;
 import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamUseCase;
 import org.teamaker.team.application.port.in.submitTeamChangeRequest.SubmitTeamChangeRequestCommand;
@@ -26,13 +29,15 @@ public class TeamController {
     private final AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase;
     private final RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase;
     private final SubmitTeamChangeRequestUseCase submitTeamChangeRequestUseCase;
+    private final GetTeamChangeRequestUseCase getTeamChangeRequestUseCase;
 
-    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase, RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase, SubmitTeamChangeRequestUseCase submitTeamChangeRequestUseCase) {
+    public TeamController(GetTeamUseCase getTeamUseCase, GetPossibleDevelopersForProjectUseCase getPossibleDevelopersForProjectUseCase, AssignDeveloperToTeamUseCase assignDeveloperToTeamUseCase, RemoveDeveloperFromTeamUseCase removeDeveloperFromTeamUseCase, SubmitTeamChangeRequestUseCase submitTeamChangeRequestUseCase, GetTeamChangeRequestUseCase getTeamChangeRequestUseCase) {
         this.getTeamUseCase = getTeamUseCase;
         this.getPossibleDevelopersForProjectUseCase = getPossibleDevelopersForProjectUseCase;
         this.assignDeveloperToTeamUseCase = assignDeveloperToTeamUseCase;
         this.removeDeveloperFromTeamUseCase = removeDeveloperFromTeamUseCase;
         this.submitTeamChangeRequestUseCase = submitTeamChangeRequestUseCase;
+        this.getTeamChangeRequestUseCase = getTeamChangeRequestUseCase;
     }
 
     @GetMapping("/projects/{projectId}/developers")
@@ -128,4 +133,19 @@ public class TeamController {
         }
     }
 
+    @GetMapping("/teamChangeRequest/{teamChangeRequestId}")
+    public ResponseEntity<GetTeamChangeRequestResponse.Response> getTeamChangeRequest(@PathVariable String teamChangeRequestId) {
+        GetTeamChangeRequestResponse.Response response = getTeamChangeRequestUseCase.getTeamChangeRequest(new GetTeamChangeRequestCommand(teamChangeRequestId));
+
+        if (response instanceof GetTeamChangeRequestResponse.SuccessResponse) {
+            return ResponseEntity
+                    .ok()
+                    .body(response);
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new GetTeamChangeRequestResponse.ErrorResponse(
+                            ((GetTeamChangeRequestResponse.ErrorResponse) response).errorMessage()));
+        }
+    }
 }

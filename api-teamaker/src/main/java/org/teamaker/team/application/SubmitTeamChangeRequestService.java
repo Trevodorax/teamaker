@@ -43,7 +43,7 @@ public class SubmitTeamChangeRequestService implements SubmitTeamChangeRequestUs
             TeamChangeRequest createdTeamChangeRequest = createTeamChangeRequestPort.createTeamChangeRequest(
                     new CreateTeamChangeRequestCommand(command.getDeveloperId(), command.getRequestedProjectId(), command.getFromProjectId())
             );
-            return new SubmitTeamChangeRequestResponse.SuccessResponse(createdTeamChangeRequest);
+            return new SubmitTeamChangeRequestResponse.SuccessResponse(createdTeamChangeRequest.toResonse());
         } catch (IllegalArgumentException e) {
             return new SubmitTeamChangeRequestResponse.ErrorResponse(e.getMessage());
         }

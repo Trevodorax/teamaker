@@ -1,10 +1,12 @@
 package org.teamaker.technology.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.teamaker.technology.domain.dto.TechnologyResponse;
 
 @Getter
 public class Technology {
+    @EqualsAndHashCode.Include
     private final String technologyId;
     private final String name;
 

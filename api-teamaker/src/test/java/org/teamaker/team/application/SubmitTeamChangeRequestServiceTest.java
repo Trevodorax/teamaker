@@ -52,7 +52,7 @@ class SubmitTeamChangeRequestServiceTest {
 
         // Verify the response and method calls
         assertTrue(response instanceof SubmitTeamChangeRequestResponse.SuccessResponse);
-        assertEquals(createdTeamChangeRequest, ((SubmitTeamChangeRequestResponse.SuccessResponse) response).teamChangeRequest());
+        assertEquals(createdTeamChangeRequest.toResonse(), ((SubmitTeamChangeRequestResponse.SuccessResponse) response).teamChangeRequest());
 
         ArgumentCaptor<CreateTeamChangeRequestCommand> createCommandCaptor = ArgumentCaptor.forClass(CreateTeamChangeRequestCommand.class);
         verify(createTeamChangeRequestPortMock).createTeamChangeRequest(createCommandCaptor.capture());

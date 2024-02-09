@@ -228,7 +228,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Paulux Gaudux\",\n    \"email\": \"paul2@gmail.com\"\n}",
+							"raw": "{\n    \"fullName\": \"Paulux Gaudux\",\n    \"email\": \"paul@gmail.com\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -385,15 +385,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/developers/e24868c3-fcee-4c75-81df-f98488e14213/skills/secondTech",
+							"raw": "{{base_url}}/developers/774617b2-4370-4abb-98c2-986cd31f56a7/skills/firstTech",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"developers",
-								"e24868c3-fcee-4c75-81df-f98488e14213",
+								"774617b2-4370-4abb-98c2-986cd31f56a7",
 								"skills",
-								"secondTech"
+								"firstTech"
 							]
 						}
 					},
@@ -544,7 +544,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"My first project\",\n    \"description\": \"The description of the project\",\n    \"priority\": \"NORMAL\",\n    \"startDate\":\"2024-03-16\",\n    \"endDate\":\"2024-04-19\",\n    \"technologies\": {\n        \"firstTech\":3,\n        \"secondTech\":2\n    }\n}",
+							"raw": "{\n    \"name\": \"My second project\",\n    \"description\": \"The description of the second project\",\n    \"priority\": \"CRITICAL\",\n    \"startDate\":\"2024-03-16\",\n    \"endDate\":\"2024-04-19\",\n    \"technologies\": {\n        \"firstTech\":3\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -998,13 +998,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developersAvailable",
+							"raw": "{{base_url}}/projects/813edb5f-d5a1-4e89-9be8-4202257b9622/developersAvailable",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
+								"813edb5f-d5a1-4e89-9be8-4202257b9622",
 								"developersAvailable"
 							]
 						}
@@ -1066,15 +1066,15 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/projects/574bd3fe-73f8-463b-a4d4-75cc9df00552/developers/4ce68b00-73c6-4a2f-8383-7ad9cf305495",
+							"raw": "{{base_url}}/projects/813edb5f-d5a1-4e89-9be8-4202257b9622/developers/774617b2-4370-4abb-98c2-986cd31f56a7",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"projects",
-								"574bd3fe-73f8-463b-a4d4-75cc9df00552",
+								"813edb5f-d5a1-4e89-9be8-4202257b9622",
 								"developers",
-								"4ce68b00-73c6-4a2f-8383-7ad9cf305495"
+								"774617b2-4370-4abb-98c2-986cd31f56a7"
 							]
 						}
 					},
@@ -1142,7 +1142,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"developerId\": \"ed5d292f-5e13-4c12-acde-43286aa980f1\",\n    \"requestedProjectId\": \"2221d2aa-2290-4704-941b-4c6914395090\",\n    \"fromProjectId\": \"574bd3fe-73f8-463b-a4d4-75cc9df00552\"\n}",
+							"raw": "{\n    \"developerId\": \"774617b2-4370-4abb-98c2-986cd31f56a7\",\n    \"requestedProjectId\": \"9501ac55-afd0-4ac8-ab07-f7374f382bfb\",\n    \"fromProjectId\": \"813edb5f-d5a1-4e89-9be8-4202257b9622\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1156,6 +1156,61 @@
 							],
 							"path": [
 								"teamChangeRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetTeamChangeRequest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"ID should be a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.request.id).to.be.a('string').and.to.have.lengthOf.at.least(1);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Date is in a valid date format\", function () {",
+									"  const responseData = pm.response.json();",
+									"  ",
+									"  pm.expect(responseData).to.be.an('object');",
+									"  pm.expect(responseData.request.submitDate).to.match(/^\\d{4}-\\d{2}-\\d{2}$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/teamChangeRequest/beca59ae-4125-4b92-8cd4-9600accc24be",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"teamChangeRequest",
+								"beca59ae-4125-4b92-8cd4-9600accc24be"
 							]
 						}
 					},
