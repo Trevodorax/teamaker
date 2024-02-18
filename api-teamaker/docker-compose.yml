@@ -1,0 +1,15 @@
+version: "3.8"
+services:
+  teamaker-db:
+    image: mysql:latest
+    container_name: teamaker-dev-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - '3306:3306'
+    volumes:
+      - dev-db:/var/lib/mysql
+volumes:
+  dev-db:
