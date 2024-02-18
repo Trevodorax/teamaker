@@ -24,4 +24,8 @@ hs_err_pid*
 replay_pid*
 
 .idea
-.env*
+
+# private stuff
+application-local.yml
+.env
+
