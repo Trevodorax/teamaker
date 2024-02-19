@@ -18,9 +18,11 @@ Copy `.env.example` to `.env` and replace with the correct values for you.
 
 Start by doing the common instructions.
 
-Copy `api-teamaker/application-local.example.yml` to `api-teamaker/application-local.yml` and replace with the correct values for you.
+Copy `api-teamaker/src/main/resources/application-local.example.yml` to `api-teamaker/src/main/resources/application-local.yml` and replace with the correct values for you.
 
 You will have to set your IDE to use this profile instead of the default one.
+
+Copy the .env to api-teamaker/
 
 Run docker-compose up in `api-teamaker`. It will start the dev db for you.
 
