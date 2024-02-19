@@ -7,6 +7,8 @@ import org.teamaker.technology.application.port.in.getTechnology.GetTechnologyUs
 import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyCommand;
 import org.teamaker.technology.application.port.out.loadTechnology.LoadTechnologyPort;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class GetTechnologyService implements GetTechnologyUseCase {
     private final LoadTechnologyPort loadTechnologyPort;
@@ -19,7 +21,7 @@ public class GetTechnologyService implements GetTechnologyUseCase {
     public GetTechnologyResponse.Response getTechnology(GetTechnologyCommand command) {
         try {
             return new GetTechnologyResponse.SuccessResponse(loadTechnologyPort.loadTechnology(new LoadTechnologyCommand(command.getTechnologyId())).toResponse());
-        } catch(IllegalArgumentException exception) {
+        } catch(NoSuchElementException exception) {
             return new GetTechnologyResponse.ErrorResponse(exception.getMessage());
         }
     }
