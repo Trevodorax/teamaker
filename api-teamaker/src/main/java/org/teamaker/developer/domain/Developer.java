@@ -1,5 +1,6 @@
 package org.teamaker.developer.domain;
 
+import lombok.Setter;
 import org.teamaker.developer.domain.dto.DeveloperResponse;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectProgress;
@@ -7,6 +8,7 @@ import org.teamaker.technology.domain.Technology;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Developer {
@@ -16,6 +18,7 @@ public class Developer {
     private final LocalDate hiringDate;
     private LocalDate resignationDate;
     private List<Project> projectList;
+    @Setter
     private List<Technology> skills;
 
     public Developer(String developerId, String fullName, String email, LocalDate hiringDate, LocalDate resignationDate) {
@@ -63,7 +66,7 @@ public class Developer {
     }
 
     public void setProjectList(List<Project> projectList) {
-        this.projectList = projectList;
+        this.projectList = new ArrayList<>(projectList);
     }
 
     public void addProject(Project addedProject) {
@@ -85,6 +88,13 @@ public class Developer {
 
         for (Project project : this.projectList) {
             if (project.isOverlapping(checkedProject)) {
+                return false;
+            }
+        }
+
+        // check that dev know at least one technology of the project
+        for (Technology technology : checkedProject.getTechnologies().keySet()) {
+            if (this.skills.stream().noneMatch(skill -> skill.getTechnologyId().equals(technology.getTechnologyId()))) {
                 return false;
             }
         }
@@ -139,7 +149,4 @@ public class Developer {
         return skills;
     }
 
-    public void setSkills(List<Technology> skills) {
-        this.skills = skills;
-    }
 }

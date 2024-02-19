@@ -7,5 +7,6 @@ public record PostponeProjectDtoResponse(String projectId, LocalDate newStartDat
         public PostponeProjectDtoResponse {
             Objects.requireNonNull(projectId);
             Objects.requireNonNull(newStartDate);
+            Objects.requireNonNull(newEndDate);
         }
 }

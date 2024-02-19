@@ -15,6 +15,7 @@ public record ProjectResponse(String projectId, String name, String description,
         Objects.requireNonNull(status);
         Objects.requireNonNull(priority);
         Objects.requireNonNull(startDate);
+        Objects.requireNonNull(endDate);
         Objects.requireNonNull(progress);
     }
 }

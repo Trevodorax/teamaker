@@ -47,12 +47,12 @@ class SubmitTeamChangeRequestServiceTest {
         when(createTeamChangeRequestPortMock.createTeamChangeRequest(any(CreateTeamChangeRequestCommand.class))).thenReturn(createdTeamChangeRequest);
 
         // Submit a team change teamChangeRequest
-        SubmitTeamChangeRequestCommand command = new SubmitTeamChangeRequestCommand("developerId", "requestedProjectId");
+        SubmitTeamChangeRequestCommand command = new SubmitTeamChangeRequestCommand("developerId", "requestedProjectId", "toProjectId");
         SubmitTeamChangeRequestResponse.Response response = submitTeamChangeRequestService.submitTeamChangeRequest(command);
 
         // Verify the response and method calls
         assertTrue(response instanceof SubmitTeamChangeRequestResponse.SuccessResponse);
-        assertEquals(createdTeamChangeRequest, ((SubmitTeamChangeRequestResponse.SuccessResponse) response).teamChangeRequest());
+        assertEquals(createdTeamChangeRequest.toResonse(), ((SubmitTeamChangeRequestResponse.SuccessResponse) response).teamChangeRequest());
 
         ArgumentCaptor<CreateTeamChangeRequestCommand> createCommandCaptor = ArgumentCaptor.forClass(CreateTeamChangeRequestCommand.class);
         verify(createTeamChangeRequestPortMock).createTeamChangeRequest(createCommandCaptor.capture());
@@ -69,7 +69,7 @@ class SubmitTeamChangeRequestServiceTest {
         when(loadDeveloperTeamChangeRequestsPortMock.loadDeveloperTeamChangeRequests(any(LoadDeveloperTeamChangeRequestsCommand.class))).thenReturn(teamChangeRequests);
 
         // Submit a team change teamChangeRequest
-        SubmitTeamChangeRequestCommand command = new SubmitTeamChangeRequestCommand("developerId", "requestedProjectId");
+        SubmitTeamChangeRequestCommand command = new SubmitTeamChangeRequestCommand("developerId", "requestedProjectId", "toProjectId");
         SubmitTeamChangeRequestResponse.Response response = submitTeamChangeRequestService.submitTeamChangeRequest(command);
 
         // Verify the response

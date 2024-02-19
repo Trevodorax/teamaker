@@ -10,6 +10,8 @@ import org.teamaker.project.application.port.out.saveProject.SaveProjectCommand;
 import org.teamaker.project.application.port.out.saveProject.SaveProjectPort;
 import org.teamaker.project.domain.Project;
 
+import java.util.NoSuchElementException;
+
 @Component
 public class UpdateProjectInfoService implements UpdateProjectInfoUseCase {
     private final LoadProjectPort loadProjectPort;
@@ -22,10 +24,14 @@ public class UpdateProjectInfoService implements UpdateProjectInfoUseCase {
 
     @Override
     public UpdateProjectInfoResponse.Response updateProjectInfo(UpdateProjectInfoCommand command) {
-        Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
-        project.updateInfo(command.getName(), command.getDescription(), command.getPriority());
+        try {
+            Project project = loadProjectPort.loadProject(new LoadProjectCommand(command.getProjectId()));
+            project.updateInfo(command.getName(), command.getDescription(), command.getPriority());
 
-        Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
-        return new UpdateProjectInfoResponse.SuccessResponse(modifiedProject.toResponse());
+            Project modifiedProject = saveProjectPort.saveProject(new SaveProjectCommand(project));
+            return new UpdateProjectInfoResponse.SuccessResponse(modifiedProject.toResponse());
+        } catch (NoSuchElementException e) {
+            return new UpdateProjectInfoResponse.ErrorResponse(e.getMessage());
+        }
     }
 }

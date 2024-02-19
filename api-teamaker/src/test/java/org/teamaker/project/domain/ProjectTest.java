@@ -26,7 +26,7 @@ public class ProjectTest {
     @Test
     public void postpone_shouldUpdateDates() {
         LocalDate newStartDate = LocalDate.now().plusDays(5);
-        LocalDate newEndDate = LocalDate.now().plusDays(10);
+        LocalDate newEndDate = LocalDate.now().plusDays(40);
         project.postpone(newStartDate, newEndDate);
         assertEquals(newStartDate, project.getStartDate());
         assertEquals(newEndDate, project.getEndDate());

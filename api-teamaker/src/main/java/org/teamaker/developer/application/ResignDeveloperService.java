@@ -12,6 +12,7 @@ import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperCo
 import org.teamaker.developer.application.port.out.saveDeveloper.SaveDeveloperPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 
 import java.util.List;
@@ -52,7 +53,7 @@ class ResignDeveloperService implements ResignDeveloperUseCase {
                 return new ResignDeveloperResponse.MultipleErrorsResponse(errors);
             }
             for (Project project : currentProjects) {
-                saveTeamPort.saveTeam(project.getTeam());
+                saveTeamPort.saveTeam(new SaveTeamCommand(project.getTeam()));
             }
 
             developerToResign = saveDeveloperPort.saveDeveloper(

@@ -17,7 +17,7 @@ public class LoadProjectsAdapter implements LoadProjectsPort {
     }
 
     @Override
-    public List<Project> loadProjects() throws IllegalArgumentException {
+    public List<Project> loadProjects() {
         return projectRepository
                 .findAll()
                 .stream()

@@ -17,6 +17,7 @@ import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDevel
 import org.teamaker.team.application.port.in.removeDeveloperFromTeam.RemoveDeveloperFromTeamResponse;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -71,7 +72,7 @@ class RemoveDeveloperFromTeamServiceTest {
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(new ArrayList<>());
 
         Team mockTeam = new Team("projectId", getDevelopersForValidTeam(), false);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(mockTeam);
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(mockTeam);
         when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
         // call
@@ -99,7 +100,7 @@ class RemoveDeveloperFromTeamServiceTest {
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
 
         Team mockTeam = new Team("projectId", getDevelopersForValidTeam(), false);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(mockTeam);
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(mockTeam);
         when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
         // call
@@ -127,7 +128,7 @@ class RemoveDeveloperFromTeamServiceTest {
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));
 
         Team mockTeam = new Team("projectId", getDevelopersForValidTeam(), true);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(mockTeam);
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(mockTeam);
         when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
         // call
@@ -157,7 +158,7 @@ class RemoveDeveloperFromTeamServiceTest {
         List<Developer> developers = getDevelopersForValidTeam();
         developers.add(mockDeveloper);
         Team mockTeam = new Team("projectId", developers, true);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(mockTeam);
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(mockTeam);
         when(loadTeamPortMock.loadTeam(any(LoadTeamCommand.class))).thenReturn(mockTeam);
 
         // call
@@ -168,12 +169,11 @@ class RemoveDeveloperFromTeamServiceTest {
 
         // checks
         assertTrue(response instanceof RemoveDeveloperFromTeamResponse.SuccessResponse);
-        assertEquals(((RemoveDeveloperFromTeamResponse.SuccessResponse) response).developer(), mockDeveloper.toResponse());
+        assertEquals(((RemoveDeveloperFromTeamResponse.SuccessResponse) response).developer(), mockTeam.getDevelopers().stream().map(Developer::toResponse).toList());
 
-        ArgumentCaptor<Team> captor = ArgumentCaptor.forClass(Team.class);
+        ArgumentCaptor<SaveTeamCommand> captor = ArgumentCaptor.forClass(SaveTeamCommand.class);
         verify(saveTeamPortMock).saveTeam(captor.capture());
-        Team savedTeam = captor.getValue();
-        assertEquals(savedTeam, mockTeam);
+        assertEquals(mockTeam, captor.getValue().getTeam());
     }
 
     private List<Developer> getDevelopersForValidTeam() {

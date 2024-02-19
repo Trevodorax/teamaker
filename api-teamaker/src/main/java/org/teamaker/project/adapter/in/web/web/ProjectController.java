@@ -1,4 +1,4 @@
-package org.teamaker.project.adapter.out.persistence.in.web;
+package org.teamaker.project.adapter.in.web.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

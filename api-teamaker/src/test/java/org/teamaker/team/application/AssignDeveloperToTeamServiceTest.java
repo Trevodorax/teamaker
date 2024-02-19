@@ -9,6 +9,7 @@ import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperCo
 import org.teamaker.developer.application.port.out.loadDeveloper.LoadDeveloperPort;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsPort;
+import org.teamaker.developer.application.port.out.loadDeveloperSkills.LoadDeveloperSkillsPort;
 import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectCommand;
 import org.teamaker.project.application.port.out.loadProject.LoadProjectPort;
@@ -19,6 +20,7 @@ import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDevelop
 import org.teamaker.team.application.port.in.assignDeveloperToTeam.AssignDeveloperToTeamResponse;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamCommand;
 import org.teamaker.team.application.port.out.loadTeam.LoadTeamPort;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -27,8 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class AssignDeveloperToTeamServiceTest {
@@ -48,11 +49,13 @@ class AssignDeveloperToTeamServiceTest {
 
     @Mock
     private SaveTeamPort saveTeamPort;
+    @Mock
+    private LoadDeveloperSkillsPort loadDeveloperSkillsPort;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        assignDeveloperToTeamService = new AssignDeveloperToTeamService(loadDeveloperPort, loadProjectPort, loadDeveloperProjectsPort, loadTeamPort, saveTeamPort);
+        assignDeveloperToTeamService = new AssignDeveloperToTeamService(loadDeveloperPort, loadProjectPort, loadDeveloperProjectsPort, loadTeamPort, saveTeamPort, loadDeveloperSkillsPort);
     }
 
     @Test
@@ -70,18 +73,19 @@ class AssignDeveloperToTeamServiceTest {
         Project mockProject = new Project("projectId", "Project Name", "Project Description", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED, LocalDate.of(2022, 6, 6), LocalDate.of(2023, 6, 6), mockTeam, Map.of());
         when(loadProjectPort.loadProject(any(LoadProjectCommand.class))).thenReturn(mockProject);
 
+        when(saveTeamPort.saveTeam(any(SaveTeamCommand.class))).thenReturn(mockTeam);
+
         // Assign developer to the team
         AssignDeveloperToTeamCommand command = new AssignDeveloperToTeamCommand("developerId", "projectId");
         AssignDeveloperToTeamResponse.Response response = assignDeveloperToTeamService.assignDeveloperToTeam(command);
 
         // Verify the response and that saveTeam was called
-        assertTrue(response instanceof AssignDeveloperToTeamResponse.SuccessResponse);
-        assertEquals(mockDeveloper.toResponse(), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
+        assertInstanceOf(AssignDeveloperToTeamResponse.SuccessResponse.class, response);
+        assertEquals(List.of(mockDeveloper.toResponse()), ((AssignDeveloperToTeamResponse.SuccessResponse) response).developer());
 
-        ArgumentCaptor<Team> captor = ArgumentCaptor.forClass(Team.class);
+        ArgumentCaptor<SaveTeamCommand> captor = ArgumentCaptor.forClass(SaveTeamCommand.class);
         verify(saveTeamPort).saveTeam(captor.capture());
-        Team savedTeam = captor.getValue();
-        assertEquals(savedTeam, mockTeam);
+        assertEquals(mockTeam, captor.getValue().getTeam());
     }
 
     @Test
@@ -111,6 +115,6 @@ class AssignDeveloperToTeamServiceTest {
         assertEquals("Developer is not available for this project.", ((AssignDeveloperToTeamResponse.SingleErrorResponse) response).errorMessage());
 
         // Verify that saveTeam was not called
-        verify(saveTeamPort, never()).saveTeam(any(Team.class));
+        verify(saveTeamPort, never()).saveTeam(any(SaveTeamCommand.class));
     }
 }

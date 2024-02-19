@@ -9,6 +9,7 @@ import org.teamaker.team.application.port.out.loadPossibleDevelopersForProject.L
 import org.teamaker.team.application.port.out.loadPossibleDevelopersForProject.LoadPossibleDevelopersForProjectPort;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class GetPossibleDevelopersForProjectService implements GetPossibleDevelopersForProjectUseCase {
@@ -18,8 +19,7 @@ public class GetPossibleDevelopersForProjectService implements GetPossibleDevelo
         this.loadPossibleDevelopersForProjectPort = loadPossibleDevelopersForProjectPort;
     }
 
-    @Override
-    public GetPossibleDevelopersForTeamResponse.Response getPossibleDevelopersForProjectUseCase(GetPossibleDevelopersForProjectCommand command) {
+    public GetPossibleDevelopersForTeamResponse.Response getPossibleDevelopersForProject(GetPossibleDevelopersForProjectCommand command) {
         try {
             List<Developer> developers = loadPossibleDevelopersForProjectPort.loadPossibleDevelopersForProject(
                     new LoadPossibleDevelopersForProjectCommand(command.getProjectId())
@@ -29,7 +29,7 @@ public class GetPossibleDevelopersForProjectService implements GetPossibleDevelo
                     developers.stream().map(Developer::toResponse).toList()
             );
 
-        } catch(IllegalArgumentException exception) {
+        } catch(NoSuchElementException exception) {
             return new GetPossibleDevelopersForTeamResponse.ErrorResponse(exception.getMessage());
         }
     }

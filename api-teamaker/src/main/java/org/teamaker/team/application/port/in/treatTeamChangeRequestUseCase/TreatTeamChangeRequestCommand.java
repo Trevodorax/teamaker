@@ -1,12 +1,13 @@
 package org.teamaker.team.application.port.in.treatTeamChangeRequestUseCase;
 
+import lombok.Getter;
 import org.teamaker.shared.validation.SelfValidating;
 import org.teamaker.team.domain.TreatTeamStatus;
 
 import javax.validation.constraints.NotNull;
 
+@Getter
 public class TreatTeamChangeRequestCommand extends SelfValidating<TreatTeamChangeRequestCommand> {
-
     @NotNull
     private final String teamChangeRequestId;
 
@@ -18,13 +19,5 @@ public class TreatTeamChangeRequestCommand extends SelfValidating<TreatTeamChang
         this.status = status;
 
         this.validateSelf();
-    }
-
-    public String getTeamChangeRequestId() {
-        return teamChangeRequestId;
-    }
-
-    public TreatTeamStatus getStatus() {
-        return status;
     }
 }

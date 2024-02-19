@@ -14,6 +14,7 @@ import org.teamaker.developer.domain.Developer;
 import org.teamaker.project.domain.Project;
 import org.teamaker.project.domain.ProjectPriority;
 import org.teamaker.project.domain.ProjectStatus;
+import org.teamaker.team.application.port.out.saveTeam.SaveTeamCommand;
 import org.teamaker.team.application.port.out.saveTeam.SaveTeamPort;
 import org.teamaker.team.domain.Team;
 
@@ -61,7 +62,7 @@ public class ResignDeveloperServiceTest {
 
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
-        when(saveTeamPortMock.saveTeam(any(Team.class))).thenReturn(new Team("test project", getDevelopersForInValidTeam(), true));
+        when(saveTeamPortMock.saveTeam(any(SaveTeamCommand.class))).thenReturn(new Team("test project", getDevelopersForInValidTeam(), true));
 
         ResignDeveloperResponse.Response result = resignDeveloperService.resignDeveloper(command);
 
@@ -95,13 +96,21 @@ public class ResignDeveloperServiceTest {
     public void testResignDeveloperMultipleError() {
         ResignDeveloperCommand command = new ResignDeveloperCommand("dev1");
 
-        Developer mockDeveloper = new Developer("dev1", mockName, mockEmail, LocalDate.of(2023, 12, 7), null);
+        Developer mockDeveloper = mock(Developer.class);
+        when(mockDeveloper.getDeveloperId()).thenReturn("dev1");
+        when(mockDeveloper.getFullName()).thenReturn(mockName);
+        when(mockDeveloper.getEmail()).thenReturn(mockEmail);
+        when(mockDeveloper.getHiringDate()).thenReturn(LocalDate.of(2023, 12, 7));
+        when(mockDeveloper.getResignationDate()).thenReturn(null);
+
         Project mockProject = new Project(mockId,  "test project", "test", ProjectPriority.NORMAL, ProjectStatus.ACCEPTED,
                 LocalDate.of(2024, 7, 1),
                 LocalDate.of(2024, 9, 1),
                 new Team("test project", getDevelopersForInValidTeam(), true), Map.of());
 
-        mockDeveloper.setProjectList(List.of(mockProject));
+        when(mockDeveloper.getProjectList()).thenReturn(List.of(mockProject));
+        when(mockDeveloper.resign(any())).thenReturn(List.of("error1", "error2")); // Mock resign method to return a list of errors
+
         when(saveDeveloperPortMock.saveDeveloper(any(SaveDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperPortMock.loadDeveloper(any(LoadDeveloperCommand.class))).thenReturn(mockDeveloper);
         when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(List.of(mockProject));

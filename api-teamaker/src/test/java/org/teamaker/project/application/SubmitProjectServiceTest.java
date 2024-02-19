@@ -3,9 +3,8 @@ package org.teamaker.project.application;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.teamaker.project.application.port.in.submitProject.SubmitProjectResponse;
-import org.teamaker.project.domain.dto.ProjectResponse;
 import org.teamaker.project.application.port.in.submitProject.SubmitProjectCommand;
+import org.teamaker.project.application.port.in.submitProject.SubmitProjectResponse;
 import org.teamaker.project.application.port.out.createProject.CreateProjectCommand;
 import org.teamaker.project.application.port.out.createProject.CreateProjectPort;
 import org.teamaker.project.domain.Project;
@@ -41,7 +40,7 @@ class SubmitProjectServiceTest {
         ProjectPriority mockPriority = ProjectPriority.CRITICAL;
         ProjectStatus mockStatus = ProjectStatus.PENDING;
         LocalDate mockStartDate = LocalDate.now().plusDays(1);
-        LocalDate mockEndDate = mockStartDate.plusDays(5);
+        LocalDate mockEndDate = mockStartDate.plusDays(40);
         Map<String, Integer> mockTechnologies = Map.of(UUID.randomUUID().toString(), 1);
         SubmitProjectCommand command = new SubmitProjectCommand(mockName, mockDescription, mockPriority, mockStartDate, mockEndDate, mockTechnologies);
 

@@ -7,7 +7,6 @@ import org.teamaker.project.domain.ProjectPriority;
 
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -28,7 +27,7 @@ class SubmitProjectCommandTest {
         validDescription = "Project Description";
         validPriority = ProjectPriority.CRITICAL;
         validStartDate = LocalDate.now().plusDays(1);
-        validEndDate = validStartDate.plusDays(5);
+        validEndDate = validStartDate.plusDays(40);
         validTechnologies = Map.of(UUID.randomUUID().toString(), 1);
     }
 

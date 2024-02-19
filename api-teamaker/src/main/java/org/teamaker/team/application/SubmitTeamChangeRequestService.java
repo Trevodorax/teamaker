@@ -26,27 +26,26 @@ public class SubmitTeamChangeRequestService implements SubmitTeamChangeRequestUs
     @Override
     public SubmitTeamChangeRequestResponse.Response submitTeamChangeRequest(SubmitTeamChangeRequestCommand command) {
         // get developer team change requests
-        List<TeamChangeRequest> teamChangeRequests;
-        try {
-            teamChangeRequests = loadDeveloperTeamChangeRequests.loadDeveloperTeamChangeRequests(
-                    new LoadDeveloperTeamChangeRequestsCommand(command.getDeveloperId())
-            );
-        } catch(IllegalArgumentException exception) {
-            return new SubmitTeamChangeRequestResponse.ErrorResponse(exception.getMessage());
-        }
+        List<TeamChangeRequest> teamChangeRequests = loadDeveloperTeamChangeRequests
+                .loadDeveloperTeamChangeRequests(new LoadDeveloperTeamChangeRequestsCommand(command.getDeveloperId()));
 
-        // check he can submit one
-        boolean hasRecentTeamChangeRequest = teamChangeRequests.stream()
-                .anyMatch(teamChangeRequest -> teamChangeRequest.getSubmitDate().isAfter(LocalDate.now().minusMonths(6)));
-        if(hasRecentTeamChangeRequest) {
-            return new SubmitTeamChangeRequestResponse.ErrorResponse("Developer already asked to switch teams less than 6 months ago.");
+        if (!teamChangeRequests.isEmpty()) {
+            // check he can submit one
+            boolean hasRecentTeamChangeRequest = teamChangeRequests.stream()
+                    .anyMatch(teamChangeRequest -> teamChangeRequest.getSubmitDate().isAfter(LocalDate.now().minusMonths(6)));
+            if(hasRecentTeamChangeRequest) {
+                return new SubmitTeamChangeRequestResponse.ErrorResponse("Developer already asked to switch teams less than 6 months ago.");
+            }
         }
 
         // save the teamChangeRequest and return the return of save
-        TeamChangeRequest createdTeamChangeRequest = createTeamChangeRequestPort.createTeamChangeRequest(
-                new CreateTeamChangeRequestCommand(command.getDeveloperId(), command.getRequestedProjectId())
-        );
-
-        return new SubmitTeamChangeRequestResponse.SuccessResponse(createdTeamChangeRequest);
+        try {
+            TeamChangeRequest createdTeamChangeRequest = createTeamChangeRequestPort.createTeamChangeRequest(
+                    new CreateTeamChangeRequestCommand(command.getDeveloperId(), command.getRequestedProjectId(), command.getFromProjectId())
+            );
+            return new SubmitTeamChangeRequestResponse.SuccessResponse(createdTeamChangeRequest.toResonse());
+        } catch (IllegalArgumentException e) {
+            return new SubmitTeamChangeRequestResponse.ErrorResponse(e.getMessage());
+        }
     }
 }

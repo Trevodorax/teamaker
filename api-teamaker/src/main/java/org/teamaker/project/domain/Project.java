@@ -44,6 +44,9 @@ public class Project {
     }
 
     public void postpone(LocalDate startDate, LocalDate endDate) {
+        if (Duration.between(startDate.atStartOfDay(), endDate.atStartOfDay()).toDays() < 30) {
+            throw new IllegalArgumentException("Project duration must be at least 30 days.");
+        }
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -51,9 +54,7 @@ public class Project {
     public void postpone(LocalDate startDate) {
         int daysToPostpone = startDate.getDayOfMonth() - this.startDate.getDayOfMonth();
         this.startDate = startDate;
-        if (this.endDate != null) {
-            this.endDate = endDate.plusDays(daysToPostpone);
-        }
+        this.endDate = endDate.plusDays(daysToPostpone);
     }
 
     public void treat(ProjectStatus status) {
