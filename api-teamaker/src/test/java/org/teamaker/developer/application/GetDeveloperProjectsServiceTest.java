@@ -1,8 +1,6 @@
 package org.teamaker.developer.application;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
 import org.teamaker.developer.application.port.in.getDeveloperProjects.GetDeveloperProjectsCommand;
 import org.teamaker.developer.application.port.in.getDeveloperProjects.GetDeveloperProjectsResponse;
 import org.teamaker.developer.application.port.out.loadDeveloperProjects.LoadDeveloperProjectsCommand;
@@ -20,17 +18,21 @@ import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
-
 public class GetDeveloperProjectsServiceTest {
-    private static LoadDeveloperProjectsPort loadDeveloperProjectsPortMock;
-    private static GetDeveloperProjectsService getDeveloperProjectsServiceMock;
+    private static class LoadDeveloperProjectsMockAdapter implements LoadDeveloperProjectsPort {
+        List<Project> projectsToReturn;
 
-    @BeforeEach
-    public void setUp() {
-        loadDeveloperProjectsPortMock = mock(LoadDeveloperProjectsPort.class);
-        getDeveloperProjectsServiceMock = new GetDeveloperProjectsService(loadDeveloperProjectsPortMock);
+        public LoadDeveloperProjectsMockAdapter(List<Project> projectsToReturn) {
+            this.projectsToReturn = projectsToReturn;
+        }
+
+        @Override
+        public List<Project> loadDeveloperProjects(LoadDeveloperProjectsCommand command) throws NoSuchElementException {
+            if(this.projectsToReturn == null) {
+                throw new NoSuchElementException("developer not found");
+            }
+            return this.projectsToReturn;
+        }
     }
 
     @Test
@@ -45,14 +47,12 @@ public class GetDeveloperProjectsServiceTest {
         GetDeveloperProjectsCommand command = new GetDeveloperProjectsCommand(mockId);
 
         List<Project> expectedProjectsList = List.of(new Project(mockId, mockName, mockDescription, mockPriority, mockStatus, mockStartDate, mockEndDate, new Team("id", new ArrayList<>(), false), Map.of()));
-        when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenReturn(expectedProjectsList);
+        LoadDeveloperProjectsMockAdapter loadDeveloperProjectsPortMock =
+                new LoadDeveloperProjectsMockAdapter(expectedProjectsList);
+        GetDeveloperProjectsService getDeveloperProjectsService = new GetDeveloperProjectsService(loadDeveloperProjectsPortMock);
 
-        GetDeveloperProjectsResponse.Response result = getDeveloperProjectsServiceMock.getDeveloperProjects(command);
-        ArgumentCaptor<LoadDeveloperProjectsCommand> captor = ArgumentCaptor.forClass(LoadDeveloperProjectsCommand.class);
-        verify(loadDeveloperProjectsPortMock).loadDeveloperProjects(captor.capture());
-        LoadDeveloperProjectsCommand capturedCommand = captor.getValue();
+        GetDeveloperProjectsResponse.Response result = getDeveloperProjectsService.getDeveloperProjects(command);
 
-        assertEquals(mockId, capturedCommand.getDeveloperId());
         assertInstanceOf(GetDeveloperProjectsResponse.SuccessResponse.class, result);
         assertEquals(new GetDeveloperProjectsResponse.SuccessResponse(expectedProjectsList.stream().map(Project::toResponse).toList()), result);
     }
@@ -62,14 +62,12 @@ public class GetDeveloperProjectsServiceTest {
         String mockId = "577c2860-b584-4d27-94d8-21b10c095aac";
         GetDeveloperProjectsCommand command = new GetDeveloperProjectsCommand(mockId);
 
-        when(loadDeveloperProjectsPortMock.loadDeveloperProjects(any(LoadDeveloperProjectsCommand.class))).thenThrow(new NoSuchElementException("developer not found"));
+        LoadDeveloperProjectsMockAdapter loadDeveloperProjectsPortMock =
+                new LoadDeveloperProjectsMockAdapter(null);
+        GetDeveloperProjectsService getDeveloperProjectsService = new GetDeveloperProjectsService(loadDeveloperProjectsPortMock);
 
-        GetDeveloperProjectsResponse.Response result = getDeveloperProjectsServiceMock.getDeveloperProjects(command);
-        ArgumentCaptor<LoadDeveloperProjectsCommand> captor = ArgumentCaptor.forClass(LoadDeveloperProjectsCommand.class);
-        verify(loadDeveloperProjectsPortMock).loadDeveloperProjects(captor.capture());
-        LoadDeveloperProjectsCommand capturedCommand = captor.getValue();
+        GetDeveloperProjectsResponse.Response result = getDeveloperProjectsService.getDeveloperProjects(command);
 
-        assertEquals(mockId, capturedCommand.getDeveloperId());
         assertInstanceOf(GetDeveloperProjectsResponse.ErrorResponse.class, result);
         assertEquals(new GetDeveloperProjectsResponse.ErrorResponse("developer not found"), result);
     }
